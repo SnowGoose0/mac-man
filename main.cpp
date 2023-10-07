@@ -8,10 +8,12 @@ int main() {
   sf::RenderWindow window(sf::VideoMode(500, 500), "MacMan", sf::Style::Close | sf::Style::Titlebar);
   sf::RectangleShape player(sf::Vector2f(30.0f, 30.0f));
   sf::Texture mac;
+  sf::Texture ghost;
 
-  mac.loadFromFile("./assets/pac.png");
+  ghost.loadFromFile("./assets/ghost.jpg");
+  player.setTexture(&ghost, true);
 
-  player.setTexture(&mac, true);
+  sf::Vector2u ghostTextureSize = ghost.getSize();
 
   while (window.isOpen()) {
 	sf::Event e;
