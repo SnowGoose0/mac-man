@@ -1,25 +1,34 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
 
-int CELL_LENGTH = 500 / 19;
+#include <iostream>
+
+#include "Common.hpp"
+#include "Animation.hpp"
+#include "Map.hpp"
 
 int main() {
   float playerDirection[2] = {0.0f, 0.0f};
   float playerSpeedFactor = 0.01f;
   
-  sf::RenderWindow window(sf::VideoMode(494, 494), "MacMan", sf::Style::Close | sf::Style::Titlebar);
+  sf::RenderWindow window(sf::VideoMode(475, 475), "MacMan", sf::Style::Close | sf::Style::Titlebar);
+  
   sf::RectangleShape player(sf::Vector2f(30.0f, 30.0f));
   sf::Texture mac;
   sf::Texture ghost;
+  sf::Clock clock; 
 
   ghost.loadFromFile("./assets/ghost.jpg");
   player.setTexture(&ghost, true);
 
-  sf::Vector2u ghostTextureSize = ghost.getSize();
-  ghostTextureSize.x /= 4;
-  ghostTextureSize.y /= 3;
+  Animation animation(&ghost, sf::Vector2u(4, 3), 0.3f);
+  Map pacMap(MapDefault, 19, 25);
+
+  float deltaTime = 0.0f;
 
   while (window.isOpen()) {
+
+	deltaTime = clock.restart().asSeconds();
+	
 	sf::Event e;
 	
 	while(window.pollEvent(e)) {
@@ -55,9 +64,13 @@ int main() {
 	  playerDirection[1] = 0.0f;
 	}
 
+	animation.Update(0, deltaTime);
+	player.setTextureRect(animation.uvRect);
 	player.move(playerDirection[0], playerDirection[1]);
 	
 	window.draw(player); // draw to back buffer
+	
+	pacMap.drawMap(window);
 
 	window.display(); // swap front back buffers 
 
