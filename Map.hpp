@@ -4,6 +4,7 @@
 
 #include <array>
 #include <string>
+#include <cmath>
 
 #include "Common.hpp"
 
@@ -17,6 +18,8 @@ public:
   void drawMap(sf::RenderWindow& win);
 
   sf::Vector2f getMacInitPosition();
+
+  bool checkSpriteCollision(sf::Vector2f pos, float direction[2]); 
 
 private:
   sf::Vector2f computeCellPos(int x, int y);

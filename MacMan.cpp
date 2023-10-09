@@ -47,6 +47,12 @@ int main() {
 	  } 
 	}
 
+	sf::Vector2f macPosition = player.getPosition();
+
+	bool macCollide = pacMap.checkSpriteCollision(macPosition, playerDirection);
+
+	
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
 	  playerDirection[0] = 0.0f;
 	  playerDirection[1] = -1.0f * playerSpeedFactor;

@@ -5,7 +5,6 @@ Map::Map(const std::string map, int mapWidth, int cellWidth) {
   this->cellWidth = cellWidth;
   this->mapWidth = mapWidth;
 
-
   int y = -1;
   
   for (int i = 0; i < map.size(); i++) {
@@ -57,4 +56,19 @@ sf::Vector2f Map::computeCellPos(int x, int y) {
 
 sf::Vector2f Map::getMacInitPosition() {
   return macInitPosition;
+}
+
+bool Map::checkSpriteCollision(sf::Vector2f pos, float direction[2]) {
+  int collisionBoundA, collisionBoundB;
+
+  /*
+	suppose moving right:
+	
+	+---+ blockmin
+	|   |     ->
+	+---+ blockmax
+   */
+
+  if (playerDirection[1] < 0 || playerDirection[0] < 0)
+	blockCornerA = pos
 }
