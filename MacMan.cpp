@@ -75,7 +75,9 @@ int main() {
 
 	animation.Update(0, deltaTime);
 	player.setTextureRect(animation.uvRect);
-	player.move(playerDirection[0], playerDirection[1]);
+
+	if (!macCollide)
+	  player.move(playerDirection[0], playerDirection[1]);
 	
 	window.draw(player); // draw to back buffer
 	

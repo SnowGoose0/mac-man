@@ -59,7 +59,13 @@ sf::Vector2f Map::getMacInitPosition() {
 }
 
 bool Map::checkSpriteCollision(sf::Vector2f pos, float direction[2]) {
-  int collisionBoundA, collisionBoundB;
+  sf::Vector2f cornerTL, cornerTR, cornerBL, cornerBR;
+  sf::Vector2f collisionBoundA, collisionBoundB;
+
+  cornerTL = pos;
+  cornerTR = sf::Vector2f(pos.x + cellWidth, pos.y);
+  cornerBL = sf::Vector2f(pos.x, pos.y + cellWidth);
+  cornerBR = sf::Vector2f(pos.x + cellWidth, pos.y + cellWidth);
 
   /*
 	suppose moving right:
@@ -69,6 +75,40 @@ bool Map::checkSpriteCollision(sf::Vector2f pos, float direction[2]) {
 	+---+ blockmax
    */
 
-  if (playerDirection[1] < 0 || playerDirection[0] < 0)
-	blockCornerA = pos
+  if (direction[0] < 0 || direction[1] < 0) { // moving up or left
+	
+	collisionBoundA = cornerTL;
+
+	if (direction[0] < 0) { // moving left
+	  collisionBoundB = cornerBL;
+	}
+
+	else {
+	  collisionBoundB = cornerTR;
+	}
+  }
+
+  else { // moving down or right
+	
+	collisionBoundA = cornerBR;
+
+	if (direction[0] > 1) { // moving right
+	  collisionBoundB = cornerTR;
+	}
+
+	else {
+	  collisionBoundB = cornerBL;
+	}
+  }
+
+  int logicalPositionX, logicalPositionY;
+
+  logicalPositionX = std::floor((collisionBoundA.x - cellWidth) / cellWidth) - 1;
+  logicalPositionY = std::floor((collisionBoundA.y) / cellWidth) - 1;
+
+  if (mapParsed[logicalPositionY][logicalPositionX] == Wall) {
+	return true;
+  } 
+
+  return false;
 }
