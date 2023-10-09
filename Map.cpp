@@ -1,29 +1,60 @@
 #include "Map.hpp"
 
 Map::Map(const std::string map, int mapWidth, int cellWidth) {
-  this->map = map;
+  this->mapString = map;
   this->cellWidth = cellWidth;
   this->mapWidth = mapWidth;
+
+
+  int y = -1;
+  
+  for (int i = 0; i < map.size(); i++) {
+	int x = i % mapWidth;
+	
+	if (x == 0) y++;
+
+	switch (map[i]) {
+	  
+	case '0':
+	  mapParsed[y][x] = Wall;
+	  break; 
+
+	case '@':
+	  mapParsed[y][x] = None;
+	  macInitPosition = computeCellPos(x, y);
+	  break;
+
+	default:
+	  mapParsed[y][x] = None;
+	}
+  }
 };
 
 Map::~Map() {};
 
-void Map::drawMap(sf::RenderWindow& win) {
+void Map::drawMap(sf::RenderWindow& window) {
 
-  int y_offset = -1;
-  
-  for (int i = 0; i < map.size(); i++) {
-	int x_offset = i % mapWidth;
-	
-	if (x_offset == 0) y_offset++;
+  for (int i = 0; i < mapParsed.size(); i++) {
 
-	if (map[i] == '0') {
-	  sf::RectangleShape cell(sf::Vector2f(cellWidth, cellWidth));
+	for (int j = 0; j < mapParsed[i].size(); j++) {
 
-	  cell.setFillColor(sf::Color(0, 0, 255));
-	  cell.setPosition(x_offset * cellWidth, y_offset * cellWidth);
+	  GameCell cell = mapParsed[i][j];
+
+	  if (cell == Wall) {
+		sf::RectangleShape cell(sf::Vector2f(cellWidth, cellWidth));
+		cell.setFillColor(sf::Color(0, 0, 255));
+		cell.setPosition(computeCellPos(j, i));
 	  
-	  win.draw(cell);
+		window.draw(cell);
+	  }
 	}
   }
+}
+
+sf::Vector2f Map::computeCellPos(int x, int y) {
+  return sf::Vector2f(x * cellWidth, y * cellWidth);
+}
+
+sf::Vector2f Map::getMacInitPosition() {
+  return macInitPosition;
 }

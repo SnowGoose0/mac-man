@@ -2,7 +2,10 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <array>
 #include <string>
+
+#include "Common.hpp"
 
 class Map {
 
@@ -13,11 +16,20 @@ public:
 
   void drawMap(sf::RenderWindow& win);
 
+  sf::Vector2f getMacInitPosition();
+
 private:
-  std::string map;
+  sf::Vector2f computeCellPos(int x, int y);
+
+private:
+  std::string mapString;
   
   int cellWidth;
 
   int mapWidth;
+
+  sf::Vector2f macInitPosition;
+
+  std::array<std::array<GameCell, 19>, 19> mapParsed;
  
 };

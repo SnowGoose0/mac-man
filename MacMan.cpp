@@ -15,15 +15,18 @@ int main() {
   sf::RectangleShape player(sf::Vector2f(30.0f, 30.0f));
   sf::Texture mac;
   sf::Texture ghost;
-  sf::Clock clock; 
+  sf::Clock clock;
 
   ghost.loadFromFile("./assets/ghost.jpg");
-  player.setTexture(&ghost, true);
-
+  
   Animation animation(&ghost, sf::Vector2u(4, 3), 0.3f);
-  Map pacMap(MapDefault, 19, 25);
+  // Map pacMap(MapDefault, 19, 25);
+  Map pacMap(MapDebug, 19, 25);
 
   float deltaTime = 0.0f;
+  
+  player.setTexture(&ghost, true);
+  player.setPosition(pacMap.getMacInitPosition());
 
   while (window.isOpen()) {
 
