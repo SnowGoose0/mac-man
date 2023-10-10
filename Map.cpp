@@ -58,6 +58,39 @@ sf::Vector2f Map::getMacInitPosition() {
   return macInitPosition;
 }
 
+
+sf::Vector2f Map::checkSpriteCollision(sf::Vector2f, spritePos) {
+
+  sf::Vector2f offsetCompensate;
+
+  std::array<sf::Vector2f, 4> spriteCorners = {
+	sf::Vector2f(spritePos.x, spritePos.y),
+	sf::Vector2f(spritePos.x + cellWidth, spritePos.y),
+	sf::Vector2f(spritePos.x, spritePos.y + cellWidth),
+	sf::Vector2f(spritePos.x + cellWidth, spritePos.y + cellWidth),
+  };
+
+  for (auto it = spriteCorners.begin(); it != spriteCorners.end(); it++) {
+
+	int overlapCellX, overlapCellY;
+
+	overlapCellX = std::floor(collisionBoundA.x / cellWidth) - 1;
+	overlapCellY = std::floor(collisionBoundA.y / cellWidth) - 1;
+	
+	if (mapParsed[overlapCellX][overlapCellY] == Wall) {
+
+	  int overlapCellPos = computeCellPos(overlapCellX, overlapCellY);
+	  
+	  int dx = spritePos.x - overlapCellPos.x;
+	  int dy = spritePos.y - overlapCellPos.y;
+
+	  
+
+	}
+
+  }
+}
+
 bool Map::checkSpriteCollision(sf::Vector2f pos, float direction[2]) {
   sf::Vector2f cornerTL, cornerTR, cornerBL, cornerBR;
   sf::Vector2f collisionBoundA, collisionBoundB;
@@ -68,11 +101,13 @@ bool Map::checkSpriteCollision(sf::Vector2f pos, float direction[2]) {
   cornerBR = sf::Vector2f(pos.x + cellWidth, pos.y + cellWidth);
 
   /*
-	suppose moving right:
-	
-	+---+ blockmin
-	|   |     ->
-	+---+ blockmax
+	[moving right]    [targets]
+
+	    blockmin      +---+
+	+---+             | 0 |
+	| 0 |     ->      +---+
+	+---+             | 0 |
+	    blockmax      +---+
    */
 
   if (direction[0] < 0 || direction[1] < 0) { // moving up or left
