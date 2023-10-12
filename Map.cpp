@@ -1,4 +1,5 @@
 #include "Map.hpp"
+#include <iostream>
 
 Map::Map(const std::string map, int mapWidth, int cellWidth) {
   this->mapString = map;
@@ -59,36 +60,47 @@ sf::Vector2f Map::getMacInitPosition() {
 }
 
 
-sf::Vector2f Map::checkSpriteCollision(sf::Vector2f, spritePos) {
+sf::Vector2f Map::checkSpriteCollision(sf::Vector2f spritePos) {
 
-  sf::Vector2f offsetCompensate;
+  float offsetCompensate = 0.0f;
 
   std::array<sf::Vector2f, 4> spriteCorners = {
 	sf::Vector2f(spritePos.x, spritePos.y),
-	sf::Vector2f(spritePos.x + cellWidth, spritePos.y),
-	sf::Vector2f(spritePos.x, spritePos.y + cellWidth),
-	sf::Vector2f(spritePos.x + cellWidth, spritePos.y + cellWidth),
+	sf::Vector2f(spritePos.x + cellWidth - 0.01f, spritePos.y),
+	sf::Vector2f(spritePos.x, spritePos.y + cellWidth - 0.01f),
+	sf::Vector2f(spritePos.x + cellWidth - 0.01f, spritePos.y + cellWidth - 0.01f),
   };
+
+  int i = 0;
 
   for (auto it = spriteCorners.begin(); it != spriteCorners.end(); it++) {
 
 	int overlapCellX, overlapCellY;
 
-	overlapCellX = std::floor(collisionBoundA.x / cellWidth) - 1;
-	overlapCellY = std::floor(collisionBoundA.y / cellWidth) - 1;
+	overlapCellX = std::floor(it->x / cellWidth);
+	overlapCellY = std::floor(it->y / cellWidth);
 	
-	if (mapParsed[overlapCellX][overlapCellY] == Wall) {
+	if (mapParsed[overlapCellY][overlapCellX] == Wall) {
 
-	  int overlapCellPos = computeCellPos(overlapCellX, overlapCellY);
-	  
-	  int dx = spritePos.x - overlapCellPos.x;
-	  int dy = spritePos.y - overlapCellPos.y;
+	  sf::Vector2f overlapCellPos = computeCellPos(overlapCellX, overlapCellY);
 
+	  float dxParity = spritePos.x - overlapCellPos.x < 0 ? -1.0f : 1.0f;
+	  float dyParity = spritePos.y - overlapCellPos.y < 0 ? -1.0f : 1.0f;
 	  
+	  float dx = (cellWidth - std::abs(spritePos.x - overlapCellPos.x)) * (dxParity);
+	  float dy = (cellWidth - std::abs(spritePos.y - overlapCellPos.y)) * (dyParity);
+
+	  std::cout << i << ": SPRITE:" << (float) std::abs(spritePos.x) << "\n";
+	  std::cout << i << ": WALL: " << (float) std::abs(overlapCellPos.x) << "\n";
+
+	  return sf::Vector2f(dx, dy);
 
 	}
+	i++;
 
   }
+
+  return sf::Vector2f(0.0f, 0.0f);
 }
 
 bool Map::checkSpriteCollision(sf::Vector2f pos, float direction[2]) {

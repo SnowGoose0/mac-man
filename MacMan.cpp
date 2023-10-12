@@ -49,9 +49,22 @@ int main() {
 
 	sf::Vector2f macPosition = player.getPosition();
 
-	bool macCollide = pacMap.checkSpriteCollision(macPosition, playerDirection);
+	sf::Vector2f collisionOffset = pacMap.checkSpriteCollision(macPosition);
 
-	
+	if (collisionOffset.x != 0.0f || collisionOffset.y != 0.0f) {
+
+	  if (playerDirection[0] == 0.0f) {
+		player.move(0.0f, collisionOffset.y);
+		continue;
+	  }
+
+	  else if (playerDirection[1] == 0.0f) {
+		std:: cout << "move " << collisionOffset.x << "\n";
+		player.move(collisionOffset.x, 0.0f);
+		continue;
+	  }
+
+	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
 	  playerDirection[0] = 0.0f;
@@ -75,9 +88,7 @@ int main() {
 
 	animation.Update(0, deltaTime);
 	player.setTextureRect(animation.uvRect);
-
-	if (!macCollide)
-	  player.move(playerDirection[0], playerDirection[1]);
+	player.move(playerDirection[0], playerDirection[1]);
 	
 	window.draw(player); // draw to back buffer
 	

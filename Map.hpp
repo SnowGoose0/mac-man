@@ -21,7 +21,7 @@ public:
 
   bool checkSpriteCollision(sf::Vector2f pos, float direction[2]);
 
-  void Map::checkSpriteCollision(sf::Vector2f, spritePos);
+  sf::Vector2f checkSpriteCollision(sf::Vector2f spritePos);
 
 private:
   sf::Vector2f computeCellPos(int x, int y);
