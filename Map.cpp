@@ -66,7 +66,7 @@ sf::Vector2f Map::checkSpriteCollision(sf::Vector2f spritePos) {
 
   std::array<sf::Vector2f, 4> spriteCorners = {
 	sf::Vector2f(spritePos.x, spritePos.y),
-	sf::Vector2f(spritePos.x + cellWidth - 0.01f, spritePos.y),
+	sf::Vector2f(spritePos.x + cellWidth - 0.05f, spritePos.y),
 	sf::Vector2f(spritePos.x, spritePos.y + cellWidth - 0.01f),
 	sf::Vector2f(spritePos.x + cellWidth - 0.01f, spritePos.y + cellWidth - 0.01f),
   };
