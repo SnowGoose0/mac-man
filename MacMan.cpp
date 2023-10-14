@@ -7,12 +7,13 @@
 #include "Map.hpp"
 
 int main() {
+  float playerPrevDirection[2] = {0.0f, 0.0f};
   float playerDirection[2] = {0.0f, 0.0f};
   float playerSpeedFactor = 0.01f;
   
   sf::RenderWindow window(sf::VideoMode(475, 475), "MacMan", sf::Style::Close | sf::Style::Titlebar);
   
-  sf::RectangleShape player(sf::Vector2f(30.0f, 30.0f));
+  sf::RectangleShape player(sf::Vector2f(25.0f, 25.0f));
   sf::Texture mac;
   sf::Texture ghost;
   sf::Clock clock;
@@ -48,14 +49,13 @@ int main() {
 	}
 
 	sf::Vector2f macPosition = player.getPosition();
-
 	sf::Vector2f collisionOffset = pacMap.checkSpriteCollision(macPosition);
 
 	if (collisionOffset.x != 0.0f || collisionOffset.y != 0.0f) {
 
 	  if (playerDirection[0] == 0.0f) {
 		player.move(0.0f, collisionOffset.y);
-		continue;
+		continue; 
 	  }
 
 	  else if (playerDirection[1] == 0.0f) {
@@ -64,7 +64,13 @@ int main() {
 		continue;
 	  }
 
+	  playerDirection[0] = playerPrevDirection[0];
+	  playerDirection[1] = playerPrevDirection[1];
+
 	}
+
+	playerPrevDirection[0] = playerDirection[0];
+	playerPrevDirection[1] = playerDirection[1];	  
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
 	  playerDirection[0] = 0.0f;
