@@ -35,6 +35,6 @@ private:
 
   sf::Vector2f macInitPosition;
 
-  std::array<std::array<GameCell, 19>, 19> mapParsed;
+  std::array<std::array<GameCell, 19>, 21> mapParsed;
  
 };
