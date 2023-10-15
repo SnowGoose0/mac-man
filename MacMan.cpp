@@ -7,7 +7,7 @@
 #include "Map.hpp"
 
 int main() {
-  float playerSpeedFactor = 0.01f;
+  float playerSpeedFactor = 0.0075f;
 
   sf::Vector2f playerPrevDirection(0.0f, 0.0f);
   sf::Vector2f playerDirection(0.0f, 0.0f);
@@ -22,8 +22,8 @@ int main() {
   ghost.loadFromFile("./assets/ghost.jpg");
   
   Animation animation(&ghost, sf::Vector2u(4, 3), 0.3f);
-  //Map pacMap(MapDefault, 19, 25);
-  Map pacMap(MapDebug, 19, 25);
+  Map pacMap(MapDefault, 19, 25);
+  //Map pacMap(MapDebug, 19, 25);
 
   float deltaTime = 0.0f;
 
@@ -38,8 +38,6 @@ int main() {
 	
 	sf::Event event;
 	
-	playerPrevDirection = playerDirection;
-	
 	while(window.pollEvent(event)) {
 
 	  if (event.type == sf::Event::Closed) {
@@ -48,19 +46,23 @@ int main() {
 
 	  else if (event.type == sf::Event::KeyPressed) {
 
-		if (event.key.code == sf::Keyboard::Key::W) { 
+		if (event.key.code == sf::Keyboard::Key::W) {
+		  playerPrevDirection = playerDirection;
 		  playerDirection = sf::Vector2f(0.0f, -1.0f * playerSpeedFactor);
 		}
 
 		else if (event.key.code== sf::Keyboard::Key::A) {
+		  playerPrevDirection = playerDirection;
 		  playerDirection = sf::Vector2f(-1.0f * playerSpeedFactor, 0.0f);
 		}
 	
 		else if (event.key.code == sf::Keyboard::Key::S) {
+		  playerPrevDirection = playerDirection;
 		  playerDirection = sf::Vector2f(0.0f, 1.0f * playerSpeedFactor);
 		}
 	
 		else if (event.key.code == sf::Keyboard::Key::D) {
+		  playerPrevDirection = playerDirection;
 		  playerDirection = sf::Vector2f(1.0f * playerSpeedFactor, 0.0f);
 		}
 	  } 
@@ -87,6 +89,8 @@ int main() {
 	  }
 
 	  playerDirection = playerPrevDirection;
+	  playerPrevDirection = sf::Vector2f(0.0f, 0.0f);
+
 	}
 	
 	window.draw(player); // draw to back buffer
