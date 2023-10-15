@@ -1,14 +1,25 @@
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
+#include <cmath>
 
 #include "Common.hpp"
 #include "Animation.hpp"
 #include "Map.hpp"
 
+template<typename T>
+float distanceVector2(const sf::Vector2<T>& v1, const sf::Vector2<T>& v2) {
+  float dx = std::abs(v2.x - v1.x);
+  float dy = std::abs(v2.y - v1.y);
+  
+  return std::sqrt(dx * dx + dy * dy);
+}
+
 int main() {
   float playerSpeedFactor = 0.0075f;
+  float deltaTime = 0.0f;
 
+  sf::Vector2f playerPrevPosition(0.0f, 0.0f);
   sf::Vector2f playerPrevDirection(0.0f, 0.0f);
   sf::Vector2f playerDirection(0.0f, 0.0f);
   
@@ -25,12 +36,11 @@ int main() {
   Map pacMap(MapDefault, 19, 25);
   //Map pacMap(MapDebug, 19, 25);
 
-  float deltaTime = 0.0f;
-
   window.setKeyRepeatEnabled(false);
   
   player.setTexture(&ghost, true);
   player.setPosition(pacMap.getMacInitPosition());
+  playerPrevPosition = pacMap.getMacInitPosition();
 
   while (window.isOpen()) {
 
@@ -46,24 +56,34 @@ int main() {
 
 	  else if (event.type == sf::Event::KeyPressed) {
 
-		if (event.key.code == sf::Keyboard::Key::W) {
+		int keyCode = event.key.code;
+
+		if (keyCode == sf::Keyboard::Key::W ||
+			keyCode == sf::Keyboard::Key::A ||
+			keyCode == sf::Keyboard::Key::S ||
+			keyCode == sf::Keyboard::Key::D) {		  
+
 		  playerPrevDirection = playerDirection;
-		  playerDirection = sf::Vector2f(0.0f, -1.0f * playerSpeedFactor);
+		  playerPrevPosition = player.getPosition();
+
 		}
 
-		else if (event.key.code== sf::Keyboard::Key::A) {
-		  playerPrevDirection = playerDirection;
+		switch (keyCode) {
+		case sf::Keyboard::Key::W:
+		  playerDirection = sf::Vector2f(0.0f, -1.0f * playerSpeedFactor);
+		  break;
+
+		case sf::Keyboard::Key::A:
 		  playerDirection = sf::Vector2f(-1.0f * playerSpeedFactor, 0.0f);
-		}
+		  break;
 	
-		else if (event.key.code == sf::Keyboard::Key::S) {
-		  playerPrevDirection = playerDirection;
+		case sf::Keyboard::Key::S:
 		  playerDirection = sf::Vector2f(0.0f, 1.0f * playerSpeedFactor);
-		}
+		  break;
 	
-		else if (event.key.code == sf::Keyboard::Key::D) {
-		  playerPrevDirection = playerDirection;
+		case sf::Keyboard::Key::D:
 		  playerDirection = sf::Vector2f(1.0f * playerSpeedFactor, 0.0f);
+		  break;
 		}
 	  } 
 
@@ -87,9 +107,18 @@ int main() {
 		std:: cout << "move " << collisionOffset.x << "\n";
 		player.move(collisionOffset.x, 0.0f);
 	  }
+	  
+	  if (distanceVector2(macPosition, playerPrevPosition) < 0.05) {
+		/*
+		  This indicates that player tried to change directions while against a wall in such direction
 
-	  playerDirection = playerPrevDirection;
-	  playerPrevDirection = sf::Vector2f(0.0f, 0.0f);
+		  Revert to previously travelling direction
+
+		*/
+		playerDirection = playerPrevDirection;
+		
+		playerPrevDirection = sf::Vector2f(0.0f, 0.0f);
+	  }
 
 	}
 	
