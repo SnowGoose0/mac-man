@@ -28,4 +28,7 @@ private:
   sf::RectangleShape sprite;
   sf::Texture spriteTexture;
 
+  sf::Vector2f currentDirection;
+  sf::Vector2f queuedDirection;
+
 }
