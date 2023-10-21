@@ -7,7 +7,7 @@ class RectSprite {
 
 public:
 
-  RectSprite(float spriteWidth, sf::Vector2f spritePosition);
+  RectSprite(float spriteWidth, sf::Vector2f spritePosition, unsigned int spriteSpeed);
   ~RectSprite();
 
   sf::RectangleShape getSprite();
@@ -18,16 +18,20 @@ public:
 
   void setSpritePosition(sf::Vector2f spriteOffset);
 
-  void createSpriteTexture(string path) {
+  void setDireciton();
+
+  void createSpriteTexture(string path);
 
 private:
   void move(float xOffset, float yOffset);
 
 private:
 
+  unsigned int spriteSpeed;
+
   sf::RectangleShape sprite;
   sf::Texture spriteTexture;
-
+  
   sf::Vector2f currentDirection;
   sf::Vector2f queuedDirection;
 

@@ -1,9 +1,10 @@
 #include "Sprite.hpp"
 
-RectSprite::RectSprite(float spriteWidth, sf::Vector2f spritePosition) {
+RectSprite::RectSprite(float spriteWidth, sf::Vector2f spritePosition unsigned int spriteSpeed) {
 
   this.sprite = sf::RectangleShape s(sf::Vector2f(spriteWidth, spriteWidth));
   this.spritePosition = spritePosition;
+  this.spriteSpeed = spriteSpeed;
   
 }
 
