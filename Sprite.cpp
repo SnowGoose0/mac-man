@@ -2,30 +2,36 @@
 
 RectSprite::RectSprite(float spriteWidth, sf::Vector2f spritePosition unsigned int spriteSpeed) {
 
-  this.sprite = sf::RectangleShape s(sf::Vector2f(spriteWidth, spriteWidth));
-  this.spritePosition = spritePosition;
-  this.spriteSpeed = spriteSpeed;
+  _sprite = sf::RectangleShape s(sf::Vector2f(spriteWidth, spriteWidth));
+  _spritePosition = spritePosition;
+  _spriteSpeed = spriteSpeed;
   
 }
 
 RectSprite::~RectSprite() {}
 
-void RectSprite::moveSprite(sf::Vector2f spriteOffset) {
-  move(spriteOffset.x, spriteOffset.y);
-}
+void RectSprite::moveSprite() {
+  _sprite.move(
+			   _currentDirection.x * _spriteSpeed,
+			   _currentDirection.y * spriteSpeed
+			   );
 
-void RectSprite::moveSprite(float xOffset, float yOffset) {
-  move(xOffset, yOffset);
+  // queued direction is non-empty
+  if (_queuedDirection.x + _queuedDirection.y != 0.0f) {
+	sf::Vector2f spritePos = _sprite.getPosition();
+
+	float spritePos
+  }
 }
 
 void RectSprite::setSpritePosition(sf::Vector2f spriteOffset) {
-  sprite.setPosition(spriteOffset);
+  _sprite.setPosition(spriteOffset);
+}
+
+void RectSprite::setDirection(sf::Vector2f direction) {
+  _queuedDirection = direction;
 }
 
 void RectSprite::createSpriteTexture(string path) {
-  spriteTexture.loadTexture(path);
-}
-
-void RectSprite::move(float xOffset, float yOffset) {
-  player.move(xOffset, yOffset);
+  _spriteTexture.loadTexture(path);
 }

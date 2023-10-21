@@ -12,9 +12,7 @@ public:
 
   sf::RectangleShape getSprite();
 
-  void moveSprite(sf::Vector2f spriteOffset);
-
-  void moveSprite(float xOffset, float yOffset);
+  void moveSprite();
 
   void setSpritePosition(sf::Vector2f spriteOffset);
 
@@ -23,16 +21,14 @@ public:
   void createSpriteTexture(string path);
 
 private:
-  void move(float xOffset, float yOffset);
 
-private:
+  sf::RectangleShape _sprite;
 
-  unsigned int spriteSpeed;
-
-  sf::RectangleShape sprite;
-  sf::Texture spriteTexture;
+  unsigned int _spriteSpeed;
   
-  sf::Vector2f currentDirection;
-  sf::Vector2f queuedDirection;
+  sf::Texture _spriteTexture;
+  
+  sf::Vector2f _currentDirection;
+  sf::Vector2f _queuedDirection;
 
 }
