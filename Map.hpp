@@ -19,6 +19,8 @@ public:
 
   sf::Vector2f getMacInitPosition();
 
+  GameCell getCellAt(unsigned int row, unsigned int col);
+
   bool checkSpriteCollision(sf::Vector2f pos, float direction[2]);
 
   sf::Vector2f checkSpriteCollision(sf::Vector2f spritePos);

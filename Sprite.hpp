@@ -2,23 +2,26 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <cmath>
+
+#include "Map.hpp"
 
 class RectSprite {
 
 public:
 
-  RectSprite(float spriteWidth, sf::Vector2f spritePosition, unsigned int spriteSpeed);
+  RectSprite(float spriteWidth, sf::Vector2f spritePosition, float spriteSpeed);
   ~RectSprite();
 
   sf::RectangleShape getSprite();
 
-  void moveSprite();
+  void moveSprite(Map m);
 
   void setSpritePosition(sf::Vector2f spriteOffset);
 
-  void setDireciton();
+  void setDirection(sf::Vector2f direction);
 
-  void createSpriteTexture(string path);
+  void setSpriteTexture(std::string path);
 
 private:
 
@@ -27,8 +30,9 @@ private:
   unsigned int _spriteSpeed;
   
   sf::Texture _spriteTexture;
-  
+
+  sf::Vector2f _spritePosition;
   sf::Vector2f _currentDirection;
   sf::Vector2f _queuedDirection;
 
-}
+};

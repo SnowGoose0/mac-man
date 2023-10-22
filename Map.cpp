@@ -59,6 +59,10 @@ sf::Vector2f Map::getMacInitPosition() {
   return macInitPosition;
 }
 
+GameCell Map::getCellAt(unsigned int row, unsigned int col) {
+  return mapParsed[row][col];
+}
+
 
 sf::Vector2f Map::checkSpriteCollision(sf::Vector2f spritePos) {
 

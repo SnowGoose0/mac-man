@@ -7,6 +7,7 @@
 #include "Animation.hpp"
 #include "Map.hpp"
 
+
 template<typename T>
 float distanceVector2(const sf::Vector2<T>& v1, const sf::Vector2<T>& v2) {
   float dx = std::abs(v2.x - v1.x);
