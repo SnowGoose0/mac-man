@@ -68,7 +68,7 @@ sf::Vector2f Map::checkSpriteCollision(sf::Vector2f spritePos) {
 
   float offsetCompensate = 0.0f;
 
-  std::cout << "POS: " << spritePos.x << " " << spritePos.y << "\n";
+  // std::cout << "POS: " << spritePos.x << " " << spritePos.y << "\n";
 
   std::array<sf::Vector2f, 4> spriteCorners = {
 	sf::Vector2f(spritePos.x, spritePos.y),
@@ -96,8 +96,8 @@ sf::Vector2f Map::checkSpriteCollision(sf::Vector2f spritePos) {
 	  float dx = (cellWidth - std::abs(spritePos.x - overlapCellPos.x)) * (dxParity);
 	  float dy = (cellWidth - std::abs(spritePos.y - overlapCellPos.y)) * (dyParity);
 
-	  std::cout << i << ": SPRITE:" << (float) std::abs(spritePos.x) << "\n";
-	  std::cout << i << ": WALL: " << (float) std::abs(overlapCellPos.x) << "\n";
+	  // std::cout << i << ": SPRITE:" << (float) std::abs(spritePos.x) << "\n";
+	  // std::cout << i << ": WALL: " << (float) std::abs(overlapCellPos.x) << "\n";
 
 	  return sf::Vector2f(dx, dy);
 

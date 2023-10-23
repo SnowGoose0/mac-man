@@ -6,15 +6,15 @@
 #include "Common.hpp"
 #include "Animation.hpp"
 #include "Map.hpp"
+#include "Sprite.hpp"
 
-
-template<typename T>
-float distanceVector2(const sf::Vector2<T>& v1, const sf::Vector2<T>& v2) {
-  float dx = std::abs(v2.x - v1.x);
-  float dy = std::abs(v2.y - v1.y);
+// template<typename T>
+// float distanceVector2(const sf::Vector2<T>& v1, const sf::Vector2<T>& v2) {
+//   float dx = std::abs(v2.x - v1.x);
+//   float dy = std::abs(v2.y - v1.y);
   
-  return std::sqrt(dx * dx + dy * dy);
-}
+//   return std::sqrt(dx * dx + dy * dy);
+// }
 
 int main() {
   float playerSpeedFactor = 0.0075f;
@@ -35,13 +35,14 @@ int main() {
   
   Animation animation(&ghost, sf::Vector2u(4, 3), 0.3f);
   Map pacMap(MapDefault, 19, 25);
-  //Map pacMap(MapDebug, 19, 25);
 
   window.setKeyRepeatEnabled(false);
   
   player.setTexture(&ghost, true);
   player.setPosition(pacMap.getMacInitPosition());
   playerPrevPosition = pacMap.getMacInitPosition();
+
+  RectSprite macMan(25.0f, sf::Vector2f(25.0f, 25.0f), 0.0075f);
 
   while (window.isOpen()) {
 
@@ -71,19 +72,19 @@ int main() {
 
 		switch (keyCode) {
 		case sf::Keyboard::Key::W:
-		  playerDirection = sf::Vector2f(0.0f, -1.0f * playerSpeedFactor);
+		  playerDirection = sf::Vector2f(0.0f, -1.0f);
 		  break;
 
 		case sf::Keyboard::Key::A:
-		  playerDirection = sf::Vector2f(-1.0f * playerSpeedFactor, 0.0f);
+		  playerDirection = sf::Vector2f(-1.0f, 0.0f);
 		  break;
 	
 		case sf::Keyboard::Key::S:
-		  playerDirection = sf::Vector2f(0.0f, 1.0f * playerSpeedFactor);
+		  playerDirection = sf::Vector2f(0.0f, 1.0f);
 		  break;
 	
 		case sf::Keyboard::Key::D:
-		  playerDirection = sf::Vector2f(1.0f * playerSpeedFactor, 0.0f);
+		  playerDirection = sf::Vector2f(1.0f, 0.0f);
 		  break;
 		}
 	  } 
@@ -95,6 +96,11 @@ int main() {
 	player.setTextureRect(animation.uvRect);
 	player.move(playerDirection);
 
+	macMan.setSpriteDirection(playerDirection);
+	
+	macMan.moveSprite(pacMap);
+	
+
 	sf::Vector2f macPosition = player.getPosition();
 	sf::Vector2f collisionOffset = pacMap.checkSpriteCollision(macPosition);
 
@@ -105,7 +111,7 @@ int main() {
 	  }
 
 	  else if (playerDirection.y == 0.0f) {
-		std:: cout << "move " << collisionOffset.x << "\n";
+		// std:: cout << "move " << collisionOffset.x << "\n";
 		player.move(collisionOffset.x, 0.0f);
 	  }
 	  
@@ -124,6 +130,7 @@ int main() {
 	}
 	
 	window.draw(player); // draw to back buffer
+	window.draw(macMan.getSprite());
 	
 	pacMap.drawMap(window);
 

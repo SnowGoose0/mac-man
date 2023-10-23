@@ -25,7 +25,6 @@ public:
 
   sf::Vector2f checkSpriteCollision(sf::Vector2f spritePos);
 
-private:
   sf::Vector2f computeCellPos(int x, int y);
 
 private:
