@@ -24,8 +24,8 @@ void RectSprite::moveSprite(Map m) {
   if (_queuedDirection.x + _queuedDirection.y != 0.0f) {
 	sf::Vector2f spritePos = _sprite.getPosition();
 
-	int targetCellRow = std::floor(spritePos.y) / 25;
-	int targetCellCol = std::floor(spritePos.x) / 25;
+	int targetCellRow = std::floor(spritePos.y / 25);
+	int targetCellCol = std::floor(spritePos.x / 25);
 	
 	if (_queuedDirection.x == 1) { // right
 	  targetCellCol++; 
@@ -43,7 +43,9 @@ void RectSprite::moveSprite(Map m) {
 	  targetCellRow--;
 	}
 
-	GameCell targetCell = m.getCellAt(targetCellCol, targetCellRow);
+	GameCell targetCell = m.getCellAt(targetCellRow, targetCellCol);
+
+	std::cout << targetCellRow << "\n";
 
 	float dist = distanceVector2(
 									 m.computeCellPos(targetCellCol, targetCellRow),
@@ -71,7 +73,7 @@ void RectSprite::moveSprite(Map m) {
 			   _currentDirection.y * _spriteSpeed
 			   );
 
-  std::cout << _sprite.getPosition().x << "\n";
+  std::cout << _sprite.getPosition().y << "\n";
 }
 
 sf::RectangleShape RectSprite::getSprite() {
