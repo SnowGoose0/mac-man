@@ -25,6 +25,10 @@ public:
 
 private:
 
+  float detectCollision();
+
+private:
+
   sf::RectangleShape _sprite;
 
   float _spriteSpeed;
