@@ -27,6 +27,10 @@ private:
 
   float detectCollision();
 
+  GameCell getNeighboringCell(sf::Vector2f direction, Map m);
+
+  sf::Vector2f getNeighboringCellCoordinates(sf::Vector2f direction);
+
 private:
 
   sf::RectangleShape _sprite;
