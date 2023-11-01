@@ -23,27 +23,25 @@ void RectSprite::moveSprite(Map m) {
   // queued direction is non-empty
   if (_queuedDirection.x + _queuedDirection.y != 0.0f) {
 	sf::Vector2f spritePos = _sprite.getPosition();
-
 	sf::Vector2f target = getNeighboringCellCoordinates(_queuedDirection);
+	
 	GameCell targetCell = getNeighboringCell(_queuedDirection, m);
 
-	float dist = distanceVector2(
-									 m.computeCellPos(target.x, target.y),
-									 spritePos
-									 );
+	float dist = distanceVector2(m.computeCellPos(target.x, target.y), spritePos);
 
-	// std::cout << std::abs(dist - 25.0f) << "\n";
+	/*
+	  direction change is possible
 
-	if (targetCell == None
-		&&
-		std::abs(dist - 25.0f) < .01f) {
+	  - targetCell is not a wall
+	  - sprite is within a threshold (.01) amount of proximity
+	 */
+	if (targetCell == None && std::abs(dist - 25.0f) < .01f) {
 	  _currentDirection = _queuedDirection;
 
 	  _sprite.setPosition(std::floor(spritePos.x), std::floor(spritePos.y));
 
 	  _queuedDirection.x = 0.0f;
 	  _queuedDirection.y = 0.0f;
-
 	}
   }
   
@@ -72,6 +70,21 @@ void RectSprite::setSpriteDirection(sf::Vector2f direction) {
 void RectSprite::setSpriteTexture(std::string path) {
   _spriteTexture.loadFromFile(path);
   _sprite.setTexture(&_spriteTexture, true);
+}
+
+void RectSprite::handleCollision(Map m) {
+  GameCell targetCell = getNeighboringCell(_currentDirection, m);
+  sf::Vector2f offset = _currentDirection;
+
+  if (targetCell == Wall) {
+	// sf::Vector2f overlapCellPos = computeCellPos(overlapCellX, overlapCellY);
+
+	// float dxParity = spritePos.x - overlapCellPos.x < 0 ? -1.0f : 1.0f;
+	// float dyParity = spritePos.y - overlapCellPos.y < 0 ? -1.0f : 1.0f;
+	  
+	// float dx = (cellWidth - std::abs(spritePos.x - overlapCellPos.x)) * (dxParity);
+	// float dy = (cellWidth - std::abs(spritePos.y - overlapCellPos.y)) * (dyParity);
+  }
 }
 
 GameCell RectSprite::getNeighboringCell(sf::Vector2f direction, Map m) {

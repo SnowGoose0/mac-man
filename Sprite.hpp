@@ -25,7 +25,7 @@ public:
 
 private:
 
-  float detectCollision();
+  void handleCollision(Map m);
 
   GameCell getNeighboringCell(sf::Vector2f direction, Map m);
 
