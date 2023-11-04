@@ -87,7 +87,7 @@ void RectSprite::handleCollision(Map m) {
 	float dx = std::floor(_spritePosition.x - _currentDirection.x);	
 	float dy = std::floor(_spritePosition.y - _currentDirection.y);
 
-	std::cout << dx << " ree\n";
+	// TODO: ceil or floor depends on direction of travel. should do it that way instead
 
 	// if (_currentDirection.x != 0.0f) {
 	//   _sprite.setPosition(dx, _spritePosition.y);
