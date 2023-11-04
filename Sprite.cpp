@@ -50,7 +50,7 @@ void RectSprite::moveSprite(Map m) {
 			   _currentDirection.y * _spriteSpeed
 			   );
 
-  std::cout << _sprite.getPosition().y << "\n";
+  handleCollision(m);
 }
 
 sf::RectangleShape RectSprite::getSprite() {
@@ -74,16 +74,28 @@ void RectSprite::setSpriteTexture(std::string path) {
 
 void RectSprite::handleCollision(Map m) {
   GameCell targetCell = getNeighboringCell(_currentDirection, m);
-  sf::Vector2f offset = _currentDirection;
+  sf::Vector2f spritePosition = _sprite.getPosition();
 
   if (targetCell == Wall) {
-	// sf::Vector2f overlapCellPos = computeCellPos(overlapCellX, overlapCellY);
 
-	// float dxParity = spritePos.x - overlapCellPos.x < 0 ? -1.0f : 1.0f;
-	// float dyParity = spritePos.y - overlapCellPos.y < 0 ? -1.0f : 1.0f;
-	  
-	// float dx = (cellWidth - std::abs(spritePos.x - overlapCellPos.x)) * (dxParity);
-	// float dy = (cellWidth - std::abs(spritePos.y - overlapCellPos.y)) * (dyParity);
+	sf::Vector2f wallPosition = getNeighboringCellCoordinates(_currentDirection);
+
+	// float dx = (25.0f - std::abs(spritePosition.x - (25.0f * wallPosition.x)));
+	// float dy = (25.0f - std::abs(spritePosition.y - (25.0f * wallPosition.y)));
+
+	// TODO ROUND TO NEAREST CELL WIDTH MULTIPLE
+	float dx = std::floor(_spritePosition.x - _currentDirection.x);	
+	float dy = std::floor(_spritePosition.y - _currentDirection.y);
+
+	std::cout << dx << " ree\n";
+
+	// if (_currentDirection.x != 0.0f) {
+	//   _sprite.setPosition(dx, _spritePosition.y);
+	// }
+
+	// else if (_currentDirection.y != 0.0f) {
+	//   _sprite.setPosition(_spritePosition.x, dy);
+	// }
   }
 }
 
