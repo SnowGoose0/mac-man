@@ -84,8 +84,13 @@ void RectSprite::handleCollision(Map m) {
 	// float dy = (25.0f - std::abs(spritePosition.y - (25.0f * wallPosition.y)));
 
 	// TODO ROUND TO NEAREST CELL WIDTH MULTIPLE
-	float dx = std::floor(_spritePosition.x - _currentDirection.x);	
-	float dy = std::floor(_spritePosition.y - _currentDirection.y);
+
+	// g++ -o pac MacMan.cpp Animation.cpp Map.cpp Sprite.cpp -lsfml-graphics -lsfml-window -lsfml-system && ./pac
+
+	float dx = std::round(_spritePosition.x / 25.0f) * 25.0f;
+	float dy = std::round(_spritePosition.y / 25.0f) * 25.0f;
+	// float dx = std::floor(_spritePosition.x - _currentDirection.x);	
+	// float dy = std::floor(_spritePosition.y - _currentDirection.y);
 
 	// TODO: ceil or floor depends on direction of travel. should do it that way instead
 
