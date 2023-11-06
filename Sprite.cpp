@@ -87,8 +87,8 @@ void RectSprite::handleCollision(Map m) {
 
 	// g++ -o pac MacMan.cpp Animation.cpp Map.cpp Sprite.cpp -lsfml-graphics -lsfml-window -lsfml-system && ./pac
 
-	float dx = std::round(_spritePosition.x / 25.0f) * 25.0f;
-	float dy = std::round(_spritePosition.y / 25.0f) * 25.0f;
+	float dx = std::round(spritePosition.x / 25.0f) * 25.0f;
+	float dy = std::round(spritePosition.y / 25.0f) * 25.0f;
 	// float dx = std::floor(_spritePosition.x - _currentDirection.x);	
 	// float dy = std::floor(_spritePosition.y - _currentDirection.y);
 
@@ -101,6 +101,10 @@ void RectSprite::handleCollision(Map m) {
 	// else if (_currentDirection.y != 0.0f) {
 	//   _sprite.setPosition(_spritePosition.x, dy);
 	// }
+
+	std::cout << spritePosition.x << " ree\n";
+
+	_sprite.setPosition(dx, dy);
   }
 }
 
