@@ -58,7 +58,7 @@ void RectSprite::moveSprite(Map m) {
 			   _currentDirection.y * _spriteSpeed
 			   );
 
-  // handleCollision(m);
+  handleCollision(m);
 }
 
 sf::RectangleShape RectSprite::getSprite() {
@@ -89,17 +89,15 @@ void RectSprite::handleCollision(Map m) {
 	sf::Vector2f wallPosition = getNeighboringCellCoordinates(_currentDirection);
 
 	if (distanceVector2(wallPosition, spritePosition) < 25.0f) {
-	  // g++ -o pac MacMan.cpp Animation.cpp Map.cpp Sprite.cpp -lsfml-graphics -lsfml-window -lsfml-system && ./pac
-
 	  float dx = std::round(spritePosition.x / 25.0f) * 25.0f;
 	  float dy = std::round(spritePosition.y / 25.0f) * 25.0f;
 
 
 	  _sprite.setPosition(dx, dy);
 
-	  std::cout << "Direction: " << _currentDirection.x << ", " << _currentDirection.y << "\n";
-	  std::cout << "Corrected Position: " << dx << ", " << dy << "\n";
-	  std::cout << "Wall Position: " << wallPosition.x << ", " << wallPosition.y << "\n";
+	  // std::cout << "Direction: " << _currentDirection.x << ", " << _currentDirection.y << "\n";
+	  // std::cout << "Corrected Position: " << dx << ", " << dy << "\n";
+	  // std::cout << "Wall Position: " << wallPosition.x << ", " << wallPosition.y << "\n";
 	  }
 	
   }
