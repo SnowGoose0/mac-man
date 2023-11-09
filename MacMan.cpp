@@ -60,11 +60,7 @@ int main() {
 
 		int keyCode = event.key.code;
 
-		if (keyCode == sf::Keyboard::Key::W ||
-			keyCode == sf::Keyboard::Key::A ||
-			keyCode == sf::Keyboard::Key::S ||
-			keyCode == sf::Keyboard::Key::D) {		  
-
+		if (keyCode == sf::Keyboard::Key::W || keyCode == sf::Keyboard::Key::A || keyCode == sf::Keyboard::Key::S || keyCode == sf::Keyboard::Key::D) {		  
 		  playerPrevDirection = playerDirection;
 		  playerPrevPosition = player.getPosition();
 

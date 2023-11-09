@@ -18,6 +18,8 @@ RectSprite::RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float
 
 RectSprite::~RectSprite() {}
 
+// TODO: evaluate cells at centre instead of top left corner
+
 void RectSprite::moveSprite(Map m) {
   
   // queued direction is non-empty
@@ -80,31 +82,20 @@ void RectSprite::handleCollision(Map m) {
 
 	sf::Vector2f wallPosition = getNeighboringCellCoordinates(_currentDirection);
 
-	// float dx = (25.0f - std::abs(spritePosition.x - (25.0f * wallPosition.x)));
-	// float dy = (25.0f - std::abs(spritePosition.y - (25.0f * wallPosition.y)));
+	if (distanceVector2(wallPosition, spritePosition) < 25.0f) {
+	  // g++ -o pac MacMan.cpp Animation.cpp Map.cpp Sprite.cpp -lsfml-graphics -lsfml-window -lsfml-system && ./pac
 
-	// TODO ROUND TO NEAREST CELL WIDTH MULTIPLE
+	  float dx = std::round(spritePosition.x / 25.0f) * 25.0f;
+	  float dy = std::round(spritePosition.y / 25.0f) * 25.0f;
 
-	// g++ -o pac MacMan.cpp Animation.cpp Map.cpp Sprite.cpp -lsfml-graphics -lsfml-window -lsfml-system && ./pac
 
-	float dx = std::round(spritePosition.x / 25.0f) * 25.0f;
-	float dy = std::round(spritePosition.y / 25.0f) * 25.0f;
-	// float dx = std::floor(_spritePosition.x - _currentDirection.x);	
-	// float dy = std::floor(_spritePosition.y - _currentDirection.y);
+	  _sprite.setPosition(dx, dy);
 
-	// TODO: ceil or floor depends on direction of travel. should do it that way instead
-
-	// if (_currentDirection.x != 0.0f) {
-	//   _sprite.setPosition(dx, _spritePosition.y);
-	// }
-
-	// else if (_currentDirection.y != 0.0f) {
-	//   _sprite.setPosition(_spritePosition.x, dy);
-	// }
-
-	std::cout << spritePosition.x << " ree\n";
-
-	_sprite.setPosition(dx, dy);
+	  std::cout << "Direction: " << _currentDirection.x << ", " << _currentDirection.y << "\n";
+	  std::cout << "Corrected Position: " << dx << ", " << dy << "\n";
+	  std::cout << "Wall Position: " << wallPosition.x << ", " << wallPosition.y << "\n";
+	  }
+	
   }
 }
 
