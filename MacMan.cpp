@@ -8,20 +8,11 @@
 #include "Map.hpp"
 #include "Sprite.hpp"
 
-// template<typename T>
-// float distanceVector2(const sf::Vector2<T>& v1, const sf::Vector2<T>& v2) {
-//   float dx = std::abs(v2.x - v1.x);
-//   float dy = std::abs(v2.y - v1.y);
-  
-//   return std::sqrt(dx * dx + dy * dy);
-// }
-
 int main() {
   float playerSpeedFactor = 0.0075f;
   float deltaTime = 0.0f;
 
   sf::Vector2f playerPrevPosition(0.0f, 0.0f);
-  sf::Vector2f playerPrevDirection(0.0f, 0.0f);
   sf::Vector2f playerDirection(0.0f, 0.0f);
   
   sf::RenderWindow window(sf::VideoMode(475, 525), "MacMan", sf::Style::Close | sf::Style::Titlebar);
@@ -37,18 +28,13 @@ int main() {
   Map pacMap(MapDefault, 19, 25);
 
   window.setKeyRepeatEnabled(false);
-  
-  player.setTexture(&ghost, true);
-  player.setPosition(pacMap.getMacInitPosition());
-  playerPrevPosition = pacMap.getMacInitPosition();
 
   RectSprite macMan(25.0f, sf::Vector2f(25.0f, 25.0f), 0.0075f);
 
   while (window.isOpen()) {
+	sf::Event event;
 
 	deltaTime = clock.restart().asSeconds();
-	
-	sf::Event event;
 	
 	while(window.pollEvent(event)) {
 
@@ -57,75 +43,35 @@ int main() {
 	  }
 
 	  else if (event.type == sf::Event::KeyPressed) {
-
 		int keyCode = event.key.code;
-
-		if (keyCode == sf::Keyboard::Key::W || keyCode == sf::Keyboard::Key::A || keyCode == sf::Keyboard::Key::S || keyCode == sf::Keyboard::Key::D) {		  
-		  playerPrevDirection = playerDirection;
-		  playerPrevPosition = player.getPosition();
-
-		}
 
 		switch (keyCode) {
 		case sf::Keyboard::Key::W:
 		  playerDirection = sf::Vector2f(0.0f, -1.0f);
+		  playerPrevPosition = player.getPosition();
 		  break;
 
 		case sf::Keyboard::Key::A:
 		  playerDirection = sf::Vector2f(-1.0f, 0.0f);
+		  playerPrevPosition = player.getPosition();
 		  break;
 	
 		case sf::Keyboard::Key::S:
 		  playerDirection = sf::Vector2f(0.0f, 1.0f);
+		  playerPrevPosition = player.getPosition();
 		  break;
 	
 		case sf::Keyboard::Key::D:
 		  playerDirection = sf::Vector2f(1.0f, 0.0f);
+		  playerPrevPosition = player.getPosition();
 		  break;
 		}
-	  } 
-
-	  
+	  }  
 	}
-
-	animation.Update(0, deltaTime);
-	player.setTextureRect(animation.uvRect);
-	player.move(playerDirection);
 
 	macMan.setSpriteDirection(playerDirection);
-	
 	macMan.moveSprite(pacMap);
 	
-
-	sf::Vector2f macPosition = player.getPosition();
-	sf::Vector2f collisionOffset = pacMap.checkSpriteCollision(macPosition);
-
-	if (collisionOffset.x != 0.0f || collisionOffset.y != 0.0f) {
-
-	  if (playerDirection.x == 0.0f) {
-		player.move(0.0f, collisionOffset.y);
-	  }
-
-	  else if (playerDirection.y == 0.0f) {
-		// std:: cout << "move " << collisionOffset.x << "\n";
-		player.move(collisionOffset.x, 0.0f);
-	  }
-	  
-	  if (distanceVector2(macPosition, playerPrevPosition) < 0.05) {
-		/*
-		  This indicates that player tried to change directions while against a wall in such direction
-
-		  Revert to previously travelling direction
-
-		*/
-		playerDirection = playerPrevDirection;
-		
-		playerPrevDirection = sf::Vector2f(0.0f, 0.0f);
-	  }
-
-	}
-	
-	window.draw(player); // draw to back buffer
 	window.draw(macMan.getSprite());
 	
 	pacMap.drawMap(window);
