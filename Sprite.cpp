@@ -24,13 +24,14 @@ void RectSprite::moveSprite(Map m) {
   
   // queued direction is non-empty
   if (_queuedDirection.x + _queuedDirection.y != 0.0f) {
+	GameCell targetCell = getNeighboringCell(_queuedDirection, m);
+	
 	sf::Vector2f spritePos = _sprite.getPosition();
 	sf::Vector2f targetPos = getNeighboringCellCoordinates(_queuedDirection);
 
 	sf::Vector2f spritePosOrigin(spritePos.x + 12.5f, spritePos.y + 12.5f);
 	sf::Vector2f targetPosOrigin(targetPos.x + 12.5f, targetPos.y + 12.5f);
-	
-	GameCell targetCell = getNeighboringCell(_queuedDirection, m);
+   
 
 	float dist = distanceVector2(spritePosOrigin, targetPosOrigin);
 
@@ -40,16 +41,28 @@ void RectSprite::moveSprite(Map m) {
 	  - targetCell is not a wall
 	  - sprite is within a threshold (.01) amount of proximity
 	 */
-	if (targetCell == None && std::abs(dist - 25.0f) < .01f) {
-	  _currentDirection = _queuedDirection;
+	if (targetCell == None) {
+	  
+	  // dot product: perpendicular direction change evaluation
+	  float perp = _queuedDirection.x * _currentDirection.x + _queuedDirection.y * _currentDirection.y;
 
-	  float dx = std::round(spritePos.x / 25.0f) * 25.0f;
-	  float dy = std::round(spritePos.y / 25.0f) * 25.0f;
+	  std::cout << "perp " << perp << "\n";
+	 
+	  if (perp == 0.0f && std::abs(dist - 25.0f) < .01f) {
+		_currentDirection = _queuedDirection;
 
-	  _sprite.setPosition(dx, dy);
+		float dx = std::round(spritePos.x / 25.0f) * 25.0f;
+		float dy = std::round(spritePos.y / 25.0f) * 25.0f;
 
-	  _queuedDirection.x = 0.0f;
-	  _queuedDirection.y = 0.0f;
+		_sprite.setPosition(dx, dy);
+
+		_queuedDirection = sf::Vector2f(0.0f, 0.0f);
+	  }
+
+	  else if (perp != 0.0f) {
+		_currentDirection = _queuedDirection;
+		_queuedDirection = sf::Vector2f(0.0f, 0.0f);
+	  }
 	}
   }
   
