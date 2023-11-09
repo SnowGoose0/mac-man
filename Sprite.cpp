@@ -25,11 +25,14 @@ void RectSprite::moveSprite(Map m) {
   // queued direction is non-empty
   if (_queuedDirection.x + _queuedDirection.y != 0.0f) {
 	sf::Vector2f spritePos = _sprite.getPosition();
-	sf::Vector2f target = getNeighboringCellCoordinates(_queuedDirection);
+	sf::Vector2f targetPos = getNeighboringCellCoordinates(_queuedDirection);
+
+	sf::Vector2f spritePosOrigin(spritePos.x + 12.5f, spritePos.y + 12.5f);
+	sf::Vector2f targetPosOrigin(targetPos.x + 12.5f, targetPos.y + 12.5f);
 	
 	GameCell targetCell = getNeighboringCell(_queuedDirection, m);
 
-	float dist = distanceVector2(m.computeCellPos(target.x, target.y), spritePos);
+	float dist = distanceVector2(spritePosOrigin, targetPosOrigin);
 
 	/*
 	  direction change is possible
@@ -40,7 +43,10 @@ void RectSprite::moveSprite(Map m) {
 	if (targetCell == None && std::abs(dist - 25.0f) < .01f) {
 	  _currentDirection = _queuedDirection;
 
-	  _sprite.setPosition(std::floor(spritePos.x), std::floor(spritePos.y));
+	  float dx = std::round(spritePos.x / 25.0f) * 25.0f;
+	  float dy = std::round(spritePos.y / 25.0f) * 25.0f;
+
+	  _sprite.setPosition(dx, dy);
 
 	  _queuedDirection.x = 0.0f;
 	  _queuedDirection.y = 0.0f;
@@ -52,7 +58,7 @@ void RectSprite::moveSprite(Map m) {
 			   _currentDirection.y * _spriteSpeed
 			   );
 
-  handleCollision(m);
+  // handleCollision(m);
 }
 
 sf::RectangleShape RectSprite::getSprite() {
@@ -110,15 +116,15 @@ GameCell RectSprite::getNeighboringCell(sf::Vector2f direction, Map m) {
 	+---------+ y=m
    */
   
-  return m.getCellAt(cellCoordinates.y, cellCoordinates.x);
+  return m.getCellAt(cellCoordinates.y / 25.0f, cellCoordinates.x / 25.0f);
 }
 
 sf::Vector2f RectSprite::getNeighboringCellCoordinates(sf::Vector2f direction) {
   sf::Vector2f spritePos = _sprite.getPosition();
   sf::Vector2f coord(-1.0f, -1.0f);
 
-  int targetCellRow = std::floor(spritePos.y / 25);
-  int targetCellCol = std::floor(spritePos.x / 25);
+  int targetCellRow = std::floor((spritePos.y + 12.5f) / 25.0f);
+  int targetCellCol = std::floor((spritePos.x + 12.5f) / 25.0f);
 	
   if (direction.x == 1) { // right
 	targetCellCol++; 
@@ -136,8 +142,8 @@ sf::Vector2f RectSprite::getNeighboringCellCoordinates(sf::Vector2f direction) {
 	targetCellRow--;
   }
 
-  coord.x = targetCellCol;
-  coord.y = targetCellRow;
+  coord.x = targetCellCol * 25.0f;
+  coord.y = targetCellRow * 25.0f;
 
   return coord;
 }
