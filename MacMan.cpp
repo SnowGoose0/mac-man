@@ -25,11 +25,11 @@ int main() {
   ghost.loadFromFile("./assets/ghost.jpg");
   
   Animation animation(&ghost, sf::Vector2u(4, 3), 0.3f);
-  Map pacMap(MapDefault, 19, 25);
+  Map macMap(MapDefault, 19, 25);
 
   window.setKeyRepeatEnabled(false);
 
-  RectSprite macMan(25.0f, sf::Vector2f(25.0f, 25.0f), 0.0075f);
+  RectSprite macMan(25.0f, sf::Vector2f(25.0f, 25.0f), 0.0575f, macMap);
 
   while (window.isOpen()) {
 	sf::Event event;
@@ -70,14 +70,12 @@ int main() {
 	}
 
 	macMan.setSpriteDirection(playerDirection);
-	macMan.moveSprite(pacMap);
-	
-	window.draw(macMan.getSprite());
-	
-	pacMap.drawMap(window);
+	macMan.moveSprite();
+	macMan.draw(window);
+
+	macMap.drawMap(window);
 
 	window.display(); // swap front back buffers 
-
 	window.clear(sf::Color::Black); // clear back buffer
   }
 

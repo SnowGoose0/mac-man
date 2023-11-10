@@ -1,7 +1,7 @@
 #include "Sprite.hpp"
 #include "Common.hpp"
 
-RectSprite::RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed) {
+RectSprite::RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& gameMap): map(gameMap) {
 
   _sprite = sf::RectangleShape(sf::Vector2f(spriteWidth, spriteWidth));
   _spritePosition = spriteInitPosition;
@@ -10,21 +10,20 @@ RectSprite::RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float
   _currentDirection = sf::Vector2f(0.0f, 0.0f);
   _queuedDirection = sf::Vector2f(0.0f, 0.0f);
 
-  _sprite.setPosition(_spritePosition);
-
-  std::cout << "SETGUP\n" << _spriteSpeed;
-  
+  _sprite.setPosition(_spritePosition);  
 }
 
 RectSprite::~RectSprite() {}
 
-// TODO: evaluate cells at centre instead of top left corner
+void RectSprite::draw(sf::RenderWindow& window) {
+	window.draw(_sprite);
+}
 
-void RectSprite::moveSprite(Map m) {
+void RectSprite::moveSprite() {
   
   // queued direction is non-empty
   if (_queuedDirection.x + _queuedDirection.y != 0.0f) {
-	GameCell targetCell = getNeighboringCell(_queuedDirection, m);
+	GameCell targetCell = getNeighboringCell(_queuedDirection);
 	
 	sf::Vector2f spritePos = _sprite.getPosition();
 	sf::Vector2f targetPos = getNeighboringCellCoordinates(_queuedDirection);
@@ -71,7 +70,7 @@ void RectSprite::moveSprite(Map m) {
 			   _currentDirection.y * _spriteSpeed
 			   );
 
-  handleCollision(m);
+  checkCollision();
 }
 
 sf::RectangleShape RectSprite::getSprite() {
@@ -93,8 +92,8 @@ void RectSprite::setSpriteTexture(std::string path) {
   _sprite.setTexture(&_spriteTexture, true);
 }
 
-void RectSprite::handleCollision(Map m) {
-  GameCell targetCell = getNeighboringCell(_currentDirection, m);
+void RectSprite::checkCollision() {
+  GameCell targetCell = getNeighboringCell(_currentDirection);
   sf::Vector2f spritePosition = _sprite.getPosition();
 
   if (targetCell == Wall) {
@@ -116,7 +115,7 @@ void RectSprite::handleCollision(Map m) {
   }
 }
 
-GameCell RectSprite::getNeighboringCell(sf::Vector2f direction, Map m) {
+GameCell RectSprite::getNeighboringCell(sf::Vector2f direction) {
   sf::Vector2f cellCoordinates = getNeighboringCellCoordinates(direction);
 
   /*
@@ -127,7 +126,7 @@ GameCell RectSprite::getNeighboringCell(sf::Vector2f direction, Map m) {
 	+---------+ y=m
    */
   
-  return m.getCellAt(cellCoordinates.y / 25.0f, cellCoordinates.x / 25.0f);
+  return map.getCellAt(cellCoordinates.y / 25.0f, cellCoordinates.x / 25.0f);
 }
 
 sf::Vector2f RectSprite::getNeighboringCellCoordinates(sf::Vector2f direction) {

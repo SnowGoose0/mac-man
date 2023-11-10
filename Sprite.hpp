@@ -10,10 +10,12 @@ class RectSprite {
 
 public:
 
-  RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed);
+  RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m);
   ~RectSprite();
 
-  void moveSprite(Map m);
+  void draw(sf::RenderWindow& window);
+
+  void moveSprite();
 
   sf::RectangleShape getSprite();
 
@@ -25,13 +27,15 @@ public:
 
 private:
 
-  void handleCollision(Map m);
+  void checkCollision();
 
-  GameCell getNeighboringCell(sf::Vector2f direction, Map m);
+  GameCell getNeighboringCell(sf::Vector2f direction);
 
   sf::Vector2f getNeighboringCellCoordinates(sf::Vector2f direction);
 
 private:
+
+  Map& map;
 
   sf::RectangleShape _sprite;
 
