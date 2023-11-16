@@ -31,7 +31,6 @@ void RectSprite::moveSprite() {
 	sf::Vector2f spritePosOrigin(spritePos.x + 12.5f, spritePos.y + 12.5f);
 	sf::Vector2f targetPosOrigin(targetPos.x + 12.5f, targetPos.y + 12.5f);
    
-
 	float dist = distanceVector2(spritePosOrigin, targetPosOrigin);
 
 	/*
@@ -104,14 +103,8 @@ void RectSprite::checkCollision() {
 	  float dx = std::round(spritePosition.x / 25.0f) * 25.0f;
 	  float dy = std::round(spritePosition.y / 25.0f) * 25.0f;
 
-
 	  _sprite.setPosition(dx, dy);
-
-	  // std::cout << "Direction: " << _currentDirection.x << ", " << _currentDirection.y << "\n";
-	  // std::cout << "Corrected Position: " << dx << ", " << dy << "\n";
-	  // std::cout << "Wall Position: " << wallPosition.x << ", " << wallPosition.y << "\n";
 	  }
-	
   }
 }
 
