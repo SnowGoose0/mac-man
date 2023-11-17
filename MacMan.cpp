@@ -7,6 +7,7 @@
 #include "Animation.hpp"
 #include "Map.hpp"
 #include "Sprite.hpp"
+#include "Ghost.hpp"
 
 int main() {
   float playerSpeedFactor = 0.0075f;
@@ -30,6 +31,7 @@ int main() {
   window.setKeyRepeatEnabled(false);
 
   RectSprite macMan(25.0f, sf::Vector2f(25.0f, 25.0f), 0.0575f, macMap);
+  Ghost g(25.0f, sf::Vector2f(50.0f, 25.0f), 0.0575f, macMap);
 
   while (window.isOpen()) {
 	sf::Event event;
@@ -72,6 +74,8 @@ int main() {
 	macMan.setSpriteDirection(playerDirection);
 	macMan.moveSprite();
 	macMan.draw(window);
+
+	g.draw(window);
 
 	macMap.drawMap(window);
 

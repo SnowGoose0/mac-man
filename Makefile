@@ -3,7 +3,7 @@ CXXFLAGS = -std=c++11
 SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 # Source files
-SRC_FILES = MacMan.cpp Animation.cpp Map.cpp Sprite.cpp
+SRC_FILES = MacMan.cpp Animation.cpp Map.cpp Sprite.cpp Ghost.cpp
 
 # Output executable
 OUTPUT = pac
