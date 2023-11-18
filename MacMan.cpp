@@ -26,7 +26,7 @@ int main() {
   ghost.loadFromFile("./assets/ghost.jpg");
   
   Animation animation(&ghost, sf::Vector2u(4, 3), 0.3f);
-  Map macMap(MapDebug, 19, 25);
+  Map macMap(MapDefault, 19, 25);
 
   window.setKeyRepeatEnabled(false);
 

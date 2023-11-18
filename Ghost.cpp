@@ -45,7 +45,7 @@ void Ghost::update() {
   float nn = normVector2(newDirection);
   
   if (dot / (nc * nn) == -1.0f) {
-  return;
+	return;
   }
   
   this->setSpriteDirection(newDirection);
