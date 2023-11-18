@@ -75,6 +75,8 @@ int main() {
 	macMan.moveSprite();
 	macMan.draw(window);
 
+	g.update();
+	g.moveSprite();
 	g.draw(window);
 
 	macMap.drawMap(window);

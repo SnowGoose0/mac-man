@@ -42,9 +42,9 @@ void RectSprite::moveSprite() {
 	if (targetCell == None) {
 	  
 	  // dot product: perpendicular direction change evaluation
-	  float perp = _queuedDirection.x * _currentDirection.x + _queuedDirection.y * _currentDirection.y;
+	  // float perp = _queuedDirection.x * _currentDirection.x + _queuedDirection.y * _currentDirection.y;
 
-	  std::cout << "perp " << perp << "\n";
+	  float perp = dotVector2(_queuedDirection, _currentDirection);
 	 
 	  if (perp == 0.0f && std::abs(dist - 25.0f) < .01f) {
 		_currentDirection = _queuedDirection;

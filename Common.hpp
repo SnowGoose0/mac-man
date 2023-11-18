@@ -63,3 +63,13 @@ float distanceVector2(const sf::Vector2<T>& v1, const sf::Vector2<T>& v2) {
   
   return std::sqrt(dx * dx + dy * dy);
 }
+
+template<typename T>
+float dotVector2(const sf::Vector2<T>& v1, const sf::Vector2<T>& v2) {
+  return v1.x * v2.x + v1.y * v2.y;
+}
+
+template<typename T>
+float normVector2(const sf::Vector2<T>& v) {
+  return std::sqrt(v.x * v.x + v.y * v.y);
+}

@@ -33,6 +33,11 @@ private:
 
   sf::Vector2f getNeighboringCellCoordinates(sf::Vector2f direction);
 
+protected:
+  sf::Vector2f _prevDirection;
+  sf::Vector2f _currentDirection;
+  sf::Vector2f _queuedDirection;
+
 private:
 
   Map& map;
@@ -44,9 +49,5 @@ private:
   sf::Texture _spriteTexture;
 
   sf::Vector2f _spritePosition;
-
-  sf::Vector2f _prevDirection;
-  sf::Vector2f _currentDirection;
-  sf::Vector2f _queuedDirection;
 
 };

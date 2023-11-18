@@ -6,6 +6,7 @@
 #include <random>
 
 #include "Sprite.hpp"
+#include "Common.hpp"
 
 class Ghost : public RectSprite {
 
@@ -15,8 +16,9 @@ public:
   
   ~Ghost();
 
-private:
   void update();
+
+private:
   void setTargetPosition(sf::Vector2f targetPosition);
   void setTargetPosition(float x, float y);
   sf::Vector2f getTargetPosition();
