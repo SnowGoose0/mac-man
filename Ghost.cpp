@@ -18,8 +18,14 @@ void Ghost::update() {
   std::mt19937 gen(rd());
 
   std::uniform_int_distribution<> dist(1, 4);
+  std::uniform_int_distribution<> distx(1, 100);
 
   int c = dist(gen);
+  int b = distx(gen);
+ 
+  if (b > 3) {
+	return;
+  }
 
   switch(c) {
   case 1:
@@ -43,6 +49,8 @@ void Ghost::update() {
   float dot = dotVector2(_currentDirection, newDirection);
   float nc = normVector2(_currentDirection);
   float nn = normVector2(newDirection);
+
+  std::cout << dot / (nc * nn) << "\n";
   
   if (dot / (nc * nn) == -1.0f) {
 	return;
