@@ -69,6 +69,16 @@ void RectSprite::moveSprite() {
 			   _currentDirection.y * _spriteSpeed
 			   );
 
+  // check if sprite moves out of the map
+  sf::Vector2f pos = _sprite.getPosition();
+  if (pos.x <= -25.0f) { // left
+	_sprite.setPosition(25.0f * map.mapWidth, pos.y);
+	
+  } else if (pos.x >= 25.0f * map.mapWidth) {
+	_sprite.setPosition(-25.0f, pos.y);
+  }
+  
+  // main collision detection system
   checkCollision();
 }
 

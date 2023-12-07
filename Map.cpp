@@ -60,7 +60,7 @@ sf::Vector2f Map::getMacInitPosition() {
 }
 
 GameCell Map::getCellAt(unsigned int row, unsigned int col) {
-  return mapParsed[row][col];
+  return mapParsed[row % mapWidth][col % mapWidth];
 }
 
 

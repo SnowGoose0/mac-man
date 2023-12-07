@@ -27,15 +27,13 @@ public:
 
   sf::Vector2f computeCellPos(int x, int y);
 
-private:
-  std::string mapString;
-  
+public:
   int cellWidth;
-
   int mapWidth;
 
+private:
+  std::string mapString;
   sf::Vector2f macInitPosition;
-
   std::array<std::array<GameCell, 19>, 21> mapParsed;
  
 };
