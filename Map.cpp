@@ -24,6 +24,10 @@ Map::Map(const std::string map, int mapWidth, int cellWidth) {
 	  macInitPosition = computeCellPos(x, y);
 	  break;
 
+	case '*':
+	  mapParsed[y][x] = Snack;
+	  break;
+
 	default:
 	  mapParsed[y][x] = None;
 	}
@@ -33,6 +37,10 @@ Map::Map(const std::string map, int mapWidth, int cellWidth) {
 Map::~Map() {};
 
 void Map::drawMap(sf::RenderWindow& window) {
+  sf::Texture cellTexture;
+  sf::RectangleShape cellDrawable(sf::Vector2f(cellWidth, cellWidth));
+  cellTexture.loadFromFile("./assets/map.png");
+  cellDrawable.setTexture(&cellTexture);
 
   for (int i = 0; i < mapParsed.size(); i++) {
 
@@ -40,13 +48,23 @@ void Map::drawMap(sf::RenderWindow& window) {
 
 	  GameCell cell = mapParsed[i][j];
 
+	  cellDrawable.setPosition(computeCellPos(j, i));
+
 	  if (cell == Wall) {
-		sf::RectangleShape cell(sf::Vector2f(cellWidth, cellWidth));
-		cell.setFillColor(sf::Color(0, 0, 255));
-		cell.setPosition(computeCellPos(j, i));
-	  
-		window.draw(cell);
+		cellDrawable.setTextureRect(sf::IntRect(32, 0, 32, 32));
 	  }
+
+	  else if (cell == Snack) {
+		// cellTexture.loadFromFile("./assets/snack.png");
+		// cellDrawable.setFillColor(sf::Color(0, 0, 50));
+		cellDrawable.setTextureRect(sf::IntRect(0, 0, 32, 32));
+	  }
+
+	  else {
+		continue;
+	  }
+
+	  window.draw(cellDrawable);
 	}
   }
 }

@@ -71,6 +71,8 @@ int main() {
 	  }  
 	}
 
+	macMap.drawMap(window);
+
 	macMan.setSpriteDirection(playerDirection);
 	macMan.moveSprite();
 	macMan.draw(window);
@@ -78,8 +80,6 @@ int main() {
 	g.update();
 	g.moveSprite();
 	g.draw(window);
-
-	macMap.drawMap(window);
 
 	window.display(); // swap front back buffers 
 	window.clear(sf::Color::Black); // clear back buffer

@@ -39,7 +39,7 @@ void RectSprite::moveSprite() {
 	  - targetCell is not a wall
 	  - sprite is within a threshold (.01) amount of proximity
 	 */
-	if (targetCell == None) {
+	if (targetCell == None || targetCell == Snack) {
 	  
 	  // dot product: perpendicular direction change evaluation
 	  // float perp = _queuedDirection.x * _currentDirection.x + _queuedDirection.y * _currentDirection.y;
