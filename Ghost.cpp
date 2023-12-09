@@ -1,11 +1,11 @@
 #include "Ghost.hpp"
 
-Ghost::~Ghost() {}
-
 Ghost::Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m)
     : RectSprite(spriteWidth, spriteInitPosition, spriteSpeed, m) {
   _targetPosition = sf::Vector2f(0.0f, 0.0f);
 }
+
+Ghost::~Ghost() {}
 
 void Ghost::update() {
   // if ghost is at intersection

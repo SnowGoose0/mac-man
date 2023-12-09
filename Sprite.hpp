@@ -25,7 +25,7 @@ public:
 
   void setSpriteTexture(std::string path);
 
-private:
+protected:
 
   void checkCollision();
 
@@ -37,8 +37,6 @@ protected:
   sf::Vector2f _prevDirection;
   sf::Vector2f _currentDirection;
   sf::Vector2f _queuedDirection;
-
-private:
 
   Map& map;
 

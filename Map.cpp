@@ -69,16 +69,23 @@ void Map::drawMap(sf::RenderWindow& window) {
   }
 }
 
-sf::Vector2f Map::computeCellPos(int x, int y) {
-  return sf::Vector2f(x * cellWidth, y * cellWidth);
-}
-
 sf::Vector2f Map::getMacInitPosition() {
   return macInitPosition;
 }
 
+sf::Vector2f Map::computeCellPos(int x, int y) {
+  return sf::Vector2f(x * cellWidth, y * cellWidth);
+}
+
 GameCell Map::getCellAt(unsigned int row, unsigned int col) {
   return mapParsed[row % (mapWidth + 2)][col % mapWidth];
+}
+
+void Map::updateCellAt(unsigned int row, unsigned int col, GameCell newState) {
+  GameCell currentState = mapParsed[row % (mapWidth + 2)][col % mapWidth];
+
+  if (currentState == Wall) { return; } // do not allow modification of walls
+  mapParsed[row % (mapWidth + 2)][col % mapWidth] = newState;
 }
 
 
