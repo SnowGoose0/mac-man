@@ -18,5 +18,5 @@ public:
   void update();
 
 private:
-
+  unsigned int _palletCount;
 };

@@ -7,6 +7,7 @@ Map::Map(const std::string map, int mapWidth, int cellWidth) {
   this->mapWidth = mapWidth;
 
   int y = -1;
+  int palletCounter = 0;
   
   for (int i = 0; i < map.size(); i++) {
 	int x = i % mapWidth;
@@ -26,12 +27,15 @@ Map::Map(const std::string map, int mapWidth, int cellWidth) {
 
 	case '*':
 	  mapParsed[y][x] = Snack;
+	  palletCounter++;
 	  break;
 
 	default:
 	  mapParsed[y][x] = None;
 	}
   }
+
+  this->palletCount = palletCounter;
 };
 
 Map::~Map() {};

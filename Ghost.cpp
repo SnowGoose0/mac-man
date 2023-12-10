@@ -49,8 +49,6 @@ void Ghost::update() {
   float dot = dotVector2(_currentDirection, newDirection);
   float nc = normVector2(_currentDirection);
   float nn = normVector2(newDirection);
-
-  std::cout << dot / (nc * nn) << "\n";
   
   if (dot / (nc * nn) == -1.0f) {
 	return;

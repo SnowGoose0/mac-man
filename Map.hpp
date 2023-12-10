@@ -32,6 +32,7 @@ public:
 public:
   int cellWidth;
   int mapWidth;
+  unsigned int palletCount;
 
 private:
   std::string mapString;
