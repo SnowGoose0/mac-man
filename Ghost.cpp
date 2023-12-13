@@ -9,21 +9,15 @@ Ghost::~Ghost() {}
 
 void Ghost::update() {
   // if ghost is at intersection
-  sf::Vector2f currentPosition = _sprite.getPosition();
-  unsigned int mapX = (currentPosition.y + 12.5f) / 25.0f;
-  unsigned int mapY = (currentPosition.x + 12.5f) / 25.0f;
+  // sf::Vector2f currentPosition = _sprite.getPosition();
+  // unsigned int mapX = (currentPosition.y + 12.5f) / 25.0f;
+  // unsigned int mapY = (currentPosition.x + 12.5f) / 25.0f;
 
-  if (map.getCellAt(mapX + currentPosition.y, mapY + currentPosition.x) == None || map.getCellAt(mapX - currentPosition.y, mapY - currentPosition.x) == None) {
-	// at intersection
+  // if (map.getCellAt(mapX + currentPosition.y, mapY + currentPosition.x) == None || map.getCellAt(mapX - currentPosition.y, mapY - currentPosition.x) == None) {
+  // 	// at intersection
 
-	std::cout << "INTERSECTION\n";
-  }
-
-  
-
-  
-
-  
+  // 	std::cout << "INTERSECTION\n";
+  // }  
 
   // ghost will move randomly for now
 
