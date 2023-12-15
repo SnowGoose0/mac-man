@@ -13,11 +13,11 @@ Graph::aStar(Point& start, Point& end) {
   std::vector<Point> path;
   std::priority_queue<Point> pq;
   
-  // pq.push(start);
+  pq.push(start);
 
-  // while (pq.size() > 0) {
+  while (pq.size() > 0) {
 	
-  // }
+  }
 
   return path;
 }

@@ -39,11 +39,11 @@ struct Node {
   bool operator>(const Node& n) const {
 	return f() > n.f();
   }
-};
 
-// int heuristic(const Point& p1, const Point& p2) { 
-// 	return p2 - p1;
-// }
+  bool operator<(const Node& n) const {
+	return f() < n.f();
+  }
+};
 
 int heuristic(const Point& p1, const Point& p2);
   
