@@ -1,9 +1,5 @@
 #include "Algorithm.hpp"
 
-int heuristic(const Point& p1, const Point& p2) {
-  return p2 - p1;
-}
-
 Graph::Graph(Map& m) {
   _graph = m.mapParsed;
   
@@ -13,45 +9,70 @@ Graph::~Graph() {}
 
 std::vector<Point>
 Graph::aStar(Point& start, Point& end) {
-  std::vector<Point> path;
-  std::priority_queue<Node> openList;
-  std::unordered_map<Point, > closeList;
-  
-  openList.push({.p = start, .g = 0, .h = 0});
+  std::priority_queue<Node, std::vector<Node>, std::greater<Node>> openSet;
+  std::unordered_set<Node> openSetTrace;
+  std::unordered_set<Node> closedSet; 
 
-  while (openList.size() > 0) {
-	Node cur = openList.top();
+  Node s = {.p = start, .g = 0, .h = 0, .parent = nullptr};
+  openSet.push(s);
+ 
+  while (!openSet.empty()) {
+	Node cur = openSet.top(); openSet.pop();
 
-	// { left, right, top, bottom }
-	std::vector<Point> neighbors = {
-	  {cur.p.x - 1, cur.p.y},
-	  {cur.p.x + 1, cur.p.y},
-	  {cur.p.x, cur.p.y - 1},
-	  {cur.p.x, cur.p.y + 1}
-	};
-
-	for (const Point& next : neighbors) {
-	  // wall check
-	  if (_graph[next.y][next.x] == Wall) {
-		continue;
-	  }
-	  
-	  // target check
-	  if (next == end) { 
-		path.push_back(next);
-		break;
-	  }
-
-	  Node nextNode = {.p = next, .g = cur, .h = heuristic(next, end)};
-
-	  
-	  
+	if (cur.p == end) {
+	  // TODO: TRACE PATH
+	  return path;
 	}
 
-	openList.pop();
+	closedSet.insert(cur);
+
+	std::vector<Point> neighbors = getNeighbors();
+	for (const Point& next : neighbors) {
+	  if (!traversable(next)) continue;
+	  
+	  Node successor = {.p = next,
+						.g = cur.g + 1,
+						.h = heuristic(next, end),
+						.parent = &cur};
+	  
+	  auto closedIt = closedSet.find(successor);
+	  if (closedIt != closedSet.end() && closedIt->f() > successor.f()) {
+		closedSet.erase(closedIt);
+		closedSet.insert(successor);
+	  }
+	  
+	  if (openSetTrace.find(successor) == openSetTrace.end()) { 
+		openSet.push(successor);
+		openSetTrace.insert(successor);
+	  }
+	  
+	}
   }
 
   return path;
+}
+
+bool Graph::traversable(Point& target) {
+  if (_graph[next.y][next.x] == Wall)
+	return false;
+
+  return true;
+}
+
+int Graph::heuristic(const Point& p1, const Point& p2) {
+  return p2 - p1;
+}
+
+std::vector<Point> Graph::getNeighbors(const Node& node) {
+  // { left, right, top, bottom }
+  std::vector<Point> neighbors = { 
+	{cur.p.x - 1, cur.p.y},
+	{cur.p.x + 1, cur.p.y},
+	{cur.p.x, cur.p.y - 1},
+	{cur.p.x, cur.p.y + 1}
+  };
+
+  return neighbors;
 }
 
 std::vector<Point>

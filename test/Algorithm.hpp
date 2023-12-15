@@ -31,6 +31,7 @@ struct Point {
 struct Node {
   Point p;
   int g, h;
+  Node* parent;
 
   int f() const {
 	return g + h;
@@ -43,9 +44,11 @@ struct Node {
   bool operator<(const Node& n) const {
 	return f() < n.f();
   }
-};
 
-int heuristic(const Point& p1, const Point& p2);
+  bool operator==(const Node& n) const {
+	return p == n.p;
+  }
+};
   
 class Graph {
 public:
@@ -60,6 +63,12 @@ public:
 
 private:
   std::vector<Point> aStar(Point& start, Point& end);
+  
+  bool traversable(Point& p);
+
+  int heuristic(const Point& p1, const Point& p2);
+
+  std::vector<Point> getNeighbors(const Node& node);
 
 private:
   std::array<std::array<GameCell, width>, height> _graph;
@@ -67,9 +76,9 @@ private:
 
 namespace std {
   template <>
-  struct hash<Point> {
-	size_t operator()(const Point& p) const {
-	  return hash<int>()(p.x) & hash<int>()(p.y);
+  struct hash<Node> {
+	size_t operator()(const Node& n) const {
+	  return hash<int>()(n.p.x) & hash<int>()(n.p.y);
 	}
   };
 }
