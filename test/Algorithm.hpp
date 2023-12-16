@@ -50,6 +50,12 @@ struct Node {
 	return p == n.p;
   }
 };
+
+struct NodeComparator {
+  bool operator()(const Node* lhs, const Node* rhs) const {
+	return lhs->f() > rhs->f();
+  }
+};
   
 class Graph {
 public:
@@ -70,6 +76,8 @@ private:
   int heuristic(const Point& p1, const Point& p2);
 
   std::vector<Point> getNeighbors(const Node& node);
+
+  void freeNodeList(std::vector<Node*> list);
 
 private:
   std::array<std::array<GameCell, width>, height> _graph;

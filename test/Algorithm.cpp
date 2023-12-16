@@ -9,56 +9,71 @@ Graph::~Graph() {}
 
 std::vector<Point>
 Graph::aStar(Point& start, Point& end) {
-  std::vector<Node> openSet;
-  std::unordered_set<Node> closedSet;
+  if (!traversable(start) || !traversable(end))
+	return {};
 
-  Node s = {
-	.p = start,
-	.g = 0,
-	.h = heuristic(start, end),
-	.parent = nullptr
-  };
+  /* priority queue for open nodes */
+  std::vector<Node*> openSet;
 
-  Node* sa = new Node();
-  openSet.push_back(s);
-  std::make_heap(openSet.begin(), openSet.end(), std::greater<Node>());
+  /* set for expanded nodes */
+  std::unordered_set<Node*> closedSet;
+
+  /* ALL allocated nodes - used for memory management*/
+  std::vector<Node*> nodeList;
+
+  Node* startNode = new Node();
+  startNode->p = start;
+  startNode->g = 0;
+  startNode->h = heuristic(start, end);
+  startNode->parent = nullptr;
+  
+  openSet.push_back(startNode);
+  nodeList.push_back(startNode);
+  std::make_heap(openSet.begin(), openSet.end(), NodeComparator());
 
   while (!openSet.empty()) {
-	std::pop_heap(openSet.begin(), openSet.end(), std::greater<Node>());
-	Node cur = openSet.back(); openSet.pop_back();
+	std::pop_heap(openSet.begin(), openSet.end(), NodeComparator());
+	Node* current = openSet.back(); openSet.pop_back();
 
-	if (cur.p == end) {
+	if (current->p == end) {
 	  std::vector<Point> path;
-	  while (cur.parent) {
-		path.push_back(cur.p);
-		cur = *cur.parent;
+	  
+	  while (!(current->p == start)) {
+		path.push_back(current->p);
+		current = current->parent;
 	  }
+	  
+	  freeNodeList(nodeList);
 	  return path;
 	}
 
-	closedSet.insert(cur);
+	closedSet.insert(current);
 
 	// TODO: DYNAMICALLY STORE NODES
-	std::vector<Point> neighbors = getNeighbors(cur);
+	std::vector<Point> neighbors = getNeighbors(*current);
 	for (const Point& next : neighbors) {
 	  if (!traversable(next)) continue;
-	  
-	  Node successor = {.p = next,
-						.g = cur.g + 1,
-						.h = heuristic(next, end),
-						.parent = &cur};
+
+	  Node* successor = new Node();
+	  successor->p = next;
+	  successor->g = current->g + 1;
+	  successor->h = heuristic(next, end);
+	  successor->parent = current;
+
+	  nodeList.push_back(successor);
 	  
 	  auto closeIt = closedSet.find(successor);
 	  auto openIt = std::find(openSet.begin(), openSet.end(), successor);
 
 	  if (closeIt != closedSet.end()) continue;	  
-	  if (openIt != openSet.end() && openIt->g < successor.g) continue;
+	  if (openIt != openSet.end() && (*openIt)->g < successor->g) continue;
 
 	  openSet.push_back(successor);
-	  std::push_heap(openSet.begin(), openSet.end(), std::greater<Node>());
+	  std::push_heap(openSet.begin(), openSet.end(), NodeComparator());
 	}
   }
 
+  freeNodeList(nodeList);
   return {};
 }
 
@@ -83,6 +98,11 @@ std::vector<Point> Graph::getNeighbors(const Node& node) {
   };
 
   return neighbors;
+}
+
+void Graph::freeNodeList(std::vector<Node*> list) {
+  for (auto it = list.begin(); it != list.end(); it++) {
+	delete *it;
 }
 
 std::vector<Point>
