@@ -6,7 +6,8 @@
 #include <vector>
 #include <queue>
 #include <cmath>
-#include <unordered_map>
+#include <algorithm>
+#include <unordered_set>
 
 #include "Common.hpp"
 #include "Map.hpp"
@@ -64,7 +65,7 @@ public:
 private:
   std::vector<Point> aStar(Point& start, Point& end);
   
-  bool traversable(Point& p);
+  bool traversable(const Point& p);
 
   int heuristic(const Point& p1, const Point& p2);
 

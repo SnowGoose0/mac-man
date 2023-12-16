@@ -9,24 +9,37 @@ Graph::~Graph() {}
 
 std::vector<Point>
 Graph::aStar(Point& start, Point& end) {
-  std::priority_queue<Node, std::vector<Node>, std::greater<Node>> openSet;
-  std::unordered_set<Node> openSetTrace;
-  std::unordered_set<Node> closedSet; 
+  std::vector<Node> openSet;
+  std::unordered_set<Node> closedSet;
 
-  Node s = {.p = start, .g = 0, .h = 0, .parent = nullptr};
-  openSet.push(s);
- 
+  Node s = {
+	.p = start,
+	.g = 0,
+	.h = heuristic(start, end),
+	.parent = nullptr
+  };
+
+  Node* sa = new Node();
+  openSet.push_back(s);
+  std::make_heap(openSet.begin(), openSet.end(), std::greater<Node>());
+
   while (!openSet.empty()) {
-	Node cur = openSet.top(); openSet.pop();
+	std::pop_heap(openSet.begin(), openSet.end(), std::greater<Node>());
+	Node cur = openSet.back(); openSet.pop_back();
 
 	if (cur.p == end) {
-	  // TODO: TRACE PATH
+	  std::vector<Point> path;
+	  while (cur.parent) {
+		path.push_back(cur.p);
+		cur = *cur.parent;
+	  }
 	  return path;
 	}
 
 	closedSet.insert(cur);
 
-	std::vector<Point> neighbors = getNeighbors();
+	// TODO: DYNAMICALLY STORE NODES
+	std::vector<Point> neighbors = getNeighbors(cur);
 	for (const Point& next : neighbors) {
 	  if (!traversable(next)) continue;
 	  
@@ -35,25 +48,22 @@ Graph::aStar(Point& start, Point& end) {
 						.h = heuristic(next, end),
 						.parent = &cur};
 	  
-	  auto closedIt = closedSet.find(successor);
-	  if (closedIt != closedSet.end() && closedIt->f() > successor.f()) {
-		closedSet.erase(closedIt);
-		closedSet.insert(successor);
-	  }
-	  
-	  if (openSetTrace.find(successor) == openSetTrace.end()) { 
-		openSet.push(successor);
-		openSetTrace.insert(successor);
-	  }
-	  
+	  auto closeIt = closedSet.find(successor);
+	  auto openIt = std::find(openSet.begin(), openSet.end(), successor);
+
+	  if (closeIt != closedSet.end()) continue;	  
+	  if (openIt != openSet.end() && openIt->g < successor.g) continue;
+
+	  openSet.push_back(successor);
+	  std::push_heap(openSet.begin(), openSet.end(), std::greater<Node>());
 	}
   }
 
-  return path;
+  return {};
 }
 
-bool Graph::traversable(Point& target) {
-  if (_graph[next.y][next.x] == Wall)
+bool Graph::traversable(const Point& target) {
+  if (_graph[target.y][target.x] == Wall)
 	return false;
 
   return true;
@@ -66,10 +76,10 @@ int Graph::heuristic(const Point& p1, const Point& p2) {
 std::vector<Point> Graph::getNeighbors(const Node& node) {
   // { left, right, top, bottom }
   std::vector<Point> neighbors = { 
-	{cur.p.x - 1, cur.p.y},
-	{cur.p.x + 1, cur.p.y},
-	{cur.p.x, cur.p.y - 1},
-	{cur.p.x, cur.p.y + 1}
+	{node.p.x - 1, node.p.y},
+	{node.p.x + 1, node.p.y},
+	{node.p.x, node.p.y - 1},
+	{node.p.x, node.p.y + 1}
   };
 
   return neighbors;
