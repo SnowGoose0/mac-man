@@ -83,7 +83,7 @@ int main() {
 	macMan.draw(window);
 
 	g.moveSprite();
-	g.update();
+	// g.update();
 	g.draw(window);
 
 	window.display(); // swap front back buffers 

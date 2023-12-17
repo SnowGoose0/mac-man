@@ -47,8 +47,8 @@ public:
   unsigned int palletCount;
 
 private:
-  std::string mapString;
-  sf::Vector2f macInitPosition;
+  std::string _mapString;
+  sf::Vector2f _macInitPosition;
   std::array<std::array<GameCell, 19>, 21> _mapParsed;
  
 };

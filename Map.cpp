@@ -48,7 +48,6 @@ void Map::drawMap(sf::RenderWindow& window) {
   cellDrawable.setTexture(&cellTexture);
 
   for (int i = 0; i < _mapParsed.size(); i++) {
-
 	for (int j = 0; j < _mapParsed[i].size(); j++) {
 
 	  GameCell cell = _mapParsed[i][j];
@@ -60,15 +59,25 @@ void Map::drawMap(sf::RenderWindow& window) {
 	  }
 
 	  else if (cell == Snack) {
-		// cellTexture.loadFromFile("./assets/snack.png");
-		// cellDrawable.setFillColor(sf::Color(0, 0, 50));
-		cellDrawable.setTextureRect(sf::IntRect(0, 0, 32, 32));
+ 		cellDrawable.setTextureRect(sf::IntRect(0, 0, 32, 32));
 	  }
 
 	  else {
 		continue;
 	  }
 
+	  // switch(cell) {
+	  // case Wall:
+	  // 	cellDrawable.setTextureRect(sf::IntRect(32, 0, 32, 32));
+	  // 	break;
+		
+	  // case Snack:
+	  // 	cellDrawable.setTextureRect(sf::IntRect(0, 0, 32, 32));
+	  // 	break;
+		
+	  // default:
+	  // 	continue;
+	  // }
 	  window.draw(cellDrawable);
 	}
   }

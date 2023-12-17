@@ -8,26 +8,26 @@ Ghost::Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpe
 Ghost::~Ghost() {}
 
 void Ghost::update() {
-  sf::Vector2f newDirection(0.0f, 0.0f);
+  sf::Vector2f newDirection(1.0f, 0.0f);
   
   sf::Vector2f currentPosition = _sprite.getPosition();
   int posX = (currentPosition.y + 12.5f) / 25.0f;
   int posY = (currentPosition.x + 12.5f) / 25.0f;
 
-  if (_targetPath.empty()) {
-	_targetPath = g.computePath(posX, posY, _targetPosition.x, _targetPosition.y);
-  }
+  // if (_targetPath.empty()) {
+  // 	_targetPath = map.computePath(posX, posY, _targetPosition.x, _targetPosition.y);
+  // }
 
-  Point subtarget = _targetPath[0];
-  if (subtarget.x == posX && subtarget.y == posY) {
-	_targetPath.erase(_targetPath.begin());
-  };
+  // Point subtarget = _targetPath[0];
+  // if (subtarget.x == posX && subtarget.y == posY) {
+  // 	_targetPath.erase(_targetPath.begin());
+  // };
   
   this->setSpriteDirection(newDirection);
 }
 
 void Ghost::setTargetPosition(sf::Vector2f targetPosition) {
-  
+  _targetPosition = targetPosition;
 }
 
 void Ghost::setTargetPosition(float x, float y) {

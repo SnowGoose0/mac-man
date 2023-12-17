@@ -10,10 +10,6 @@
 #include <unordered_set>
 
 #include "Common.hpp"
-#include "Map.hpp"
-
-class Map;
-
 
 struct Point {
   int x;
