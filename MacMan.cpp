@@ -11,7 +11,7 @@
 #include "Mac.hpp"
 #include "Ghost.hpp"
 
-int main() {
+int main(void) {
   float playerSpeedFactor = 0.0075f;
   float deltaTime = 0.0f;
 
@@ -34,7 +34,7 @@ int main() {
 
   // RectSprite macMan(25.0f, sf::Vector2f(25.0f, 25.0f), 0.0575f, macMap);
 
-  Mac macMan(25.0f, sf::Vector2f(25.0f, 25.0f), 0.0575f, macMap);
+  Mac macMan(25.0f, macMap.getMacInitPosition(), 0.0575f, macMap);
   Ghost g(25.0f, sf::Vector2f(50.0f, 25.0f), 0.0575f, macMap);
 
   while (window.isOpen()) {
@@ -83,7 +83,7 @@ int main() {
 	macMan.draw(window);
 
 	g.moveSprite();
-	// g.update();
+	g.update();
 	g.draw(window);
 
 	window.display(); // swap front back buffers 

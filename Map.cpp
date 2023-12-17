@@ -23,7 +23,7 @@ Map::Map(const std::string map, int mapWidth, int cellWidth) {
 
 	case '@':
 	  _mapParsed[y][x] = None;
-	  _macInitPosition = computeCellPos(x, y);
+	  _macInitPosition = computeMapPosition(x, y);
 	  break;
 
 	case '*':
@@ -52,7 +52,7 @@ void Map::drawMap(sf::RenderWindow& window) {
 
 	  GameCell cell = _mapParsed[i][j];
 
-	  cellDrawable.setPosition(computeCellPos(j, i));
+	  cellDrawable.setPosition(computeMapPosition(j, i));
 
 	  if (cell == Wall) {
 		cellDrawable.setTextureRect(sf::IntRect(32, 0, 32, 32));
@@ -87,7 +87,18 @@ sf::Vector2f Map::getMacInitPosition() {
   return _macInitPosition;
 }
 
-sf::Vector2f Map::computeCellPos(int x, int y) {
+Point Map::computeGridPosition(sf::Vector2f position) {
+  return {};
+}
+
+Point Map::computeGridPositionCentered(sf::Vector2f position) {
+  return {
+	static_cast<int>((position.x + (cellWidth / 2)) / 25.0f),
+	static_cast<int>((position.y + (cellWidth / 2)) / 25.0f),
+  };
+}
+
+sf::Vector2f Map::computeMapPosition(int x, int y) {
   return sf::Vector2f(x * cellWidth, y * cellWidth);
 }
 
@@ -210,8 +221,6 @@ Map::computePath(int x1, int y1, int x2, int y2) {
 }
 
 std::vector<Point>
-Map::computePath(sf::Vector2f& start, sf::Vector2f& end) {
-  struct Point p1 = {(int) start.x, (int) start.y};
-  struct Point p2 = {(int) end.x, (int) end.y};
-  return aStar(p1, p2);
+Map::computePath(Point& s, Point& g) {
+  return aStar(s,g);
 }

@@ -28,12 +28,12 @@ void Mac::update() {
  mapX = (currentPosition.y) / 25.0f;
 mapY = (currentPosition.x) / 25.0f;
 
-  std::cout << "< " << mapX << ", " << mapY << " >\n";
+// std::cout << "< " << mapX << ", " << mapY << " >\n";
 
   if (map.getCellAt(mapX + _currentDirection.x, mapY + _currentDirection.y) == None || map.getCellAt(mapX - _currentDirection.x, mapY - _currentDirection.y) == None) {
 	// at intersection
 
-	std::cout << "INTERSECTION\n";
+	//std::cout << "INTERSECTION\n";
   }
   else {
 	//	std::cout << "123\n";

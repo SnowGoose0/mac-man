@@ -27,6 +27,5 @@ private:
 
 private:
   sf::Vector2f _targetPosition;
-  std::vector<Point> _targetPath;
-  
+  std::vector<Point> _targetPath;  
 };

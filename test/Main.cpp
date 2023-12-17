@@ -9,7 +9,7 @@ int main() {
   Map m = Map(MapDefault, 19, 25);
   Graph g = Graph(m);
 
-  std::vector<Point> v = g.computePath(1,1,4,1);
+  std::vector<Point> v = g.computePath(10,15,9,15);
 
   std::cout << "The Path Is" << std::endl;
 

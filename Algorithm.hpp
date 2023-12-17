@@ -19,9 +19,29 @@ struct Point {
 	return x == p.x && y == p.y;
   }
 
-  // manhattan distance
+  void print() {
+	std::cout << "(" << x << ", " << y << ")" << std::endl;
+  }
+
+  /* manhattan distance */
   int operator-(const Point& p) const {
 	return std::abs(x - p.x) + std::abs(y - p.y);
+  }
+
+  sf::Vector2f operator<<(const Point& p) const {
+	sf::Vector2f direction;
+
+	direction.x = p.x - x;
+	direction.y = p.y - y;
+
+	/* normalize if necessary */
+	int d = *this - p;
+	if (d != 0) {
+	  direction.x /= d;
+	  direction.y /= d;
+	}
+
+	return direction;
   }
 }; 
 

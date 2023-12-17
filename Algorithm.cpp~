@@ -1,0 +1,23 @@
+#include "Algorithm.hpp"
+
+int Algorithm::heuristic(const Point& p1, const Point& p2) {
+  return p2 - p1;
+}
+
+Algorithm::Graph::Graph(Map& m) {
+  _graph = m.mapParsed;
+}
+
+std::vector<Algorithm::Point>
+Algorithm::Graph::computePath(int x1, int y1, int x2, int y2) {
+  std::vector<Point> path;
+
+  return path;
+}
+
+std::vector<Algorithm::Point>
+Algorithm::Graph::computePath(int x1, int y1, int x2, int y2) {
+  std::vector<Point> path;
+
+  return path;
+}

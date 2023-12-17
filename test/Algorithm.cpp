@@ -103,6 +103,7 @@ std::vector<Point> Graph::getNeighbors(const Node& node) {
 void Graph::freeNodeList(std::vector<Node*> list) {
   for (auto it = list.begin(); it != list.end(); it++) {
 	delete *it;
+  }
 }
 
 std::vector<Point>

@@ -2,28 +2,37 @@
 
 Ghost::Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m)
     : RectSprite(spriteWidth, spriteInitPosition, spriteSpeed, m) {
-  _targetPosition = spriteInitPosition;
+  _targetPosition = m.getMacInitPosition();
+  _targetPath = {};
 }
 
 Ghost::~Ghost() {}
 
 void Ghost::update() {
-  sf::Vector2f newDirection(1.0f, 0.0f);
-  
-  sf::Vector2f currentPosition = _sprite.getPosition();
-  int posX = (currentPosition.y + 12.5f) / 25.0f;
-  int posY = (currentPosition.x + 12.5f) / 25.0f;
+  Point current = map.computeGridPositionCentered(_sprite.getPosition());
+  Point target = map.computeGridPositionCentered(_targetPosition);
 
-  // if (_targetPath.empty()) {
-  // 	_targetPath = map.computePath(posX, posY, _targetPosition.x, _targetPosition.y);
-  // }
+  if (current == target) {
+	this->setSpriteDirection({0.0f, 0.0f});
+	return;
+  }
 
-  // Point subtarget = _targetPath[0];
-  // if (subtarget.x == posX && subtarget.y == posY) {
-  // 	_targetPath.erase(_targetPath.begin());
-  // };
+  if (_targetPath.empty()) {
+	/* TODO: use std::queue */
+	_targetPath = map.computePath(current, target);
+  }
   
-  this->setSpriteDirection(newDirection);
+  Point subtarget = _targetPath.back();
+  if (current == subtarget) {
+	/* Note path array is ordered from {goal, ... , start} */ 
+	_targetPath.pop_back(); 
+	
+	subtarget = _targetPath.back();
+  };
+
+  sf::Vector2f direction = current << subtarget;  
+  this->setSpriteDirection(direction);
+ 
 }
 
 void Ghost::setTargetPosition(sf::Vector2f targetPosition) {
