@@ -5,6 +5,7 @@
 
 #include "Common.hpp"
 #include "Animation.hpp"
+#include "Algorithm.hpp"
 #include "Map.hpp"
 #include "Sprite.hpp"
 #include "Mac.hpp"

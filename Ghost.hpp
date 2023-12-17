@@ -3,9 +3,11 @@
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
+#include <vector>
 #include <random>
 
 #include "Sprite.hpp"
+#include "Algorithm.hpp"
 #include "Common.hpp"
 
 class Ghost : public RectSprite {
@@ -24,7 +26,7 @@ private:
   sf::Vector2f getTargetPosition();
 
 private:
-
   sf::Vector2f _targetPosition;
+  std::vector<Point> _targetPath;
   
 };
