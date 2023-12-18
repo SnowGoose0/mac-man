@@ -9,8 +9,8 @@ Ghost::Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpe
 Ghost::~Ghost() {}
 
 void Ghost::update() {
-  Point current = map.computeGridPositionCentered(_sprite.getPosition());
-  Point target = map.computeGridPositionCentered(_targetPosition);
+  Point current = map.computeGridPosition(_sprite.getPosition());
+  Point target = map.computeGridPosition(_targetPosition);
 
   if (current == target) {
 	this->setSpriteDirection({0.0f, 0.0f});

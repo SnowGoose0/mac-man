@@ -56,8 +56,6 @@ void Map::drawMap(sf::RenderWindow& window) {
 
 	  if (cell == Wall) {
 		int wallTileOffset = computeWallTileOffset(j, i);
-		
-		std::cout << "i=" << i << ", j=" << j << " offset=" << wallTileOffset << std::endl;
 		cellDrawable.setTextureRect(sf::IntRect(ppc*(wallTileOffset), 0, ppc, ppc));
 	  }
 
@@ -79,7 +77,10 @@ sf::Vector2f Map::getMacInitPosition() {
 }
 
 Point Map::computeGridPosition(sf::Vector2f position) {
-  return {};
+  return {
+	static_cast<int>((position.x) / 25.0f),
+	static_cast<int>((position.y) / 25.0f),
+  };
 }
 
 Point Map::computeGridPositionCentered(sf::Vector2f position) {

@@ -19,7 +19,6 @@ void Mac::update() {
   }
 
   if (current - _previousCheckPoint >= 1) {
-	std::cout << "Checkpoint Updated\n";
 	notifyObservers();
 	_previousCheckPoint = current;
   }
