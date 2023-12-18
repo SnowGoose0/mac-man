@@ -51,33 +51,25 @@ void Map::drawMap(sf::RenderWindow& window) {
 	for (int j = 0; j < _mapParsed[i].size(); j++) {
 
 	  GameCell cell = _mapParsed[i][j];
+	  int ppc = 32;
 
 	  cellDrawable.setPosition(computeMapPosition(j, i));
 
 	  if (cell == Wall) {
-		cellDrawable.setTextureRect(sf::IntRect(32, 0, 32, 32));
+		int wallTileOffset = computeWallTileOffset(j, i);
+		
+		std::cout << "i=" << i << ", j=" << j << " offset=" << wallTileOffset << std::endl;
+		cellDrawable.setTextureRect(sf::IntRect(ppc*(wallTileOffset), 0, ppc, ppc));
 	  }
 
 	  else if (cell == Snack) {
- 		cellDrawable.setTextureRect(sf::IntRect(0, 0, 32, 32));
+ 		cellDrawable.setTextureRect(sf::IntRect(0, ppc, ppc, ppc));
 	  }
 
 	  else {
 		continue;
 	  }
-
-	  // switch(cell) {
-	  // case Wall:
-	  // 	cellDrawable.setTextureRect(sf::IntRect(32, 0, 32, 32));
-	  // 	break;
-		
-	  // case Snack:
-	  // 	cellDrawable.setTextureRect(sf::IntRect(0, 0, 32, 32));
-	  // 	break;
-		
-	  // default:
-	  // 	continue;
-	  // }
+	  
 	  window.draw(cellDrawable);
 	}
   }
@@ -111,6 +103,21 @@ void Map::updateCellAt(unsigned int row, unsigned int col, GameCell newState) {
 
   if (currentState == Wall) { return; } // do not allow modification of walls
   _mapParsed[row % (mapWidth + 2)][col % mapWidth] = newState;
+}
+
+int Map::computeWallTileOffset(int x, int y) {
+  /* { top right bottom left} */
+  int dx[] = {0, 1, 0, -1}; int dy[] = {-1, 0, 1, 0};
+  int offset = 0b0000;
+
+  for (int i = 0; i < 4; ++i) {
+	int nx = x + dx[i]; int ny = y + dy[i];
+
+	if (isValidGridPosition(nx, ny) && getCellAt(ny, nx) == Wall)
+	  offset |= (1 << 3 - i);
+  }
+  
+  return offset;
 }
 
 std::vector<Point>
@@ -194,16 +201,27 @@ int Map::heuristic(const Point& p1, const Point& p2) {
   return p2 - p1;
 }
 
-std::vector<Point> Map::getNeighbors(const Node& node) {
-  // { left, right, top, bottom }
-  std::vector<Point> neighbors = { 
-	{node.p.x - 1, node.p.y},
-	{node.p.x + 1, node.p.y},
-	{node.p.x, node.p.y - 1},
-	{node.p.x, node.p.y + 1}
-  };
+bool Map::isValidGridPosition(int x, int y) {
+  return x >= 0 && x < 19 && y >= 0 && y < 21;
+}
 
+std::vector<Point> Map::getNeighbors(int x, int y) {
+  std::vector<Point> neighbors;
+  int dx[] = {-1, 1, 0, 0};
+  int dy[] = {0, 0, -1, 1};
+
+  for (int i = 0; i < 4; ++i) {
+	int nx = x + dx[i]; int ny = y + dy[i];
+	
+	if (isValidGridPosition(nx, ny))
+	  neighbors.push_back({nx, ny});
+  }
+	
   return neighbors;
+}
+
+std::vector<Point> Map::getNeighbors(const Node& node) {
+  return getNeighbors(node.p.x, node.p.y);
 }
 
 void Map::freeNodeList(std::vector<Node*> list) {
