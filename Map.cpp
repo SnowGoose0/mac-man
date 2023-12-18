@@ -3,6 +3,7 @@
 
 Map::Map(const std::string map, int mapWidth, int cellWidth) {
   _mapString = map;
+  _cellTexture.loadFromFile("./assets/map.png");
   
   this->cellWidth = cellWidth;
   this->mapWidth = mapWidth;
@@ -42,10 +43,8 @@ Map::Map(const std::string map, int mapWidth, int cellWidth) {
 Map::~Map() {};
 
 void Map::drawMap(sf::RenderWindow& window) {
-  sf::Texture cellTexture;
   sf::RectangleShape cellDrawable(sf::Vector2f(cellWidth, cellWidth));
-  cellTexture.loadFromFile("./assets/map.png");
-  cellDrawable.setTexture(&cellTexture);
+  cellDrawable.setTexture(&_cellTexture);
 
   for (int i = 0; i < _mapParsed.size(); i++) {
 	for (int j = 0; j < _mapParsed[i].size(); j++) {

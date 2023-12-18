@@ -59,5 +59,6 @@ private:
   std::string _mapString;
   sf::Vector2f _macInitPosition;
   std::array<std::array<GameCell, 19>, 21> _mapParsed;
- 
+
+  sf::Texture _cellTexture;
 };
