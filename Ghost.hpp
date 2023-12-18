@@ -20,8 +20,9 @@ public:
 
   void update();
 
-private:
   void setTargetPosition(sf::Vector2f targetPosition);
+
+private:
   void setTargetPosition(float x, float y);
   sf::Vector2f getTargetPosition();
 

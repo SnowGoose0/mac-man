@@ -37,6 +37,8 @@ int main(void) {
   Mac macMan(25.0f, macMap.getMacInitPosition(), 0.0575f, macMap);
   Ghost g(25.0f, sf::Vector2f(50.0f, 25.0f), 0.0575f, macMap);
 
+  macMan.bindObserver(&g);
+
   while (window.isOpen()) {
 	sf::Event event;
 

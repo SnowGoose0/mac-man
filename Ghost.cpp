@@ -36,7 +36,10 @@ void Ghost::update() {
 }
 
 void Ghost::setTargetPosition(sf::Vector2f targetPosition) {
-  _targetPosition = targetPosition;
+  if (_targetPosition != targetPosition) {
+	_targetPosition = targetPosition;
+	_targetPath = {};  /* empty path will trigger path recomputation */
+  }
 }
 
 void Ghost::setTargetPosition(float x, float y) {
