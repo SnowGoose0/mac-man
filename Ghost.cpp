@@ -19,7 +19,12 @@ void Ghost::update() {
 
   if (_targetPath.empty()) {
 	/* TODO: use std::queue */
-	_targetPath = map.computePath(current, target);
+	Point parent = {
+	  current.x - static_cast<int>(_currentDirection.x),
+	  current.y - static_cast<int>(_currentDirection.y)
+	};
+	
+	_targetPath = map.computePath(current, target, parent);
   }
   
   Point subtarget = _targetPath.back();

@@ -30,13 +30,13 @@ public:
   Point computeGridPosition(sf::Vector2f position);
   Point computeGridPositionCentered(sf::Vector2f position);
   
-  std::vector<Point> computePath(int x1, int y1, int x2, int y2);
-  std::vector<Point> computePath(Point& s, Point& g);
+  std::vector<Point> computePath(int x1, int y1, int x2, int y2, int x3, int y3);
+  std::vector<Point> computePath(Point& s, Point& g, Point& p);
 
 private:
   int computeWallTileOffset(int x, int y);
   
-  std::vector<Point> aStar(Point& start, Point& end);
+  std::vector<Point> aStar(Point& start, Point& end, Point& parent);
   
   bool traversable(const Point& p);
 

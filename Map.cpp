@@ -121,7 +121,7 @@ int Map::computeWallTileOffset(int x, int y) {
 }
 
 std::vector<Point>
-Map::aStar(Point& start, Point& end) {
+Map::aStar(Point& start, Point& end, Point& parent) {
   if (!traversable(start) || !traversable(end))
 	return {};
 
@@ -134,11 +134,13 @@ Map::aStar(Point& start, Point& end) {
   /* ALL allocated nodes - used for memory management*/
   std::vector<Node*> nodeList;
 
+  Node parentNode = {.p = parent, .g = 0, .h = 0, .parent = nullptr};
+
   Node* startNode = new Node();
   startNode->p = start;
   startNode->g = 0;
   startNode->h = heuristic(start, end);
-  startNode->parent = nullptr;
+  startNode->parent = &parentNode;
   
   openSet.push_back(startNode);
   nodeList.push_back(startNode);
@@ -165,7 +167,7 @@ Map::aStar(Point& start, Point& end) {
 	// TODO: DYNAMICALLY STORE NODES
 	std::vector<Point> neighbors = getNeighbors(*current);
 	for (const Point& next : neighbors) {
-	  if (!traversable(next)) continue;
+	  if (!traversable(next) || next == current->parent->p) continue;
 
 	  Node* successor = new Node();
 	  successor->p = next;
@@ -231,14 +233,15 @@ void Map::freeNodeList(std::vector<Node*> list) {
 }
 
 std::vector<Point>
-Map::computePath(int x1, int y1, int x2, int y2) {
+Map::computePath(int x1, int y1, int x2, int y2, int x3, int y3) {
   struct Point p1 = {x1, y1};
   struct Point p2 = {x2, y2};
+  struct Point p3 = {x3, y3};
 
-  return aStar(p1, p2);
+  return aStar(p1, p2, p3);
 }
 
 std::vector<Point>
-Map::computePath(Point& s, Point& g) {
-  return aStar(s,g);
+Map::computePath(Point& s, Point& g, Point& p) {
+  return aStar(s,g, p);
 }
