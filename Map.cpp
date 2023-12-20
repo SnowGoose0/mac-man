@@ -121,9 +121,44 @@ int Map::computeWallTileOffset(int x, int y) {
 }
 
 std::vector<Point>
+Map::aStarFallback(Point& start, Point& end, Point& parent) {
+  std::cout << "Yea";
+  if (!traversable(start))
+	return {};
+
+  std::vector<Point> neighbors = getNeighbors(start.x, start.y);
+  Point bestNeighbor;
+  int bestHeuristic = INT_MAX;
+  for (const Point& next : neighbors) {
+	if (!traversable(next) || next == parent) {
+	  continue;
+	}
+
+	next.print();
+
+	int h = heuristic(next, end);
+	if (h < bestHeuristic) {
+	  bestHeuristic = h;
+	  bestNeighbor = next;
+	}
+  }
+
+  if (bestHeuristic != INT_MAX) {
+	return {bestNeighbor};
+  } 
+
+  return {};
+}
+
+std::vector<Point>
 Map::aStar(Point& start, Point& end, Point& parent) {
   if (!traversable(start))
 	return {};
+
+  if (!isValidGridPosition(end.x, end.y)) {
+	end.print();
+	return aStarFallback(start, end, parent);
+  }
 
   /* priority queue for open nodes */
   std::vector<Node*> openSet;
@@ -150,7 +185,6 @@ Map::aStar(Point& start, Point& end, Point& parent) {
 	std::pop_heap(openSet.begin(), openSet.end(), NodeComparator());
 	Node* current = openSet.back(); openSet.pop_back();
 
-	// if (current->p == end || (!isValidGridPosition(end.x, end.y) && closedSet.size() >= 100)) {
 	if (current->p == end) {
 	  std::vector<Point> path;
 	  

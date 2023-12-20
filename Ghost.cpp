@@ -2,11 +2,11 @@
 
 Ghost::Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m)
     : RectSprite(spriteWidth, spriteInitPosition, spriteSpeed, m) {
-  _targetPosition = m.getMacInitPosition();
-  // _targetPosition = {-25.0f, -25.0f};
+  //_targetPosition = m.getMacInitPosition();
+  _targetPosition = {-90.0f, -90.0f};
   _targetPath = {};
   _currentPoint = map.computeGridPosition(_sprite.getPosition());
-  _parentPoint = {0, 0};
+  _parentPoint = {-444, -444};
 }
 
 Ghost::~Ghost() {}
@@ -21,9 +21,6 @@ void Ghost::update() {
 
   if (_targetPath.empty()) {
 	/* TODO: use std::queue */
-	if (_currentDirection.x == 0.0f && _currentDirection.y == 0.0f) {
-	  _currentDirection = {-1.0f, 0.0f};
-	}
 	
 	_targetPath = map.computePath(current, target, _parentPoint);
 
@@ -38,8 +35,6 @@ void Ghost::update() {
   if (current == subtarget) {
 	/* Note path array is ordered from {goal, ... , start} */ 
 	_targetPath.pop_back(); 
-	
-	subtarget = _targetPath.back();
   };
 
   sf::Vector2f direction = current << subtarget;

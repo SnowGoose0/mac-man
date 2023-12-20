@@ -6,6 +6,8 @@
 #include <string>
 #include <cmath>
 
+#include <limits.h>
+
 #include "Common.hpp"
 #include "Algorithm.hpp"
 
@@ -37,6 +39,7 @@ private:
   int computeWallTileOffset(int x, int y);
   
   std::vector<Point> aStar(Point& start, Point& end, Point& parent);
+  std::vector<Point> aStarFallback(Point& start, Point& end, Point& parent);
   
   bool traversable(const Point& p);
 

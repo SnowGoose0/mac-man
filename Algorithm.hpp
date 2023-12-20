@@ -19,7 +19,7 @@ struct Point {
 	return x == p.x && y == p.y;
   }
 
-  void print() {
+  void print() const {
 	std::cout << "(" << x << ", " << y << ")" << std::endl;
   }
 
