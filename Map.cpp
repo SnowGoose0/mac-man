@@ -122,7 +122,7 @@ int Map::computeWallTileOffset(int x, int y) {
 
 std::vector<Point>
 Map::aStar(Point& start, Point& end, Point& parent) {
-  if (!traversable(start) || !traversable(end))
+  if (!traversable(start))
 	return {};
 
   /* priority queue for open nodes */
@@ -150,6 +150,7 @@ Map::aStar(Point& start, Point& end, Point& parent) {
 	std::pop_heap(openSet.begin(), openSet.end(), NodeComparator());
 	Node* current = openSet.back(); openSet.pop_back();
 
+	// if (current->p == end || (!isValidGridPosition(end.x, end.y) && closedSet.size() >= 100)) {
 	if (current->p == end) {
 	  std::vector<Point> path;
 	  

@@ -19,7 +19,7 @@ void RectSprite::draw(sf::RenderWindow& window) {
 	window.draw(_sprite);
 }
 
-void RectSprite::moveSprite() {
+void RectSprite::moveSprite(float deltaTime) {
   
   // queued direction is non-empty
   if (_queuedDirection.x + _queuedDirection.y != 0.0f) {
@@ -65,8 +65,8 @@ void RectSprite::moveSprite() {
   }
   
   _sprite.move(
-			   _currentDirection.x * _spriteSpeed,
-			   _currentDirection.y * _spriteSpeed
+			   _currentDirection.x * _spriteSpeed * deltaTime,
+			   _currentDirection.y * _spriteSpeed * deltaTime
 			   );
 
   // check if sprite moves out of the map

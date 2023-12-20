@@ -15,7 +15,7 @@ public:
 
   void draw(sf::RenderWindow& window);
 
-  void moveSprite();
+  void moveSprite(float deltaTime);
 
   sf::RectangleShape getSprite();
 

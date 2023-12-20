@@ -12,7 +12,7 @@
 #include "Ghost.hpp"
 
 int main(void) {
-  float playerSpeedFactor = 0.0075f;
+  float defaultSpeed = 88.0f;
   float deltaTime = 0.0f;
 
   sf::Vector2f playerPrevPosition(0.0f, 0.0f);
@@ -26,7 +26,6 @@ int main(void) {
   sf::Clock clock;
 
   ghost.loadFromFile("./assets/ghost.jpg");
-  
   Animation animation(&ghost, sf::Vector2u(4, 3), 0.3f);
   Map macMap(MapDefault, 19, 25);
 
@@ -34,8 +33,8 @@ int main(void) {
 
   // RectSprite macMan(25.0f, sf::Vector2f(25.0f, 25.0f), 0.0575f, macMap);
 
-  Mac macMan(25.0f, macMap.getMacInitPosition(), 0.0575f, macMap);
-  Ghost g(25.0f, sf::Vector2f(50.0f, 25.0f), 0.0575f, macMap);
+  Mac macMan(25.0f, macMap.getMacInitPosition(), defaultSpeed, macMap);
+  Ghost g(25.0f, sf::Vector2f(50.0f, 25.0f), defaultSpeed, macMap);
 
   macMan.bindObserver(&g);
 
@@ -80,17 +79,18 @@ int main(void) {
 	macMap.drawMap(window);
 
 	macMan.setSpriteDirection(playerDirection);
-	macMan.moveSprite();
+	macMan.moveSprite(deltaTime);
 	macMan.update();
 	macMan.draw(window);
 
-	g.moveSprite();
+	g.moveSprite(deltaTime);
 	g.update();
 	g.draw(window);
 
-	window.display(); // swap front back buffers 
-	window.clear(sf::Color::Black); // clear back buffer
+	window.display();
+	window.clear(sf::Color::Black);
   }
 
   return 0;
+  
 }
