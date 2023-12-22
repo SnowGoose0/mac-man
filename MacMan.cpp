@@ -14,8 +14,7 @@
 int main(void) {
   float defaultSpeed = 88.0f;
   float deltaTime = 0.0f;
-
-  sf::Vector2f playerPrevPosition(0.0f, 0.0f);
+  
   sf::Vector2f playerDirection(0.0f, 0.0f);
   
   sf::RenderWindow window(sf::VideoMode(475, 525), "MacMan", sf::Style::Close | sf::Style::Titlebar);
@@ -55,22 +54,18 @@ int main(void) {
 		switch (keyCode) {
 		case sf::Keyboard::Key::W:
 		  playerDirection = sf::Vector2f(0.0f, -1.0f);
-		  playerPrevPosition = player.getPosition();
 		  break;
 
 		case sf::Keyboard::Key::A:
 		  playerDirection = sf::Vector2f(-1.0f, 0.0f);
-		  playerPrevPosition = player.getPosition();
 		  break;
 	
 		case sf::Keyboard::Key::S:
 		  playerDirection = sf::Vector2f(0.0f, 1.0f);
-		  playerPrevPosition = player.getPosition();
 		  break;
 	
 		case sf::Keyboard::Key::D:
 		  playerDirection = sf::Vector2f(1.0f, 0.0f);
-		  playerPrevPosition = player.getPosition();
 		  break;
 		}
 	  }  

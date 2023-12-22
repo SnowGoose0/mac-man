@@ -122,7 +122,6 @@ int Map::computeWallTileOffset(int x, int y) {
 
 std::vector<Point>
 Map::aStarFallback(Point& start, Point& end, Point& parent) {
-  std::cout << "Yea";
   if (!traversable(start))
 	return {};
 
@@ -133,8 +132,6 @@ Map::aStarFallback(Point& start, Point& end, Point& parent) {
 	if (!traversable(next) || next == parent) {
 	  continue;
 	}
-
-	next.print();
 
 	int h = heuristic(next, end);
 	if (h < bestHeuristic) {

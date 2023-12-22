@@ -15,10 +15,6 @@ void Ghost::update() {
   Point current = map.computeGridPositionCentered(_sprite.getPosition()); 
   Point target = map.computeGridPositionCentered(_targetPosition);
 
-  if (current == target) {
-	// TODO
-  }
-
   if (_targetPath.empty()) {
 	/* TODO: use std::queue */
 	
