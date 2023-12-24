@@ -10,6 +10,7 @@
 #include "Sprite.hpp"
 #include "Mac.hpp"
 #include "Ghost.hpp"
+#include "State.hpp"
 #include "Game.hpp"
 
 int main(void) {
@@ -22,7 +23,7 @@ int main(void) {
 
   window.setKeyRepeatEnabled(false);
 
-  s.pushState(new MenuState(window));
+  s.pushState(new MenuState(s, window));
 
   while(window.isOpen()) {
 	dt = clock.restart().asSeconds();
