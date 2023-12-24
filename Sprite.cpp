@@ -16,7 +16,7 @@ RectSprite::RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float
 RectSprite::~RectSprite() {}
 
 void RectSprite::draw(sf::RenderWindow& window) {
-	window.draw(_sprite);
+  window.draw(_sprite);
 }
 
 void RectSprite::moveSprite(float deltaTime) {
