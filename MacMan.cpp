@@ -10,82 +10,112 @@
 #include "Sprite.hpp"
 #include "Mac.hpp"
 #include "Ghost.hpp"
+#include "Game.hpp"
 
 int main(void) {
-  float defaultSpeed = 88.0f;
-  float deltaTime = 0.0f;
-  
-  sf::Vector2f playerDirection(0.0f, 0.0f);
-  
-  sf::RenderWindow window(sf::VideoMode(475, 525), "MacMan", sf::Style::Close | sf::Style::Titlebar);
-  
-  sf::RectangleShape player(sf::Vector2f(25.0f, 25.0f));
-  sf::Texture mac;
-  sf::Texture ghost;
+  float dt = 0.0f;
   sf::Clock clock;
-
-  ghost.loadFromFile("./assets/ghost.jpg");
-  Animation animation(&ghost, sf::Vector2u(4, 3), 0.3f);
-  Map macMap(MapDefault, 19, 25);
+  sf::RenderWindow window(sf::VideoMode(475, 525), "MacMan", sf::Style::Close | sf::Style::Titlebar);
 
   window.setKeyRepeatEnabled(false);
+  
+  StateManager s = StateManager(window);
 
-  // RectSprite macMan(25.0f, sf::Vector2f(25.0f, 25.0f), 0.0575f, macMap);
+  s.pushState(new GameOnState(window));
 
-  Mac macMan(25.0f, macMap.getMacInitPosition(), defaultSpeed, macMap);
-  Ghost g(25.0f, sf::Vector2f(50.0f, 25.0f), defaultSpeed, macMap);
-
-  macMan.bindObserver(&g);
-
-  while (window.isOpen()) {
-	sf::Event event;
-
-	deltaTime = clock.restart().asSeconds();
+  while(window.isOpen()) {
+	dt = clock.restart().asSeconds();
 	
-	while(window.pollEvent(event)) {
-
-	  if (event.type == sf::Event::Closed) {
-		window.close();
-	  }
-
-	  else if (event.type == sf::Event::KeyPressed) {
-		int keyCode = event.key.code;
-
-		switch (keyCode) {
-		case sf::Keyboard::Key::W:
-		  playerDirection = sf::Vector2f(0.0f, -1.0f);
-		  break;
-
-		case sf::Keyboard::Key::A:
-		  playerDirection = sf::Vector2f(-1.0f, 0.0f);
-		  break;
-	
-		case sf::Keyboard::Key::S:
-		  playerDirection = sf::Vector2f(0.0f, 1.0f);
-		  break;
-	
-		case sf::Keyboard::Key::D:
-		  playerDirection = sf::Vector2f(1.0f, 0.0f);
-		  break;
-		}
-	  }  
-	}
-
-	macMap.drawMap(window);
-
-	macMan.setSpriteDirection(playerDirection);
-	macMan.moveSprite(deltaTime);
-	macMan.update();
-	macMan.draw(window);
-
-	g.moveSprite(deltaTime);
-	g.update();
-	g.draw(window);
-
-	window.display();
-	window.clear(sf::Color::Black);
+	s.update(dt);
+	s.draw();
   }
 
   return 0;
-  
 }
+
+// int main(void) {
+
+//   StateManager s = StateManager();
+
+  
+  
+//   float defaultSpeed = 88.0f;
+//   float deltaTime = 0.0f;
+  
+//   sf::Vector2f playerDirection(0.0f, 0.0f);
+  
+//   sf::RenderWindow window(sf::VideoMode(475, 525), "MacMan", sf::Style::Close | sf::Style::Titlebar);
+  
+//   sf::RectangleShape player(sf::Vector2f(25.0f, 25.0f));
+//   sf::Texture mac;
+//   sf::Texture ghost;
+//   sf::Clock clock;
+
+//   ghost.loadFromFile("./assets/ghost.jpg");
+//   Animation animation(&ghost, sf::Vector2u(4, 3), 0.3f);
+//   Map macMap(MapDefault, 19, 25);
+
+//   window.setKeyRepeatEnabled(false);
+
+//   // RectSprite macMan(25.0f, sf::Vector2f(25.0f, 25.0f), 0.0575f, macMap);
+
+//   GameOnState* newGame = new GameOnState(window);
+//   StateManager.pushState(newGame);
+
+//   Mac macMan(25.0f, macMap.getMacInitPosition(), defaultSpeed, macMap);
+//   Ghost g(25.0f, sf::Vector2f(50.0f, 25.0f), defaultSpeed, macMap);
+
+//   macMan.bindObserver(&g);
+
+//   while (window.isOpen()) {
+// 	sf::Event event;
+
+// 	deltaTime = clock.restart().asSeconds();
+	
+// 	while(window.pollEvent(event)) {
+
+// 	  if (event.type == sf::Event::Closed) {
+// 		window.close();
+// 	  }
+
+// 	  else if (event.type == sf::Event::KeyPressed) {
+// 		int keyCode = event.key.code;
+
+// 		switch (keyCode) {
+// 		case sf::Keyboard::Key::W:
+// 		  playerDirection = sf::Vector2f(0.0f, -1.0f);
+// 		  break;
+
+// 		case sf::Keyboard::Key::A:
+// 		  playerDirection = sf::Vector2f(-1.0f, 0.0f);
+// 		  break;
+	
+// 		case sf::Keyboard::Key::S:
+// 		  playerDirection = sf::Vector2f(0.0f, 1.0f);
+// 		  break;
+	
+// 		case sf::Keyboard::Key::D:
+// 		  playerDirection = sf::Vector2f(1.0f, 0.0f);
+// 		  break;
+// 		}
+// 	  }  
+// 	}
+
+// 	macMap.drawMap(window);
+
+// 	macMan.setSpriteDirection(playerDirection);
+// 	macMan.moveSprite(deltaTime);
+// 	macMan.update();
+// 	macMan.draw(window);
+
+// 	g.moveSprite(deltaTime);
+// 	g.update();
+// 	g.draw(window);
+
+// 	window.display();
+// 	window.clear(sf::Color::Black);
+//   }
+
+//   return 0;
+  
+// }
