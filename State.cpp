@@ -3,9 +3,7 @@
 StateManager::StateManager(sf::RenderWindow& win) : window(win) {}
 
 void StateManager::pushState(GameState* state) {
-  if (states.empty())
-    state->enter();
-
+  state->enter();
   states.push(state);
 }
 

@@ -104,7 +104,7 @@ public:
 	title.setStyle(sf::Text::Bold | sf::Text::Underlined);
 
 	subtitle.setFont(font);
-	subtitle.setString("Press any key to begin");
+	subtitle.setString("Press any key to begin (ESC to quit)");
  	subtitle.setCharacterSize(12);
 	subtitle.setFillColor(sf::Color::White);
 

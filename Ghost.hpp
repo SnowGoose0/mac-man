@@ -22,6 +22,8 @@ public:
 
   void setTargetPosition(sf::Vector2f targetPosition);
 
+  void setMacPosition(sf::Vector2f position);
+
 private:
   void setTargetPosition(float x, float y);
   sf::Vector2f getTargetPosition();
@@ -31,4 +33,6 @@ private:
   std::vector<Point> _targetPath;
   Point _currentPoint;
   Point _parentPoint;
+
+  sf::Vector2f _macPosition;
 };

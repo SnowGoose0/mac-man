@@ -29,8 +29,9 @@ void Mac::bindObserver(Ghost* ghostPointer) {
 }
 
 void Mac::notifyObservers() {
+  std::cout << "notify";
   for (int i = 0; i < _observers.size(); ++i) {
-	_observers[i]->setTargetPosition(_sprite.getPosition());
+	_observers[i]->setMacPosition(_sprite.getPosition());
   }
 }
 
