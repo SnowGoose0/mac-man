@@ -13,7 +13,7 @@ void Mac::update() {
   Point current = map.computeGridPositionCentered(_sprite.getPosition());	
   GameCell currentCell = map.getCellAt(current.y, current.x);
 
-  if (currentCell == Snack) {
+  if (currentCell == Snack || currentCell == BigMac) {
 	map.updateCellAt(current.y, current.x, None);	
 	_palletCount++;
   }
@@ -29,7 +29,6 @@ void Mac::bindObserver(Ghost* ghostPointer) {
 }
 
 void Mac::notifyObservers() {
-  std::cout << "notify";
   for (int i = 0; i < _observers.size(); ++i) {
 	_observers[i]->setMacPosition(_sprite.getPosition());
   }

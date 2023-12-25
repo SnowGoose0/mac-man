@@ -58,10 +58,6 @@ void Ghost::setTargetPosition(sf::Vector2f targetPosition) {
   }
 }
 
-void Ghost::setTargetPosition(float x, float y) {
-  Ghost::setTargetPosition({x, y});
-}
-
 void Ghost::setMacPosition(sf::Vector2f position) {
   std::cout << "EVENT\n";
   _macPosition = position;

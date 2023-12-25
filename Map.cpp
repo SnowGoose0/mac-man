@@ -32,6 +32,11 @@ Map::Map(const std::string map, int mapWidth, int cellWidth) {
 	  palletCounter++;
 	  break;
 
+	case 'M':
+	  _mapParsed[y][x] = BigMac;
+	  palletCounter++;
+	  break;
+
 	default:
 	  _mapParsed[y][x] = None;
 	}
@@ -61,6 +66,10 @@ void Map::drawMap(sf::RenderWindow& window) {
 
 	  else if (cell == Snack) {
  		cellDrawable.setTextureRect(sf::IntRect(0, ppc, ppc, ppc));
+	  }
+
+	  else if (cell == BigMac) {
+		cellDrawable.setTextureRect(sf::IntRect(ppc, ppc, ppc ,ppc));
 	  }
 
 	  else {
@@ -142,7 +151,7 @@ Map::aStarFallback(Point& start, Point& end, Point& parent) {
 
   if (bestHeuristic != INT_MAX) {
 	return {bestNeighbor};
-  } 
+  }
 
   return {};
 }
