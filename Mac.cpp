@@ -2,9 +2,14 @@
 
 Mac::Mac(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m)
     : RectSprite(spriteWidth, spriteInitPosition, spriteSpeed, m) {
+  _texture.loadFromFile("./assets/map.png");
   _palletCount = 0;
   _previousCheckPoint = map.computeGridPositionCentered(spriteInitPosition);
   _observers = {};
+
+  int ppc = 32;
+  _sprite.setTexture(&_texture);
+  _sprite.setTextureRect(sf::IntRect(2 * ppc, ppc, ppc ,ppc));
 }
 
 Mac::~Mac() {}
@@ -24,8 +29,8 @@ void Mac::update() {
   }
 }
 
-void Mac::bindObserver(Ghost* ghostPointer) {
-  _observers.push_back(ghostPointer);
+void Mac::bindObserver(Ghost* observer) {
+  _observers.push_back(observer); 
 }
 
 void Mac::notifyObservers() {

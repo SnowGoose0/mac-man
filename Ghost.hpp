@@ -18,7 +18,7 @@ public:
   
   ~Ghost();
 
-  void update();
+  int update();
 
   void setTargetPosition(sf::Vector2f targetPosition);
 

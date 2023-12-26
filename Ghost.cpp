@@ -12,7 +12,7 @@ Ghost::Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpe
 
 Ghost::~Ghost() {}
 
-void Ghost::update() {
+GameStatus Ghost::update() {
   Point mac = map.computeGridPositionCentered(_macPosition);
   
   Point current = map.computeGridPositionCentered(_sprite.getPosition()); 

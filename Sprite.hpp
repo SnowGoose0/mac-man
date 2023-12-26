@@ -6,6 +6,10 @@
 
 #include "Map.hpp"
 
+enum GameStatus {
+  GameOver = 0b00000010
+}
+
 class RectSprite {
 
 public:

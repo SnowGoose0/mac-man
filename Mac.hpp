@@ -26,6 +26,8 @@ private:
   void notifyObservers();
 
 private:
+  sf::Texture _texture;
+  
   unsigned int _palletCount;
 
   Point _previousCheckPoint;
