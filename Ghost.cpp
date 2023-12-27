@@ -50,7 +50,7 @@ GameStatus Ghost::update() {
   
   _currentPoint = current;
 
-  return GAME_ONGOING
+  return GAME_ONGOING;
 }
 
 void Ghost::setTargetPosition(sf::Vector2f targetPosition) {
