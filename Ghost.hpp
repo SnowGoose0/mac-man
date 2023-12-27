@@ -18,7 +18,7 @@ public:
   
   ~Ghost();
 
-  int update();
+  GameStatus update();
 
   void setTargetPosition(sf::Vector2f targetPosition);
 

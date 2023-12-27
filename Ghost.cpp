@@ -20,7 +20,7 @@ GameStatus Ghost::update() {
 
   if (mac - current < 1) {
 	std::cout << "GG" << std::endl;
-	exit(0);
+	return GAME_OVER;
   }
 
   if (_targetPath.empty()) {
@@ -49,6 +49,8 @@ GameStatus Ghost::update() {
   this->setSpriteDirection(direction);
   
   _currentPoint = current;
+
+  return GAME_ONGOING
 }
 
 void Ghost::setTargetPosition(sf::Vector2f targetPosition) {

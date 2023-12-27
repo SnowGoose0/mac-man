@@ -7,8 +7,9 @@
 #include "Map.hpp"
 
 enum GameStatus {
-  GameOver = 0b00000010
-}
+  GAME_ONGOING = 	0b00000000,
+  GAME_OVER = 		0b00000010
+};
 
 class RectSprite {
 
