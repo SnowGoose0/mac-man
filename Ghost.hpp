@@ -28,9 +28,14 @@ private:
   void setTargetPosition(float x, float y);
   sf::Vector2f getTargetPosition();
 
+public:
+  bool isActive;
+
 private:
+  
   sf::Vector2f _targetPosition;
   std::vector<Point> _targetPath;
+  
   Point _currentPoint;
   Point _parentPoint;
 

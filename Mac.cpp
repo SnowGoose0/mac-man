@@ -21,6 +21,10 @@ void Mac::update() {
   if (currentCell == Snack || currentCell == BigMac) {
 	map.updateCellAt(current.y, current.x, None);	
 	_palletCount++;
+
+	if (currentCell == BigMac) {
+	  
+	}
   }
 
   if (current - _previousCheckPoint >= 1) {

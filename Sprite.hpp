@@ -8,7 +8,8 @@
 
 enum GameStatus {
   GAME_ONGOING = 	0b00000000,
-  GAME_OVER = 		0b00000010
+  GAME_OVER = 		0b00000010,
+  GHOST_EATEN = 	0b00010000
 };
 
 class RectSprite {

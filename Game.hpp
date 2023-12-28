@@ -83,13 +83,14 @@ class GameOnState : public GameState {
 
 public:
   GameOnState(StateManager& state, sf::RenderWindow& win)
-	: state(state),
-	  window(win), 
-	  macMap(MapDefault, 19, 25),
-	  macMan(25.0f, macMap.getMacInitPosition(), defaultSpeed, macMap),
-	  g(25.0f, sf::Vector2f(50.0f, 25.0f), defaultSpeed, macMap),
-	  animation(&ghostTexture, sf::Vector2u(4, 3), 0.3f),
-	  defaultSpeed(88.0f) { }
+    : state(state),
+      window(win),
+      macMap(MapDefault, 19, 25),
+      macMan(25.0f, macMap.getMacInitPosition(), defaultSpeed, macMap),
+      g(25.0f, sf::Vector2f(50.0f, 25.0f), defaultSpeed, macMap) {
+
+	ghostList.push_back(&g);
+  }
 
   void enter() override {
 	ghostTexture.loadFromFile("./assets/ghost.jpg");
@@ -98,7 +99,7 @@ public:
 
   void exit() override {}
 
-  void returnStatusHandler(GameStatus status) {
+  void ghostStatusHandler(GameStatus status) {
 	switch (status) {
 	case GAME_ONGOING:
 	  break;
@@ -148,31 +149,48 @@ public:
 	macMan.setSpriteDirection(playerDirection);
 	macMan.moveSprite(deltaTime);
 	macMan.update();
-        
-	g.moveSprite(deltaTime);
-	
-	status = g.update();
 
-	returnStatusHandler(status);
+	for (auto gIt = ghostList.begin(); gIt != ghostList.end(); gIt++) {
+	  if (!(*gIt)->isActive) continue;
+	  
+	  (*gIt)->moveSprite(deltaTime); 
+	  ghostStatusHandler((*gIt)->update());
+	}
+
+	//g.moveSprite(deltaTime);
+	//status = g.update();
+	//ghostStatusHandler(status);
   }
 
   void draw() override {
 	macMap.drawMap(window);
 	macMan.draw(window);
-	g.draw(window);
+
+
+	for (auto gIt = ghostList.begin(); gIt != ghostList.end(); gIt++) {
+	  if ((*gIt)->isActive) {
+		(*gIt)->draw(window);
+	  }
+	}
+	
   }
 
 private:
   // TODO
+  const float defaultSpeed = 88.0f;
+  float deltaTime;
+  
   StateManager& state;
   sf::RenderWindow& window;
-  sf::Texture macTexture, ghostTexture;
-  float defaultSpeed, deltaTime;
-  sf::Vector2f playerPrevPosition, playerDirection;
-  Animation animation;
+
   Map macMap;
+  
   Mac macMan;
   Ghost g;
+  std::vector<Ghost*> ghostList;
+  
+  sf::Texture ghostTexture;
+  sf::Vector2f playerPrevPosition, playerDirection;
 };
 
 
@@ -193,7 +211,7 @@ public:
 	title.setStyle(sf::Text::Bold | sf::Text::Underlined);
 
 	subtitle.setFont(font);
-	subtitle.setString("Press any key to begin (ESC to quit)");
+	subtitle.setString("Press SPACE to begin (ESC to quit)");
  	subtitle.setCharacterSize(12);
 	subtitle.setFillColor(sf::Color::White);
 
@@ -228,7 +246,7 @@ public:
 		  window.close();
 		  break;
 
-		default:
+		case sf::Keyboard::Key::Space:
 		  state.pushState(new GameOnState(state, window));
 		  break;
 		}

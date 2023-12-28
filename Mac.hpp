@@ -25,6 +25,8 @@ public:
 private:
   void notifyObservers();
 
+public:
+
 private:
   sf::Texture _texture;
   

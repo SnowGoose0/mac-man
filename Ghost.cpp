@@ -2,6 +2,7 @@
 
 Ghost::Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m)
     : RectSprite(spriteWidth, spriteInitPosition, spriteSpeed, m) {
+  isActive = true;
   //_targetPosition = m.getMacInitPosition();
   _targetPosition = {-90.0f, -90.0f};
   _targetPath = {};
@@ -18,9 +19,12 @@ GameStatus Ghost::update() {
   Point current = map.computeGridPositionCentered(_sprite.getPosition()); 
   Point target = map.computeGridPositionCentered(_targetPosition);
 
+  /* macman and ghost collision */
   if (mac - current < 1) {
 	std::cout << "GG" << std::endl;
-	return GAME_OVER;
+	isActive=false;
+	// return GAME_OVER;
+	return GAME_ONGOING;
   }
 
   if (_targetPath.empty()) {
