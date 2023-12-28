@@ -162,7 +162,6 @@ Map::aStar(Point& start, Point& end, Point& parent) {
 	return {};
 
   if (!isValidGridPosition(end.x, end.y)) {
-	end.print();
 	return aStarFallback(start, end, parent);
   }
 

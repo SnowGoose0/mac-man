@@ -19,8 +19,11 @@ void RectSprite::draw(sf::RenderWindow& window) {
   window.draw(_sprite);
 }
 
+sf::RectangleShape RectSprite::getSprite() {
+  return _sprite;
+}
+
 void RectSprite::moveSprite(float deltaTime) {
-  
   // queued direction is non-empty
   if (_queuedDirection.x + _queuedDirection.y != 0.0f) {
 	GameCell targetCell = getNeighboringCell(_queuedDirection);
@@ -80,10 +83,6 @@ void RectSprite::moveSprite(float deltaTime) {
   
   // main collision detection system
   checkCollision();
-}
-
-sf::RectangleShape RectSprite::getSprite() {
-  return _sprite;
 }
 
 void RectSprite::setSpritePosition(sf::Vector2f spriteOffset) {

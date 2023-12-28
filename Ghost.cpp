@@ -4,7 +4,7 @@ Ghost::Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpe
     : RectSprite(spriteWidth, spriteInitPosition, spriteSpeed, m) {
   isActive = true;
   //_targetPosition = m.getMacInitPosition();
-  _targetPosition = {-90.0f, -90.0f};
+  _targetPosition = {-50.0f, 50.0f};
   _targetPath = {};
   _currentPoint = map.computeGridPosition(_sprite.getPosition());
   _parentPoint = {-444, -444};

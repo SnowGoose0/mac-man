@@ -87,14 +87,19 @@ public:
       window(win),
       macMap(MapDefault, 19, 25),
       macMan(25.0f, macMap.getMacInitPosition(), defaultSpeed, macMap),
-      g(25.0f, sf::Vector2f(50.0f, 25.0f), defaultSpeed, macMap) {
+	  
+      redGhost(25.0f, sf::Vector2f(50.0f, 75.0f), defaultSpeed, macMap),
+	  blueGhost(25.0f, sf::Vector2f(300.0f, 25.0f), defaultSpeed, macMap)
+  {
 
-	ghostList.push_back(&g);
+	ghostList = {&redGhost, &blueGhost};
   }
 
   void enter() override {
 	ghostTexture.loadFromFile("./assets/ghost.jpg");
-	macMan.bindObserver(&g);
+	
+	macMan.bindObserver(&redGhost);
+	macMan.bindObserver(&blueGhost);
   }
 
   void exit() override {}
@@ -156,17 +161,12 @@ public:
 	  (*gIt)->moveSprite(deltaTime); 
 	  ghostStatusHandler((*gIt)->update());
 	}
-
-	//g.moveSprite(deltaTime);
-	//status = g.update();
-	//ghostStatusHandler(status);
   }
 
   void draw() override {
 	macMap.drawMap(window);
 	macMan.draw(window);
-
-
+	
 	for (auto gIt = ghostList.begin(); gIt != ghostList.end(); gIt++) {
 	  if ((*gIt)->isActive) {
 		(*gIt)->draw(window);
@@ -186,7 +186,8 @@ private:
   Map macMap;
   
   Mac macMan;
-  Ghost g;
+  Ghost redGhost;
+  Ghost blueGhost;
   std::vector<Ghost*> ghostList;
   
   sf::Texture ghostTexture;
