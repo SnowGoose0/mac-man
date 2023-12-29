@@ -17,26 +17,27 @@ int main(void) {
   sf::Clock clock;
   sf::RenderWindow window(sf::VideoMode(475, 525), "MacMan", sf::Style::Close | sf::Style::Titlebar);
 
-  StateManager s = StateManager(window);
+  StateManager stateManager = StateManager(window);
   
   float dt = 0.0f;
 
   window.setKeyRepeatEnabled(false);
-  window.setVerticalSyncEnabled(true);
-  window.setFramerateLimit(60);
+  window.setFramerateLimit(120);
+  // window.setVerticalSyncEnabled(true);
 
-  s.pushState(new MenuState(s, window));
+  stateManager.pushState(new MenuState(stateManager, window));
 
   while(window.isOpen()) {
 	dt = clock.restart().asSeconds();
 	
-	s.update(dt);
-	s.draw();
+	stateManager.update(dt);
+	stateManager.draw();
 
 	/* fps */
-	std::cout <<
+	std::cout
+	  <<
 	  1000000.0f / clock.getElapsedTime().asMicroseconds()
-			  << std::endl;
+	  << std::endl;
   }
 
   return 0;

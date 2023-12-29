@@ -1,5 +1,6 @@
-#include "Map.hpp"
 #include <iostream>
+
+#include "Map.hpp"
 
 Map::Map(const std::string map, int mapWidth, int cellWidth) {
   _mapString = map;

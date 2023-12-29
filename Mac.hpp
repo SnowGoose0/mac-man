@@ -23,7 +23,7 @@ public:
   void bindObserver(Ghost* ghostPointer);
 
 private:
-  void notifyObservers();
+  void signalStatusPosition();
 
 private:
   std::vector<Ghost*> _observers;

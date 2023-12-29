@@ -19,7 +19,7 @@ void Mac::update() {
   GameCell currentCell = map.getCellAt(current.y, current.x);
 
   if (currentCell == Snack || currentCell == BigMac) {
-	map.updateCellAt(current.y, current.x, None);	
+	map.updateCellAt(current.y, current.x, None);
 	_palletCount++;
 
 	if (currentCell == BigMac) {
@@ -30,7 +30,7 @@ void Mac::update() {
   }
 
   if (current - _previousCheckPoint >= 1) {
-	notifyObservers();
+	signalStatusPosition();
 	_previousCheckPoint = current;
   }
   
@@ -40,7 +40,8 @@ void Mac::update() {
 	if (powerUpTimeElapsed > obeseTime) {
 	  _sprite.setTextureRect(sf::IntRect(2 * ppc, ppc, ppc ,ppc));
 	  _status = MAC_STATUS_NORMAL;
-	  notifyObservers();
+	  
+	  signalStatusPosition();
 	}
   }
   
@@ -50,10 +51,9 @@ void Mac::bindObserver(Ghost* observer) {
   _observers.push_back(observer); 
 }
 
-void Mac::notifyObservers() {
+void Mac::signalStatusPosition() {
   for (int i = 0; i < _observers.size(); ++i) {
 	_observers[i]->setMacPosition(_sprite.getPosition());
 	_observers[i]->setMacStatus(_status);
   }
 }
-

@@ -100,6 +100,10 @@ void RectSprite::setSpriteTexture(std::string path) {
   _sprite.setTexture(&_spriteTexture, true);
 }
 
+void RectSprite::setSpriteSpeed(float newSpeed) {
+  _spriteSpeed = newSpeed;
+}
+
 void RectSprite::checkCollision() {
   GameCell targetCell = getNeighboringCell(_currentDirection);
   sf::Vector2f spritePosition = _sprite.getPosition();

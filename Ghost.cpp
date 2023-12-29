@@ -19,6 +19,16 @@ GameStatus Ghost::update() {
   Point current = map.computeGridPositionCentered(_sprite.getPosition()); 
   Point target = map.computeGridPositionCentered(_targetPosition);
 
+  /* sprite speed */
+  switch(_macStatus) {
+  case MAC_STATUS_OBESE:
+	setSpriteSpeed(20.0f);
+	break;
+
+  default:
+	setSpriteSpeed(88.0f);
+  }
+
   /* macman and ghost collision */
   if (mac - current < 1) {
 	if (_macStatus == MAC_STATUS_OBESE) {

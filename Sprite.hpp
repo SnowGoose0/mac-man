@@ -37,6 +37,8 @@ public:
   void setSpriteTexture(std::string path);
 
 protected:
+  void setSpriteSpeed(float newSpeed);
+  
   void checkCollision();
 
   GameCell getNeighboringCell(sf::Vector2f direction);
