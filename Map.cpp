@@ -150,7 +150,7 @@ Map::aStarFallback(Point& start, Point& end, Point& parent) {
   }
 
   if (bestHeuristic != INT_MAX) {
-	return {bestNeighbor};
+	return { bestNeighbor };
   }
 
   return {};

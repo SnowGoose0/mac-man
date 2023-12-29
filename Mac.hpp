@@ -25,14 +25,13 @@ public:
 private:
   void notifyObservers();
 
-public:
-
 private:
-  sf::Texture _texture;
+  std::vector<Ghost*> _observers;
   
-  unsigned int _palletCount;
+  sf::Texture _texture;
 
   Point _previousCheckPoint;
 
-  std::vector<Ghost*> _observers;
+  int _status;
+  unsigned int _palletCount;
 };

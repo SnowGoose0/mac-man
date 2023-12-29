@@ -21,10 +21,14 @@ GameStatus Ghost::update() {
 
   /* macman and ghost collision */
   if (mac - current < 1) {
-	std::cout << "GG" << std::endl;
-	isActive=false;
-	// return GAME_OVER;
-	return GAME_ONGOING;
+	if (_macStatus == MAC_STATUS_OBESE) {
+	  isActive = false;
+	}
+
+	else {
+	  /* return GAME_OVER; */
+	  return GAME_OVER;
+	}
   }
 
   if (_targetPath.empty()) {
@@ -65,8 +69,11 @@ void Ghost::setTargetPosition(sf::Vector2f targetPosition) {
 }
 
 void Ghost::setMacPosition(sf::Vector2f position) {
-  std::cout << "EVENT\n";
   _macPosition = position;
+}
+
+void Ghost::setMacStatus(int status) {
+  _macStatus = status;
 }
 
 sf::Vector2f Ghost::getTargetPosition() {

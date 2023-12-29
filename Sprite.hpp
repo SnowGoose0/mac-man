@@ -6,16 +6,20 @@
 
 #include "Map.hpp"
 
+#define MAC_STATUS_NORMAL 		0
+#define MAC_STATUS_OBESE		1
+#define MAC_STATUS_FASTAF		2
+
 enum GameStatus {
   GAME_ONGOING = 	0b00000000,
-  GAME_OVER = 		0b00000010,
-  GHOST_EATEN = 	0b00010000
+  GAME_OVER = 		0b00000010
 };
 
 class RectSprite {
-
 public:
-
+  static const int ppc = 32;
+  
+public:
   RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m);
   ~RectSprite();
 
@@ -32,7 +36,6 @@ public:
   void setSpriteTexture(std::string path);
 
 protected:
-
   void checkCollision();
 
   GameCell getNeighboringCell(sf::Vector2f direction);
@@ -46,6 +49,7 @@ protected:
 
   Map& map;
 
+  sf::Clock _timer;
   sf::RectangleShape _sprite;
 
   float _spriteSpeed;
