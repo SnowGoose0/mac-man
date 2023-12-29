@@ -21,8 +21,7 @@ public:
 
   void drawMap(sf::RenderWindow& win);
   
-  GameCell getCellAt(unsigned int row, unsigned int col);
-  
+  GameCell getCellAt(unsigned int row, unsigned int col);  
   void updateCellAt(unsigned int row, unsigned int col, GameCell newState);
 
   sf::Vector2f getMacInitPosition();
@@ -31,8 +30,7 @@ public:
   
   Point computeGridPosition(sf::Vector2f position);
   Point computeGridPositionCentered(sf::Vector2f position);
-  
-  std::vector<Point> computePath(int x1, int y1, int x2, int y2, int x3, int y3);
+  std::vector<Point> computePath(int x1,int y1,int x2,int y2,int x3,int y3);
   std::vector<Point> computePath(Point& s, Point& g, Point& p);
 
 private:

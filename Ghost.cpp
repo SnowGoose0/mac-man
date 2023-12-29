@@ -36,10 +36,13 @@ GameStatus Ghost::update() {
 		
 		_targetPath = {};
 		_queuedDirection = {0.0f, 0.0f};
+		_parentPoint = {-444, -444};
 		//_prevDirection = _currentDirection;
 		// _currentDirection = {0.0f, 0.0f};
 		_lives--;
 	  }
+
+	  return GAME_ONGOING;
 	}
 
 	else {
@@ -51,6 +54,7 @@ GameStatus Ghost::update() {
   if (_targetPath.empty()) {
 	/* TODO: use std::queue */
 	_targetPath = map.computePath(current, target, _parentPoint);
+	current.print();
   }
   
   Point subtarget = _targetPath.back();

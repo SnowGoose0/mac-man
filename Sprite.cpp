@@ -1,4 +1,5 @@
 #include "Sprite.hpp"
+#include "Algorithm.hpp"
 #include "Common.hpp"
 
 RectSprite::RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& gameMap): map(gameMap) {
@@ -7,8 +8,8 @@ RectSprite::RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float
   _spritePosition = spriteInitPosition;
   _spriteSpeed = spriteSpeed;
 
-  _currentDirection = sf::Vector2f(0.0f, 0.0f);
-  _queuedDirection = sf::Vector2f(0.0f, 0.0f);
+  _currentDirection = {0.0f, 0.0f};
+  _queuedDirection = {0.0f, 0.0f};
 
   _sprite.setPosition(_spritePosition);  
 }
@@ -55,14 +56,13 @@ void RectSprite::moveSprite(float deltaTime) {
 		float dy = std::round(spritePos.y / 25.0f) * 25.0f;
 
 		_sprite.setPosition(dx, dy);
-
-		_queuedDirection = {0.0f, 0.0f};
 	  }
 
 	  else if (perp != 0.0f) {
 		_currentDirection = _queuedDirection;
-		_queuedDirection = sf::Vector2f(0.0f, 0.0f);
 	  }
+
+	  _queuedDirection = {0.0f, 0.0f};
 	}
   }
   
