@@ -41,7 +41,8 @@ private:
   std::vector<Point> aStar(Point& start, Point& end, Point& parent);
   std::vector<Point> aStarFallback(Point& start, Point& end, Point& parent);
   
-  bool traversable(const Point& p);
+  bool isWall(const Point& p);
+  bool isGhostWall(const Point& p);
 
   int heuristic(const Point& p1, const Point& p2);
 

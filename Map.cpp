@@ -21,7 +21,11 @@ Map::Map(const std::string map, int mapWidth, int cellWidth) {
 	  
 	case '0':
 	  _mapParsed[y][x] = Wall;
-	  break; 
+	  break;
+
+	case '#':
+	  _mapParsed[y][x] = GhostWall;
+	  break;
 
 	case '@':
 	  _mapParsed[y][x] = None;
@@ -132,14 +136,14 @@ int Map::computeWallTileOffset(int x, int y) {
 
 std::vector<Point>
 Map::aStarFallback(Point& start, Point& end, Point& parent) {
-  if (!traversable(start))
+  if (isWall(start))
 	return {};
 
   std::vector<Point> neighbors = getNeighbors(start.x, start.y);
   Point bestNeighbor;
   int bestHeuristic = INT_MAX;
   for (const Point& next : neighbors) {
-	if (!traversable(next) || next == parent) {
+	if (isWall(next) || isGhostWall(next) || next == parent) {
 	  continue;
 	}
 
@@ -159,7 +163,7 @@ Map::aStarFallback(Point& start, Point& end, Point& parent) {
 
 std::vector<Point>
 Map::aStar(Point& start, Point& end, Point& parent) {
-  if (!traversable(start))
+  if (isWall(start))
 	return {};
 
   if (!isValidGridPosition(end.x, end.y)) {
@@ -208,7 +212,7 @@ Map::aStar(Point& start, Point& end, Point& parent) {
 	// TODO: DYNAMICALLY STORE NODES
 	std::vector<Point> neighbors = getNeighbors(*current);
 	for (const Point& next : neighbors) {
-	  if (!traversable(next) || next == current->parent->p) continue;
+	  if (isWall(next) || next == current->parent->p) continue;
 
 	  Node* successor = new Node();
 	  successor->p = next;
@@ -233,11 +237,12 @@ Map::aStar(Point& start, Point& end, Point& parent) {
   return {};
 }
 
-bool Map::traversable(const Point& target) {
-  if (_mapParsed[target.y][target.x] == Wall)
-	return false;
+bool Map::isWall(const Point& target) {
+  return _mapParsed[target.y][target.x] == Wall;
+}
 
-  return true;
+bool Map::isGhostWall(const Point& target) {
+  return _mapParsed[target.y][target.x] == GhostWall;
 }
 
 int Map::heuristic(const Point& p1, const Point& p2) {

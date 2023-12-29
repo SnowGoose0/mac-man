@@ -34,10 +34,10 @@ int main(void) {
 	stateManager.draw();
 
 	/* fps */
-	std::cout
-	  <<
-	  1000000.0f / clock.getElapsedTime().asMicroseconds()
-	  << std::endl;
+	// std::cout
+	//   <<
+	//   1000000.0f / clock.getElapsedTime().asMicroseconds()
+	//   << std::endl;
   }
 
   return 0;

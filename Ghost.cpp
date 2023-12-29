@@ -2,10 +2,10 @@
 
 Ghost::Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m)
     : RectSprite(spriteWidth, spriteInitPosition, spriteSpeed, m) {
-  isActive = true;
   //_targetPosition = m.getMacInitPosition();
   _targetPosition = {-50.0f, 50.0f};
   _targetPath = {};
+  _lives = 10;
   _currentPoint = map.computeGridPosition(_sprite.getPosition());
   _parentPoint = {-444, -444};
   _macPosition = {-90.0f, -90.0f};
@@ -15,7 +15,6 @@ Ghost::~Ghost() {}
 
 GameStatus Ghost::update() {
   Point mac = map.computeGridPositionCentered(_macPosition);
-  
   Point current = map.computeGridPositionCentered(_sprite.getPosition()); 
   Point target = map.computeGridPositionCentered(_targetPosition);
 
@@ -32,7 +31,15 @@ GameStatus Ghost::update() {
   /* macman and ghost collision */
   if (mac - current < 1) {
 	if (_macStatus == MAC_STATUS_OBESE) {
-	  isActive = false;
+	  if (_lives > 0) {
+		setSpritePosition(_spritePosition);
+		
+		_targetPath = {};
+		_queuedDirection = {0.0f, 0.0f};
+		//_prevDirection = _currentDirection;
+		// _currentDirection = {0.0f, 0.0f};
+		_lives--;
+	  }
 	}
 
 	else {
@@ -61,6 +68,10 @@ GameStatus Ghost::update() {
   this->setSpriteDirection(direction);
   
   return GAME_ONGOING;
+}
+
+bool Ghost::isActive() {
+  return _lives > 0;
 }
 
 void Ghost::setTargetPosition(sf::Vector2f targetPosition) {

@@ -24,6 +24,7 @@ sf::RectangleShape RectSprite::getSprite() {
 }
 
 void RectSprite::moveSprite(float deltaTime) {
+  
   // queued direction is non-empty
   if (_queuedDirection.x + _queuedDirection.y != 0.0f) {
 	GameCell targetCell = getNeighboringCell(_queuedDirection);
@@ -45,8 +46,6 @@ void RectSprite::moveSprite(float deltaTime) {
 	if (targetCell != Wall) {
 	  
 	  // dot product: perpendicular direction change evaluation
-	  // float perp = _queuedDirection.x * _currentDirection.x + _queuedDirection.y * _currentDirection.y;
-
 	  float perp = dotVector2(_queuedDirection, _currentDirection);
 	 
 	  if (perp == 0.0f && std::abs(dist - 25.0f) < .01f) {
@@ -57,7 +56,7 @@ void RectSprite::moveSprite(float deltaTime) {
 
 		_sprite.setPosition(dx, dy);
 
-		_queuedDirection = sf::Vector2f(0.0f, 0.0f);
+		_queuedDirection = {0.0f, 0.0f};
 	  }
 
 	  else if (perp != 0.0f) {
@@ -76,8 +75,9 @@ void RectSprite::moveSprite(float deltaTime) {
   sf::Vector2f pos = _sprite.getPosition();
   if (pos.x <= -25.0f) { // left
 	_sprite.setPosition(25.0f * map.mapWidth, pos.y);
-	
-  } else if (pos.x >= 25.0f * map.mapWidth) {
+  }
+
+  else if (pos.x >= 25.0f * map.mapWidth) {
 	_sprite.setPosition(-25.0f, pos.y);
   }
   

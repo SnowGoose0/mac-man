@@ -20,6 +20,8 @@ public:
 
   GameStatus update();
 
+  bool isActive();
+
   void setTargetPosition(sf::Vector2f targetPosition);
 
   void setMacPosition(sf::Vector2f position);
@@ -29,10 +31,10 @@ private:
   void setTargetPosition(float x, float y);
   sf::Vector2f getTargetPosition();
 
-public:
-  bool isActive;
 
 private:
+  int _lives;
+  
   sf::Vector2f _targetPosition;
   std::vector<Point> _targetPath;
   

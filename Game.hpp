@@ -88,13 +88,13 @@ public:
       macMap(MapDefault, 19, 25),
       macMan(25.0f, macMap.getMacInitPosition(), defaultSpeed, macMap),
 	  
-      redGhost(25.0f, sf::Vector2f(50.0f, 75.0f), defaultSpeed, macMap),
-	  blueGhost(25.0f, sf::Vector2f(300.0f, 25.0f), defaultSpeed, macMap)
+      redGhost(25.0f, sf::Vector2f(200.0f, 225.0f), defaultSpeed, macMap),
+	  blueGhost(25.0f, sf::Vector2f(250.0f, 225.0f), defaultSpeed, macMap)
   {
-
 	redGhost.setTargetPosition({-50.0f, 50.0f});
 	blueGhost.setTargetPosition({525.0f, 50.0f});
-	ghostList = {&redGhost, &blueGhost};
+	//ghostList = {&redGhost, &blueGhost};
+	ghostList = {&redGhost};
   }
 
   void enter() override {
@@ -158,10 +158,10 @@ public:
 	macMan.update();
 
 	for (auto gIt = ghostList.begin(); gIt != ghostList.end(); gIt++) {
-	  if (!(*gIt)->isActive) continue;
-	  
-	  (*gIt)->moveSprite(deltaTime); 
-	  ghostStatusHandler((*gIt)->update());
+	  if ((*gIt)->isActive()) {
+		(*gIt)->moveSprite(deltaTime); 
+		ghostStatusHandler((*gIt)->update());
+	  }
 	}
   }
 
@@ -170,7 +170,7 @@ public:
 	macMan.draw(window);
 	
 	for (auto gIt = ghostList.begin(); gIt != ghostList.end(); gIt++) {
-	  if ((*gIt)->isActive) {
+	  if ((*gIt)->isActive()) {
 		(*gIt)->draw(window);
 	  }
 	}
