@@ -18,6 +18,7 @@ enum GameStatus {
 class RectSprite {
 public:
   static const int ppc = 32;
+  static constexpr float obeseTime = 6.50f;
   
 public:
   RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m);

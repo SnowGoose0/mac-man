@@ -92,6 +92,8 @@ public:
 	  blueGhost(25.0f, sf::Vector2f(300.0f, 25.0f), defaultSpeed, macMap)
   {
 
+	redGhost.setTargetPosition({-50.0f, 50.0f});
+	blueGhost.setTargetPosition({525.0f, 50.0f});
 	ghostList = {&redGhost, &blueGhost};
   }
 

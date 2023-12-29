@@ -33,13 +33,7 @@ GameStatus Ghost::update() {
 
   if (_targetPath.empty()) {
 	/* TODO: use std::queue */
-	
 	_targetPath = map.computePath(current, target, _parentPoint);
-
-	// if (_targetPath.size() == 0) {
-	//   std::cout << "GG" << std::endl;
-	//   exit(0);
-	// }
   }
   
   Point subtarget = _targetPath.back();
@@ -50,14 +44,12 @@ GameStatus Ghost::update() {
 	_targetPath.pop_back(); 
   }
 
-  if (!(_currentPoint == current)) {
+  if (!(_currentPoint == current))
 	_parentPoint = _currentPoint;
-  }
+  _currentPoint = current;
   
   this->setSpriteDirection(direction);
   
-  _currentPoint = current;
-
   return GAME_ONGOING;
 }
 

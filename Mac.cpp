@@ -37,7 +37,7 @@ void Mac::update() {
   if (_status != MAC_STATUS_NORMAL) {
 	float powerUpTimeElapsed = _timer.getElapsedTime().asSeconds();
 
-	if (powerUpTimeElapsed > 10.0f) {
+	if (powerUpTimeElapsed > obeseTime) {
 	  _sprite.setTextureRect(sf::IntRect(2 * ppc, ppc, ppc ,ppc));
 	  _status = MAC_STATUS_NORMAL;
 	  notifyObservers();

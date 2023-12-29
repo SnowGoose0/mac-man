@@ -22,6 +22,8 @@ int main(void) {
   float dt = 0.0f;
 
   window.setKeyRepeatEnabled(false);
+  window.setVerticalSyncEnabled(true);
+  window.setFramerateLimit(60);
 
   s.pushState(new MenuState(s, window));
 
@@ -30,6 +32,11 @@ int main(void) {
 	
 	s.update(dt);
 	s.draw();
+
+	/* fps */
+	std::cout <<
+	  1000000.0f / clock.getElapsedTime().asMicroseconds()
+			  << std::endl;
   }
 
   return 0;
