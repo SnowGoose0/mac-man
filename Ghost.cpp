@@ -5,6 +5,7 @@ Ghost::Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpe
   //_targetPosition = m.getMacInitPosition();
   _targetPosition = {-50.0f, 50.0f};
   _targetPath = {};
+  _macStatus = MAC_STATUS_NORMAL;
   _lives = 10;
   _currentPoint = map.computeGridPosition(_sprite.getPosition());
   _parentPoint = {-444, -444};

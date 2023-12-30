@@ -24,6 +24,7 @@ void Mac::update() {
 
 	if (currentCell == BigMac) {
 	  _sprite.setTextureRect(sf::IntRect(3 * ppc, ppc, ppc ,ppc));
+	  std::cout << "EAT BIGMAC\n";
 	  _status = MAC_STATUS_OBESE;
 	  _timer.restart();
 	}
