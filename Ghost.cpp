@@ -20,13 +20,14 @@ GameStatus Ghost::update() {
   Point target = map.computeGridPositionCentered(_targetPosition);
 
   /* sprite speed */
+  std::cout << _spriteSpeed;
   switch(_macStatus) {
   case MAC_STATUS_OBESE:
-	setSpriteSpeed(20.0f);
+	setSpriteSpeed(44.0f);
 	break;
 
   default:
-	setSpriteSpeed(88.0f);
+	setSpriteSpeed(78.0f);
   }
 
   /* macman and ghost collision */
@@ -38,6 +39,7 @@ GameStatus Ghost::update() {
 		_targetPath = {};
 		_queuedDirection = {0.0f, 0.0f};
 		_parentPoint = {-444, -444};
+		_macStatus = MAC_STATUS_NORMAL;
 		//_prevDirection = _currentDirection;
 		// _currentDirection = {0.0f, 0.0f};
 		_lives--;

@@ -24,14 +24,15 @@ void Mac::update() {
 
 	if (currentCell == BigMac) {
 	  _sprite.setTextureRect(sf::IntRect(3 * ppc, ppc, ppc ,ppc));
-	  std::cout << "EAT BIGMAC\n";
 	  _status = MAC_STATUS_OBESE;
 	  _timer.restart();
+	  
+	  signalStatus(); 	  std::cout << "EAT BIGMAC\n";
 	}
   }
 
   if (current - _previousCheckPoint >= 1) {
-	signalStatusPosition();
+	signalPosition();
 	_previousCheckPoint = current;
   }
   
@@ -41,8 +42,8 @@ void Mac::update() {
 	if (powerUpTimeElapsed > obeseTime) {
 	  _sprite.setTextureRect(sf::IntRect(2 * ppc, ppc, ppc ,ppc));
 	  _status = MAC_STATUS_NORMAL;
-	  
-	  signalStatusPosition();
+
+	  signalStatus();
 	}
   }
   
@@ -52,9 +53,12 @@ void Mac::bindObserver(Ghost* observer) {
   _observers.push_back(observer); 
 }
 
-void Mac::signalStatusPosition() {
-  for (int i = 0; i < _observers.size(); ++i) {
-	_observers[i]->setMacPosition(_sprite.getPosition());
+void Mac::signalStatus() {
+  for (int i = 0; i < _observers.size(); i++)
 	_observers[i]->setMacStatus(_status);
-  }
+}
+
+void Mac::signalPosition() {
+  for (int i = 0; i < _observers.size(); ++i)
+	_observers[i]->setMacPosition(_sprite.getPosition());
 }
