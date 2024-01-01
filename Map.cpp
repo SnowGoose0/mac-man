@@ -4,7 +4,7 @@
 
 Map::Map(const std::string map, int mapWidth, int cellWidth) {
   _mapString = map;
-  _cellTexture.loadFromFile("./assets/map.png");
+  _cellTexture.loadFromFile(TEXTURE_MASTER_PATH);
   
   this->cellWidth = cellWidth;
   this->mapWidth = mapWidth;

@@ -8,6 +8,7 @@
 #include "State.hpp"
 #include "Mac.hpp"
 #include "Ghost.hpp"
+#include "Common.hpp"
 
 class MenuState : public GameState {
 public:
@@ -62,6 +63,5 @@ private:
     Ghost redGhost;
     Ghost blueGhost;
     std::vector<Ghost*> ghostList;
-    sf::Texture ghostTexture;
     sf::Vector2f playerPrevPosition, playerDirection;
 };

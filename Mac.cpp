@@ -2,7 +2,7 @@
 
 Mac::Mac(sf::Vector2f spriteInitPosition, Map& map)
     : RectSprite(25.0f, spriteInitPosition, 88.0f, map) {
-  _texture.loadFromFile("./assets/map.png");
+  _texture.loadFromFile(TEXTURE_MASTER_PATH);
   _palletCount = 0;
   _status = MAC_STATUS_NORMAL;
   _previousCheckPoint = map.computeGridPositionCentered(spriteInitPosition);
@@ -42,7 +42,6 @@ void Mac::update() {
 	if (powerUpTimeElapsed > obeseTime) {
 	  _sprite.setTextureRect(sf::IntRect(2 * ppc, ppc, ppc ,ppc));
 	  _status = MAC_STATUS_NORMAL;
-
 	  signalStatus();
 	}
   }

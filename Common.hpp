@@ -3,6 +3,15 @@
 #include <string>
 #include <iostream>
 
+#define FONT_MASTER_PATH 			"./assets/fonts/jb-mono.ttf"
+#define TEXTURE_MASTER_PATH			"./assets/map.png"
+
+#define MENU_TITLE 					"Welcome to MacMan"
+#define MENU_SUBTITLE 				"Press SPACE to begin (ESC to quit)"
+#define GAMEOVER_MENU_TITLE 		"Game Over"
+#define GAMEOVER_MENU_SUBTITLE 		"ESC to quit"
+
+
 enum GameCell {
   Wall,
   GhostWall,

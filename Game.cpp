@@ -8,13 +8,13 @@ GameOverState::GameOverState(StateManager& state, sf::RenderWindow& win)
 
 void GameOverState::enter()  {
   title.setFont(font);
-  title.setString("Game Over");
+  title.setString(GAMEOVER_MENU_TITLE);
   title.setCharacterSize(25);
   title.setFillColor(sf::Color::White);
   title.setStyle(sf::Text::Bold | sf::Text::Underlined);
 
   subtitle.setFont(font);
-  subtitle.setString("ESC to quit");
+  subtitle.setString(GAMEOVER_MENU_SUBTITLE);
   subtitle.setCharacterSize(12);
   subtitle.setFillColor(sf::Color::White);
 
@@ -59,7 +59,6 @@ void GameOverState::draw()  {
   window.draw(subtitle);
 }
 
-
 GameOnState::GameOnState(StateManager& state, sf::RenderWindow& win)
   : state(state),
 	window(win),
@@ -77,8 +76,6 @@ GameOnState::GameOnState(StateManager& state, sf::RenderWindow& win)
 }
 
 void GameOnState::enter()  {
-  ghostTexture.loadFromFile("./assets/ghost.jpg");
-	
   macMan.bindObserver(&redGhost);
   macMan.bindObserver(&blueGhost);
 }
@@ -153,24 +150,23 @@ void GameOnState::draw()  {
 	  (*gIt)->draw(window);
 	}
   }
-	
+
 }
 
 MenuState::MenuState(StateManager& state, sf::RenderWindow& win)
   : state(state), window(win), deltaTime(0.0f) {
-	
-  font.loadFromFile("./assets/fonts/jb-mono.ttf");
+  font.loadFromFile(FONT_MASTER_PATH);
 };
 
 void MenuState::enter()  {
   title.setFont(font);
-  title.setString("Welcome to MacMan");
+  title.setString(MENU_TITLE);
   title.setCharacterSize(25);
   title.setFillColor(sf::Color::White);
   title.setStyle(sf::Text::Bold | sf::Text::Underlined);
 
   subtitle.setFont(font);
-  subtitle.setString("Press SPACE to begin (ESC to quit)");
+  subtitle.setString(MENU_SUBTITLE);
   subtitle.setCharacterSize(12);
   subtitle.setFillColor(sf::Color::White);
 

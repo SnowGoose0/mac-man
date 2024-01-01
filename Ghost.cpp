@@ -5,7 +5,7 @@ Ghost::Ghost(GhostType type, sf::Vector2f spriteInitPosition, Map& map)
   _type = type;
   _ghostStatus = GHOST_STATUS_NORMAL;
   _lives = 3;
-  _texture.loadFromFile("./assets/map.png");
+  _texture.loadFromFile(TEXTURE_MASTER_PATH);
   _sprite.setTexture(&_texture);
   _sprite.setTextureRect(sf::IntRect(5 * ppc, ppc, ppc, ppc));
   
@@ -23,10 +23,14 @@ GameStatus Ghost::update() {
   Point current = map.computeGridPositionCentered(_sprite.getPosition());
   Point target = map.computeGridPositionCentered(computeTarget());
 
-  sf::Time wave = _timer.getElapsedTime();
+  sf::Time waveElapsed = _timer.getElapsedTime();
 
-  if (wave.asSeconds() > 7.50f) {
-	
+  if (waveElapsed.asSeconds() > 10.0f) {
+	_timer.restart();
+	if (_ghostStatus != GHOST_STATUS_FRIGHTENED) {
+	  _ghostStatus = _ghostStatus == GHOST_STATUS_NORMAL
+		? GHOST_STATUS_PURSUIT : GHOST_STATUS_NORMAL;
+	}	  
   }
 
   /* macman and ghost collision */
@@ -74,8 +78,14 @@ void Ghost::setMacPosition(sf::Vector2f position) {
 }
 
 void Ghost::setMacStatus(int status) {
-  if (status == MAC_STATUS_OBESE) {
+  switch(status) {
+  case MAC_STATUS_OBESE:
 	_ghostStatus = GHOST_STATUS_FRIGHTENED;
+	break;
+
+  case MAC_STATUS_NORMAL:
+	_ghostStatus = GHOST_STATUS_NORMAL;
+	break;
   }
 }
 
@@ -167,7 +177,11 @@ void Ghost::updateDirection(Point current, Point target, Point mac) {
   if (_targetPath.empty()) {
 	/* TODO: use std::queue */
 	_targetPath = map.computePath(current, target, _parentPoint);
-	current.print();
+	//current.print();
+
+	if (_targetPath.empty()) {
+	  return;
+	}
   }
   
   Point subtarget = _targetPath.back();
