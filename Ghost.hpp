@@ -34,6 +34,7 @@ private:
 
 private:
   int _lives;
+  sf::Texture _texture;
   
   sf::Vector2f _targetPosition;
   std::vector<Point> _targetPath;
@@ -41,6 +42,6 @@ private:
   Point _currentPoint;
   Point _parentPoint;
 
+  int _ghostStatus;
   sf::Vector2f _macPosition;
-  int _macStatus;
 };

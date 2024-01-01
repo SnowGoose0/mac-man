@@ -3,45 +3,48 @@
 Ghost::Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m)
     : RectSprite(spriteWidth, spriteInitPosition, spriteSpeed, m) {
   //_targetPosition = m.getMacInitPosition();
+  _texture.loadFromFile("./assets/map.png");
   _targetPosition = {-50.0f, 50.0f};
   _targetPath = {};
-  _macStatus = MAC_STATUS_NORMAL;
+  _ghostStatus = GHOST_STATUS_NORMAL;
   _lives = 10;
   _currentPoint = map.computeGridPosition(_sprite.getPosition());
   _parentPoint = {-444, -444};
   _macPosition = {-90.0f, -90.0f};
+
+  _sprite.setTexture(&_texture);
+  _sprite.setTextureRect(sf::IntRect(5 * ppc, ppc, ppc, ppc));
 }
 
 Ghost::~Ghost() {}
 
 GameStatus Ghost::update() {
   Point mac = map.computeGridPositionCentered(_macPosition);
-  Point current = map.computeGridPositionCentered(_sprite.getPosition()); 
+  Point current = map.computeGridPositionCentered(_sprite.getPosition());
   Point target = map.computeGridPositionCentered(_targetPosition);
 
   /* sprite speed */
-  std::cout << _spriteSpeed;
-  switch(_macStatus) {
-  case MAC_STATUS_OBESE:
+  switch(_ghostStatus) {
+  case GHOST_STATUS_FRIGHTENED:
 	setSpriteSpeed(44.0f);
+	_sprite.setTextureRect(sf::IntRect(5 * ppc, 2 * ppc, ppc, ppc));
 	break;
 
   default:
 	setSpriteSpeed(78.0f);
+	_sprite.setTextureRect(sf::IntRect(5 * ppc, ppc, ppc, ppc));
   }
 
   /* macman and ghost collision */
   if (mac - current < 1) {
-	if (_macStatus == MAC_STATUS_OBESE) {
+	if (_ghostStatus == GHOST_STATUS_FRIGHTENED) {
 	  if (_lives > 0) {
 		setSpritePosition(_spritePosition);
 		
 		_targetPath = {};
 		_queuedDirection = {0.0f, 0.0f};
 		_parentPoint = {-444, -444};
-		_macStatus = MAC_STATUS_NORMAL;
-		//_prevDirection = _currentDirection;
-		// _currentDirection = {0.0f, 0.0f};
+		_ghostStatus = GHOST_STATUS_NORMAL;
 		_lives--;
 	  }
 
@@ -93,7 +96,9 @@ void Ghost::setMacPosition(sf::Vector2f position) {
 }
 
 void Ghost::setMacStatus(int status) {
-  _macStatus = status;
+  if (status == MAC_STATUS_OBESE) {
+	_ghostStatus = GHOST_STATUS_FRIGHTENED;
+  }
 }
 
 sf::Vector2f Ghost::getTargetPosition() {
