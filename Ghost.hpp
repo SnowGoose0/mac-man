@@ -10,11 +10,18 @@
 #include "Algorithm.hpp"
 #include "Common.hpp"
 
+enum GhostType {
+  Red,
+  Blue,
+  Pink,
+  Orange
+};
+
 class Ghost : public RectSprite {
 
 public:
 
-  Ghost(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m);
+  Ghost(GhostType type, float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m);
   
   ~Ghost();
 
@@ -31,8 +38,15 @@ private:
   void setTargetPosition(float x, float y);
   sf::Vector2f getTargetPosition();
 
-
+  void updateStatusAttributes();
+  void updateDirection(Point current, Point target, Point mac);
+  
+  sf::Vector2f computeTarget();
+  sf::Vector2f computeTargetNormal();
+  sf::Vector2f computeTargetPursuit();
+  
 private:
+  GhostType _type;
   int _lives;
   sf::Texture _texture;
   
