@@ -5,269 +5,63 @@
 #include <iostream>
 
 #include "Sprite.hpp"
-#include "Game.hpp"
+#include "State.hpp"
+#include "Mac.hpp"
+#include "Ghost.hpp"
 
-class GameOverState : public GameState {
-
+class MenuState : public GameState {
 public:
-  GameOverState(StateManager& state, sf::RenderWindow& win)
-	: state(state), window(win), deltaTime(0.0f) {
-	
-	font.loadFromFile("./assets/fonts/jb-mono.ttf");
-  };
-
-  void enter() override {
-	title.setFont(font);
-	title.setString("Game Over");
-	title.setCharacterSize(25);
-	title.setFillColor(sf::Color::White);
-	title.setStyle(sf::Text::Bold | sf::Text::Underlined);
-
-	subtitle.setFont(font);
-	subtitle.setString("ESC to quit");
- 	subtitle.setCharacterSize(12);
-	subtitle.setFillColor(sf::Color::White);
-
-	sf::FloatRect titleBounds = title.getLocalBounds();
-	sf::FloatRect subtitleBounds = subtitle.getLocalBounds();
-
-	float winX = window.getSize().x;
-	float winY = window.getSize().y;
-	
-	title.setPosition((winX - titleBounds.width) / 2, winY * 0.25f);
-	subtitle.setPosition((winX - subtitleBounds.width) / 2, winY * 0.75f);
-  }
-
-  void exit() override {}
-
-  void update(float dt) {
-	sf::Event event;
-	
-	deltaTime = dt;
-
-	while(window.pollEvent(event)) {
-
-	  if (event.type == sf::Event::Closed) {
-		window.close();
-	  }
-
-	  else if (event.type == sf::Event::KeyPressed) {
-		int keyCode = event.key.code;
-
-		switch (keyCode) {
-		case sf::Keyboard::Key::Escape:
-		  window.close();
-		  break;
-		}
-	  }
-	  
-	}
-  }
-
-  void draw() override {
-	window.draw(title);
-	window.draw(subtitle);
-  }
+    MenuState(StateManager& state, sf::RenderWindow& win);
+    void enter() override;
+    void exit() override;
+    void update(float dt) override;
+    void draw() override;
 
 private:
-  StateManager& state;
-  sf::RenderWindow& window;
-  float deltaTime;
-  
-  sf::Text title;
-  sf::Text subtitle;
-  sf::Font font;
+    StateManager& state;
+    sf::RenderWindow& window;
+    float deltaTime;
+    sf::Text title;
+    sf::Text subtitle;
+    sf::Font font;
+};
+
+class GameOverState : public GameState {
+public:
+    GameOverState(StateManager& state, sf::RenderWindow& win);
+    void enter() override;
+    void exit() override;
+    void update(float dt) override;
+    void draw() override;
+
+private:
+    StateManager& state;
+    sf::RenderWindow& window;
+    float deltaTime;
+    sf::Text title;
+    sf::Text subtitle;
+    sf::Font font;
 };
 
 class GameOnState : public GameState {
-
 public:
-  GameOnState(StateManager& state, sf::RenderWindow& win)
-    : state(state),
-      window(win),
-      macMap(MapDefault, 19, 25),
-      macMan(macMap.getMacInitPosition(), macMap),
-	  
-      redGhost(Red, sf::Vector2f(200.0f, 225.0f), macMap),
-	  blueGhost(Pink, sf::Vector2f(250.0f, 225.0f), macMap)
-  {
-	redGhost.setTargetPosition({-50.0f, 50.0f});
-	blueGhost.setTargetPosition({525.0f, 50.0f});
-	//ghostList = {&redGhost, &blueGhost};
-	ghostList = {&redGhost, &blueGhost};
-  }
+    GameOnState(StateManager& state, sf::RenderWindow& win);
+    void enter() override;
+    void exit() override;
+    void update(float dt) override;
+    void draw() override;
 
-  void enter() override {
-	ghostTexture.loadFromFile("./assets/ghost.jpg");
-	
-	macMan.bindObserver(&redGhost);
-	macMan.bindObserver(&blueGhost);
-  }
-
-  void exit() override {}
-
-  void ghostStatusHandler(GameStatus status) {
-	switch (status) {
-	case GAME_ONGOING:
-	  break;
-
-	case GAME_OVER:
-	  state.pushState(new GameOverState(state, window));
-	  break;
-	}
-  }
-
-  void update(float dt) override {
-	sf::Event event;
-	
-	deltaTime = dt;
-
-	while(window.pollEvent(event)) {
-
-	  if (event.type == sf::Event::Closed) {
-		window.close();
-	  }
-
-	  else if (event.type == sf::Event::KeyPressed) {
-		int keyCode = event.key.code;
-
-		switch (keyCode) {
-		case sf::Keyboard::Key::W:
-		  playerDirection = sf::Vector2f(0.0f, -1.0f);
-		  break;
-
-		case sf::Keyboard::Key::A:
-		  playerDirection = sf::Vector2f(-1.0f, 0.0f);
-		  break;
-	
-		case sf::Keyboard::Key::S:
-		  playerDirection = sf::Vector2f(0.0f, 1.0f);
-		  break;
-	
-		case sf::Keyboard::Key::D:
-		  playerDirection = sf::Vector2f(1.0f, 0.0f);
-		  break;
-		}
-	  }
-	}
-
-	GameStatus status = GAME_ONGOING;
-
-	macMan.setSpriteDirection(playerDirection);
-	macMan.moveSprite(deltaTime);
-	macMan.update();
-
-	for (auto gIt = ghostList.begin(); gIt != ghostList.end(); gIt++) {
-	  if ((*gIt)->isActive()) {
-		(*gIt)->moveSprite(deltaTime); 
-		ghostStatusHandler((*gIt)->update());
-	  }
-	}
-  }
-
-  void draw() override {
-	macMap.drawMap(window);
-	macMan.draw(window);
-	
-	for (auto gIt = ghostList.begin(); gIt != ghostList.end(); gIt++) {
-	  if ((*gIt)->isActive()) {
-		(*gIt)->draw(window);
-	  }
-	}
-	
-  }
+  void ghostStatusHandler(GameStatus status);
 
 private:
-  // TODO
-  const float defaultSpeed = 88.0f;
-  float deltaTime;
-  
-  StateManager& state;
-  sf::RenderWindow& window;
-
-  Map macMap;
-  
-  Mac macMan;
-  Ghost redGhost;
-  Ghost blueGhost;
-  std::vector<Ghost*> ghostList;
-  
-  sf::Texture ghostTexture;
-  sf::Vector2f playerPrevPosition, playerDirection;
-};
-
-
-class MenuState : public GameState {
-
-public:
-  MenuState(StateManager& state, sf::RenderWindow& win)
-	: state(state), window(win), deltaTime(0.0f) {
-	
-	font.loadFromFile("./assets/fonts/jb-mono.ttf");
-  };
-
-  void enter() override {
-	title.setFont(font);
-	title.setString("Welcome to MacMan");
-	title.setCharacterSize(25);
-	title.setFillColor(sf::Color::White);
-	title.setStyle(sf::Text::Bold | sf::Text::Underlined);
-
-	subtitle.setFont(font);
-	subtitle.setString("Press SPACE to begin (ESC to quit)");
- 	subtitle.setCharacterSize(12);
-	subtitle.setFillColor(sf::Color::White);
-
-	sf::FloatRect titleBounds = title.getLocalBounds();
-	sf::FloatRect subtitleBounds = subtitle.getLocalBounds();
-
-	float winX = window.getSize().x;
-	float winY = window.getSize().y;
-	
-	title.setPosition((winX - titleBounds.width) / 2, winY * 0.25f);
-	subtitle.setPosition((winX - subtitleBounds.width) / 2, winY * 0.75f);
-  }
-
-  void exit() override {}
-
-  void update(float dt) {
-	sf::Event event;
-	
-	deltaTime = dt;
-
-	while(window.pollEvent(event)) {
-
-	  if (event.type == sf::Event::Closed) {
-		window.close();
-	  }
-
-	  else if (event.type == sf::Event::KeyPressed) {
-		int keyCode = event.key.code;
-
-		switch (keyCode) {
-		case sf::Keyboard::Key::Escape:
-		  window.close();
-		  break;
-
-		case sf::Keyboard::Key::Space:
-		  state.pushState(new GameOnState(state, window));
-		  break;
-		}
-	  }
-	}
-  }
-
-  void draw() override {
-	window.draw(title);
-	window.draw(subtitle);
-  }
-
-private:
-  StateManager& state;
-  sf::RenderWindow& window;
-  float deltaTime;
-  
-  sf::Text title;
-  sf::Text subtitle;
-  sf::Font font;
+    float deltaTime;
+    StateManager& state;
+    sf::RenderWindow& window;
+    Map macMap;
+    Mac macMan;
+    Ghost redGhost;
+    Ghost blueGhost;
+    std::vector<Ghost*> ghostList;
+    sf::Texture ghostTexture;
+    sf::Vector2f playerPrevPosition, playerDirection;
 };
