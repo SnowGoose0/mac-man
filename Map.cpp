@@ -42,6 +42,10 @@ Map::Map(const std::string map, int mapWidth, int cellWidth) {
 	  palletCounter++;
 	  break;
 
+	case '%':
+	  _mapParsed[y][x] = House;
+	  break;
+
 	default:
 	  _mapParsed[y][x] = None;
 	}

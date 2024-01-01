@@ -6,6 +6,7 @@
 enum GameCell {
   Wall,
   GhostWall,
+  House,
   Snack,
   BigMac,
   None,
@@ -22,7 +23,7 @@ const std::string MapDefault =
   "0000*000 0 000*0000"
   "   0*0       0*0   "
   "0000*0 00 00 0*0000"
-  "   #*  0   0  *#   "
+  "   #*  0%%%0  *#   "
   "0000*0 00000 0*0000"
   "   0*0       0*0   "
   "0000*0 00000 0*0000"

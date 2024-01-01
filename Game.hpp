@@ -89,7 +89,7 @@ public:
       macMan(25.0f, macMap.getMacInitPosition(), defaultSpeed, macMap),
 	  
       redGhost(Red, 25.0f, sf::Vector2f(200.0f, 225.0f), defaultSpeed, macMap),
-	  blueGhost(Blue, 25.0f, sf::Vector2f(250.0f, 225.0f), defaultSpeed - 10.0f, macMap)
+	  blueGhost(Pink, 25.0f, sf::Vector2f(250.0f, 225.0f), defaultSpeed - 10.0f, macMap)
   {
 	redGhost.setTargetPosition({-50.0f, 50.0f});
 	blueGhost.setTargetPosition({525.0f, 50.0f});

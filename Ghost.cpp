@@ -73,11 +73,11 @@ void Ghost::setMacStatus(int status) {
   }
 }
 
-sf::Vector2f Ghost::getTargetPosition() {
-  return sf::Vector2f(0.0f,0.0f);
-}
-
 sf::Vector2f Ghost::computeTarget() {
+  if (map.getCellAt(_currentPoint.y, _currentPoint.x) == House) {
+	return {225.0f, 200.0f};
+  }
+  
   switch(_ghostStatus) {
   case GHOST_STATUS_FRIGHTENED:
   case GHOST_STATUS_NORMAL:
@@ -104,11 +104,11 @@ sf::Vector2f Ghost::computeTargetNormal() {
 	break;
 
   case Pink:
-	return {-50.0f, 550.0f};
+	return {-50.0f, 400.0f};
 	break;
 
   case Orange:
-	return {525.0f, 550.0f};
+	return {600.0f, 600.0f};
 	break;
   }
 

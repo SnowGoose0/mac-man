@@ -36,7 +36,6 @@ public:
 
 private:
   void setTargetPosition(float x, float y);
-  sf::Vector2f getTargetPosition();
 
   void updateStatusAttributes();
   void updateDirection(Point current, Point target, Point mac);

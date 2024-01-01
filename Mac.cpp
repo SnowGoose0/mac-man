@@ -46,7 +46,6 @@ void Mac::update() {
 	  signalStatus();
 	}
   }
-  
 }
 
 void Mac::bindObserver(Ghost* observer) {
