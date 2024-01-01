@@ -21,7 +21,7 @@ class Ghost : public RectSprite {
 
 public:
 
-  Ghost(GhostType type, float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m);
+  Ghost(GhostType type, sf::Vector2f spriteInitPosition, Map& map);
   
   ~Ghost();
 

@@ -14,7 +14,7 @@ class Mac : public RectSprite {
 
 public:
 
-  Mac(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m);
+  Mac(sf::Vector2f spriteInitPosition, Map& map);
    
   ~Mac();
 

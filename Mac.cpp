@@ -1,7 +1,7 @@
 #include "Mac.hpp"
 
-Mac::Mac(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m)
-    : RectSprite(spriteWidth, spriteInitPosition, spriteSpeed, m) {
+Mac::Mac(sf::Vector2f spriteInitPosition, Map& map)
+    : RectSprite(25.0f, spriteInitPosition, 88.0f, map) {
   _texture.loadFromFile("./assets/map.png");
   _palletCount = 0;
   _status = MAC_STATUS_NORMAL;

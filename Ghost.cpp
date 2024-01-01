@@ -1,7 +1,7 @@
 #include "Ghost.hpp"
 
-Ghost::Ghost(GhostType type, float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m)
-    : RectSprite(spriteWidth, spriteInitPosition, spriteSpeed, m) {
+Ghost::Ghost(GhostType type, sf::Vector2f spriteInitPosition, Map& map)
+    : RectSprite(25.0f, spriteInitPosition, 78.0f, map) {
   _type = type;
   _ghostStatus = GHOST_STATUS_NORMAL;
   _lives = 3;
@@ -22,6 +22,12 @@ GameStatus Ghost::update() {
   Point mac = map.computeGridPositionCentered(_macPosition);
   Point current = map.computeGridPositionCentered(_sprite.getPosition());
   Point target = map.computeGridPositionCentered(computeTarget());
+
+  sf::Time wave = _timer.getElapsedTime();
+
+  if (wave.asSeconds() > 7.50f) {
+	
+  }
 
   /* macman and ghost collision */
   if (mac - current < 1) {
