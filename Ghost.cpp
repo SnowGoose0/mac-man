@@ -33,6 +33,8 @@ GameStatus Ghost::update() {
 	}	  
   }
 
+  std::cout << current - mac << std::endl;
+
   /* macman and ghost collision */
   if (mac - current < 1) {
 	if (_ghostStatus == GHOST_STATUS_FRIGHTENED) {
@@ -49,10 +51,7 @@ GameStatus Ghost::update() {
 	  return GAME_ONGOING;
 	}
 
-	else {
-	  /* return GAME_OVER; */
-	  return GAME_OVER;
-	}
+	return GAME_OVER;
   }
 
   
@@ -93,6 +92,10 @@ sf::Vector2f Ghost::computeTarget() {
   if (map.getCellAt(_currentPoint.y, _currentPoint.x) == House) {
 	return {225.0f, 200.0f};
   }
+
+  if (map.computeGridPosition(_macPosition) - _currentPoint < 4) {
+	return _macPosition;
+  }
   
   switch(_ghostStatus) {
   case GHOST_STATUS_FRIGHTENED:
@@ -124,7 +127,7 @@ sf::Vector2f Ghost::computeTargetNormal() {
 	break;
 
   case Orange:
-	return {600.0f, 600.0f};
+	return {525.0f, 400.0f};
 	break;
   }
 
@@ -133,7 +136,6 @@ sf::Vector2f Ghost::computeTargetNormal() {
 
 sf::Vector2f Ghost::computeTargetPursuit() {
   /* note: target methods are not exactly the same as the original pacman */
-  
   switch (_type) {
   case Red:
 	return _macPosition; /* direct target */
@@ -149,7 +151,7 @@ sf::Vector2f Ghost::computeTargetPursuit() {
 
   case Orange:
 	if (map.computeGridPosition(_macPosition) - _currentPoint < 8) {
-	  _macPosition;
+	  return _macPosition;
 	}
 
 	return computeTargetNormal();
@@ -178,23 +180,20 @@ void Ghost::updateDirection(Point current, Point target, Point mac) {
 	/* TODO: use std::queue */
 	_targetPath = map.computePath(current, target, _parentPoint);
 	//current.print();
+  }
 
-	if (_targetPath.empty()) {
-	  return;
+  if (!_targetPath.empty()) {
+	Point subtarget = _targetPath.back();
+	sf::Vector2f direction = current << subtarget;
+  
+	if (current == subtarget) {
+	  /* Note path array is ordered from {goal, ... , start} */ 
+	  _targetPath.pop_back(); 
 	}
-  }
-  
-  Point subtarget = _targetPath.back();
-  sf::Vector2f direction = current << subtarget;
-  
-  if (current == subtarget) {
-	/* Note path array is ordered from {goal, ... , start} */ 
-	_targetPath.pop_back(); 
+
+	this->setSpriteDirection(direction);
   }
 
-  if (!(_currentPoint == current))
-	_parentPoint = _currentPoint;
+  _parentPoint = !(_currentPoint == current) ? _currentPoint : _parentPoint;
   _currentPoint = current;
-  
-  this->setSpriteDirection(direction);
 }

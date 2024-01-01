@@ -66,18 +66,22 @@ GameOnState::GameOnState(StateManager& state, sf::RenderWindow& win)
 	macMap(MapDefault, 19, 25),
 	macMan(macMap.getMacInitPosition(), macMap),
 	  
-	redGhost(Red, sf::Vector2f(200.0f, 225.0f), macMap),
-	blueGhost(Pink, sf::Vector2f(250.0f, 225.0f), macMap)
+	redGhost(Red, sf::Vector2f(225.0f, 175.0f), macMap),
+	blueGhost(Blue, sf::Vector2f(250.0f, 225.0f), macMap),
+	orangeGhost(Orange, sf::Vector2f(225.0f, 225.0f), macMap),
+	pinkGhost(Pink, sf::Vector2f(200.0f, 225.0f), macMap)
 {
   redGhost.setTargetPosition({-50.0f, 50.0f});
   blueGhost.setTargetPosition({525.0f, 50.0f});
-  //ghostList = {&redGhost, &blueGhost};
-  ghostList = {&redGhost, &blueGhost};
+  ghostList = {&orangeGhost};
+  //ghostList = {&redGhost, &blueGhost, &orangeGhost, &pinkGhost};
 }
 
 void GameOnState::enter()  {
   macMan.bindObserver(&redGhost);
   macMan.bindObserver(&blueGhost);
+  macMan.bindObserver(&orangeGhost);
+  macMan.bindObserver(&pinkGhost);
 }
 
 void GameOnState::exit()  {}
