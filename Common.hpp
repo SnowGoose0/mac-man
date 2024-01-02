@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cmath>
 #include <iostream>
 
 #define FONT_MASTER_PATH 			"./assets/fonts/jb-mono.ttf"
@@ -10,7 +11,8 @@
 #define MENU_SUBTITLE 				"Press SPACE to begin (ESC to quit)"
 #define GAMEOVER_MENU_TITLE 		"Game Over"
 #define GAMEOVER_MENU_SUBTITLE 		"ESC to quit"
-
+#define SCORE_TITLE					"SCORE:"
+#define SCORE_VALUE					"000000"
 
 enum GameCell {
   Wall,

@@ -1,7 +1,9 @@
 #include "Ghost.hpp"
 
-Ghost::Ghost(GhostType type, sf::Vector2f spriteInitPosition, Map& map)
-    : RectSprite(25.0f, spriteInitPosition, 78.0f, map) {
+Ghost::Ghost(GhostType type, sf::Vector2f spriteInitPosition, Map& map, AudioManager& audio)
+  
+  : RectSprite(25.0f, spriteInitPosition, 88.0f, map, audio) {
+  
   _type = type;
   _ghostStatus = GHOST_STATUS_NORMAL;
   _lives = 3;
@@ -170,7 +172,7 @@ void Ghost::updateStatusAttributes() {
 	break;
 
   default:
-	setSpriteSpeed(78.0f);
+	setSpriteSpeed(88.0f);
 	_sprite.setTextureRect(sf::IntRect(5 * ppc, ppc, ppc, ppc));
   }
 }

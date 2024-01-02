@@ -14,11 +14,13 @@ class Mac : public RectSprite {
 
 public:
 
-  Mac(sf::Vector2f spriteInitPosition, Map& map);
+  Mac(sf::Vector2f spriteInitPosition, Map& map, AudioManager& audio);
    
   ~Mac();
 
   void update();
+
+  int getScore();
 
   void bindObserver(Ghost* ghostPointer);
 
@@ -34,5 +36,5 @@ private:
   Point _previousCheckPoint;
 
   int _status;
-  unsigned int _palletCount;
+  int _score;
 };

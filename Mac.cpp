@@ -1,9 +1,11 @@
 #include "Mac.hpp"
 
-Mac::Mac(sf::Vector2f spriteInitPosition, Map& map)
-    : RectSprite(25.0f, spriteInitPosition, 88.0f, map) {
+Mac::Mac(sf::Vector2f spriteInitPosition, Map& map, AudioManager& audio)
+  
+  : RectSprite(25.0f, spriteInitPosition, 88.0f, map, audio) {
+  
   _texture.loadFromFile(TEXTURE_MASTER_PATH);
-  _palletCount = 0;
+  _score = 0;
   _status = MAC_STATUS_NORMAL;
   _previousCheckPoint = map.computeGridPositionCentered(spriteInitPosition);
   _observers = {};
@@ -20,14 +22,21 @@ void Mac::update() {
 
   if (currentCell == Snack || currentCell == BigMac) {
 	map.updateCellAt(current.y, current.x, None);
-	_palletCount++;
 
 	if (currentCell == BigMac) {
 	  _sprite.setTextureRect(sf::IntRect(3 * ppc, ppc, ppc ,ppc));
 	  _status = MAC_STATUS_OBESE;
 	  _timer.restart();
+	  _score += 200;
+	 
+	  signalStatus();
 	  
-	  signalStatus(); 	  std::cout << "EAT BIGMAC\n";
+	  audio.play(AUDIO_POWER_UP);
+	}
+
+	else {
+	  _score += 100;
+	  audio.play(AUDIO_EAT_PALLET);
 	}
   }
 
@@ -42,9 +51,16 @@ void Mac::update() {
 	if (powerUpTimeElapsed > obeseTime) {
 	  _sprite.setTextureRect(sf::IntRect(2 * ppc, ppc, ppc ,ppc));
 	  _status = MAC_STATUS_NORMAL;
+	  
 	  signalStatus();
+
+	  audio.play(AUDIO_FULL);
 	}
   }
+}
+
+int Mac::getScore() {
+  return _score;
 }
 
 void Mac::bindObserver(Ghost* observer) {

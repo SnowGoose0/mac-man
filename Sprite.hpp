@@ -5,6 +5,7 @@
 #include <cmath>
 
 #include "Map.hpp"
+#include "Audio.hpp"
 
 #define MAC_STATUS_NORMAL 		0
 #define MAC_STATUS_OBESE		1
@@ -24,7 +25,7 @@ public:
   static constexpr float obeseTime = 6.50f;
   
 public:
-  RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& m);
+  RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& map, AudioManager& audio);
   ~RectSprite();
 
   void draw(sf::RenderWindow& window);
@@ -49,11 +50,12 @@ protected:
   sf::Vector2f getNeighboringCellCoordinates(sf::Vector2f direction);
 
 protected:
+  AudioManager& audio;
+  Map& map;
+  
   sf::Vector2f _prevDirection;
   sf::Vector2f _currentDirection;
   sf::Vector2f _queuedDirection;
-
-  Map& map;
 
   sf::Clock _timer;
   sf::RectangleShape _sprite;

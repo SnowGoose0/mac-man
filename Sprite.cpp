@@ -2,7 +2,8 @@
 #include "Algorithm.hpp"
 #include "Common.hpp"
 
-RectSprite::RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& gameMap): map(gameMap) {
+RectSprite::RectSprite(float spriteWidth, sf::Vector2f spriteInitPosition, float spriteSpeed, Map& map, AudioManager& audio)
+  : map(map), audio(audio) {
 
   _sprite = sf::RectangleShape(sf::Vector2f(spriteWidth, spriteWidth));
   _spritePosition = spriteInitPosition;

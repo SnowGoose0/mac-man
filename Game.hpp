@@ -3,16 +3,18 @@
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
+#include <string>
 
 #include "Sprite.hpp"
 #include "State.hpp"
+#include "Audio.hpp"
 #include "Mac.hpp"
 #include "Ghost.hpp"
 #include "Common.hpp"
 
 class MenuState : public GameState {
 public:
-  MenuState(StateManager& state, sf::RenderWindow& win);
+  MenuState(StateManager& state, AudioManager& audio, sf::RenderWindow& win);
   void enter() override;
   void exit() override;
   void update(float dt) override;
@@ -20,6 +22,7 @@ public:
 
 private:
   StateManager& state;
+  AudioManager& audio;
   sf::RenderWindow& window;
   float deltaTime;
   sf::Text title;
@@ -29,7 +32,7 @@ private:
 
 class GameOverState : public GameState {
 public:
-  GameOverState(StateManager& state, sf::RenderWindow& win);
+  GameOverState(StateManager& state, AudioManager& audio, sf::RenderWindow& win);
   void enter() override;
   void exit() override;
   void update(float dt) override;
@@ -37,6 +40,7 @@ public:
 
 private:
   StateManager& state;
+  AudioManager& audio;
   sf::RenderWindow& window;
   float deltaTime;
   sf::Text title;
@@ -46,7 +50,7 @@ private:
 
 class GameOnState : public GameState {
 public:
-  GameOnState(StateManager& state, sf::RenderWindow& win);
+  GameOnState(StateManager& state, AudioManager& audio, sf::RenderWindow& win);
   void enter() override;
   void exit() override;
   void update(float dt) override;
@@ -57,7 +61,12 @@ public:
 private:
   float deltaTime;
   StateManager& state;
+  AudioManager& audio;
   sf::RenderWindow& window;
+  sf::Text scoreTitle;
+  sf::Text scoreValue;
+  sf::Font font;
+  
   Map macMap;
   Mac macMan;
   Ghost redGhost;

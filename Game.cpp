@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
-GameOverState::GameOverState(StateManager& state, sf::RenderWindow& win)
-  : state(state), window(win), deltaTime(0.0f) {
+GameOverState::GameOverState(StateManager& state, AudioManager& audio, sf::RenderWindow& win)
+  : state(state), audio(audio), window(win), deltaTime(0.0f) {
 	
   font.loadFromFile("./assets/fonts/jb-mono.ttf");
 };
@@ -59,32 +59,48 @@ void GameOverState::draw()  {
   window.draw(subtitle);
 }
 
-GameOnState::GameOnState(StateManager& state, sf::RenderWindow& win)
+GameOnState::GameOnState(StateManager& state, AudioManager& audio, sf::RenderWindow& win)
   : state(state),
+	audio(audio),
 	window(win),
 	  
 	macMap(MapDefault, 19, 25),
-	macMan(macMap.getMacInitPosition(), macMap),
+	macMan(macMap.getMacInitPosition(), macMap, audio),
 	  
-	redGhost(Red, sf::Vector2f(225.0f, 175.0f), macMap),
-	blueGhost(Blue, sf::Vector2f(250.0f, 225.0f), macMap),
-	orangeGhost(Orange, sf::Vector2f(225.0f, 225.0f), macMap),
-	pinkGhost(Pink, sf::Vector2f(200.0f, 225.0f), macMap)
+	redGhost(Red, sf::Vector2f(225.0f, 175.0f), macMap, audio),
+	blueGhost(Blue, sf::Vector2f(250.0f, 225.0f), macMap, audio),
+	orangeGhost(Orange, sf::Vector2f(225.0f, 225.0f), macMap, audio),
+	pinkGhost(Pink, sf::Vector2f(200.0f, 225.0f), macMap, audio)
 {
-  redGhost.setTargetPosition({-50.0f, 50.0f});
-  blueGhost.setTargetPosition({525.0f, 50.0f});
-  ghostList = {&orangeGhost};
-  //ghostList = {&redGhost, &blueGhost, &orangeGhost, &pinkGhost};
+  //ghostList = {&orangeGhost};
+  ghostList = {&redGhost, &blueGhost, &orangeGhost, &pinkGhost};
 }
 
 void GameOnState::enter()  {
+  font.loadFromFile(FONT_MASTER_PATH);
+  
   macMan.bindObserver(&redGhost);
   macMan.bindObserver(&blueGhost);
   macMan.bindObserver(&orangeGhost);
   macMan.bindObserver(&pinkGhost);
+
+  scoreTitle.setString(SCORE_TITLE);
+  scoreTitle.setStyle(sf::Text::Bold);
+  scoreTitle.setFont(font);
+  scoreTitle.setCharacterSize(16);
+  scoreTitle.setFillColor(sf::Color::White);
+
+  scoreValue.setString(SCORE_VALUE);
+  scoreValue.setFillColor(sf::Color::White);
+  scoreValue.setFont(font);
+  scoreValue.setCharacterSize(16);
+  scoreValue.setStyle(sf::Text::Bold);
+
+  scoreTitle.setPosition(5.0f, window.getSize().y - 25.0f);
+  scoreValue.setPosition(75.0f, window.getSize().y - 25.0f);
 }
 
-void GameOnState::exit()  {}
+void GameOnState::exit() {}
 
 void GameOnState::ghostStatusHandler(GameStatus status) {
   switch (status) {
@@ -92,7 +108,7 @@ void GameOnState::ghostStatusHandler(GameStatus status) {
 	break;
 
   case GAME_OVER:
-	state.pushState(new GameOverState(state, window));
+	state.pushState(new GameOverState(state, audio, window));
 	break;
   }
 }
@@ -155,14 +171,19 @@ void GameOnState::draw()  {
 	}
   }
 
+  scoreValue.setString(std::to_string(macMan.getScore()));
+
+  window.draw(scoreValue);
+  window.draw(scoreTitle);
 }
 
-MenuState::MenuState(StateManager& state, sf::RenderWindow& win)
-  : state(state), window(win), deltaTime(0.0f) {
+MenuState::MenuState(StateManager& state, AudioManager& audio, sf::RenderWindow& win)
+  : state(state), audio(audio), window(win), deltaTime(0.0f) {
+  
   font.loadFromFile(FONT_MASTER_PATH);
 };
 
-void MenuState::enter()  {
+void MenuState::enter() {
   title.setFont(font);
   title.setString(MENU_TITLE);
   title.setCharacterSize(25);
@@ -206,7 +227,8 @@ void MenuState::update(float dt) {
 		break;
 
 	  case sf::Keyboard::Key::Space:
-		state.pushState(new GameOnState(state, window));
+		audio.play(AUDIO_GAME_START);
+		state.pushState(new GameOnState(state, audio, window));
 		break;
 	  }
 	}
