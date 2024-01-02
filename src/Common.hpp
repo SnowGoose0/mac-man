@@ -4,8 +4,8 @@
 #include <cmath>
 #include <iostream>
 
-#define FONT_MASTER_PATH 			"./assets/fonts/jb-mono.ttf"
-#define TEXTURE_MASTER_PATH			"./assets/map.png"
+#define FONT_MASTER_PATH 			"./fonts/jb-mono.ttf"
+#define TEXTURE_MASTER_PATH			"./images/map.png"
 
 #define MENU_TITLE 					"Welcome to MacMan"
 #define MENU_SUBTITLE 				"Press SPACE to begin (ESC to quit)"
@@ -32,12 +32,12 @@ const std::string MapDefault =
   "0*00*0*00000*0*00*0"
   "0****0***0***0****0"
   "0000*000 0 000*0000"
-  "   0*0       0*0   "
+  "   0*0*******0*0   "
   "0000*0 00 00 0*0000"
   "   #*  0%%%0  *#   "
   "0000*0 00000 0*0000"
-  "   0*0       0*0   "
-  "0000*0 00000 0*0000"
+  "   0*0*******0*0   "
+  "0000*0*00000*0*0000"
   "0********0********0"
   "0*00*000*0*000*00*0"
   "0M*0*****@*****0*M0"

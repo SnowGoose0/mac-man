@@ -6,7 +6,7 @@ GameOverState::GameOverState(StateManager& state, AudioManager& audio, sf::Rende
   font.loadFromFile("./assets/fonts/jb-mono.ttf");
 };
 
-void GameOverState::enter()  {
+void GameOverState::enter() {
   title.setFont(font);
   title.setString(GAMEOVER_MENU_TITLE);
   title.setCharacterSize(25);
@@ -28,7 +28,7 @@ void GameOverState::enter()  {
   subtitle.setPosition((winX - subtitleBounds.width) / 2, winY * 0.75f);
 }
 
-void GameOverState::exit()  {}
+void GameOverState::exit() {}
 
 void GameOverState::update(float dt) {
   sf::Event event;
@@ -54,7 +54,7 @@ void GameOverState::update(float dt) {
   }
 }
 
-void GameOverState::draw()  {
+void GameOverState::draw() {
   window.draw(title);
   window.draw(subtitle);
 }
@@ -76,7 +76,7 @@ GameOnState::GameOnState(StateManager& state, AudioManager& audio, sf::RenderWin
   ghostList = {&redGhost, &blueGhost, &orangeGhost, &pinkGhost};
 }
 
-void GameOnState::enter()  {
+void GameOnState::enter() {
   font.loadFromFile(FONT_MASTER_PATH);
   
   macMan.bindObserver(&redGhost);
@@ -113,7 +113,7 @@ void GameOnState::ghostStatusHandler(GameStatus status) {
   }
 }
 
-void GameOnState::update(float dt)  {
+void GameOnState::update(float dt) {
   sf::Event event;
 	
   deltaTime = dt;
@@ -161,7 +161,7 @@ void GameOnState::update(float dt)  {
   }
 }
 
-void GameOnState::draw()  {
+void GameOnState::draw() {
   macMap.drawMap(window);
   macMan.draw(window);
 	
@@ -203,9 +203,11 @@ void MenuState::enter() {
 	
   title.setPosition((winX - titleBounds.width) / 2, winY * 0.25f);
   subtitle.setPosition((winX - subtitleBounds.width) / 2, winY * 0.75f);
+
+  audio.playLoop(AUDIO_MENU);
 }
 
-void MenuState::exit()  {}
+void MenuState::exit() {}
 
 void MenuState::update(float dt) {
   sf::Event event;
@@ -227,8 +229,9 @@ void MenuState::update(float dt) {
 		break;
 
 	  case sf::Keyboard::Key::Space:
+		audio.stop(AUDIO_MENU);
 		audio.play(AUDIO_GAME_START);
-		state.pushState(new GameOnState(state, audio, window));
+		state.changeState(new GameOnState(state, audio, window));
 		break;
 	  }
 	}

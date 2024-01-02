@@ -2,13 +2,15 @@
 
 AudioManager::AudioManager() {
   _paths = {
+	AUDIO_MENU_PATH,
 	AUDIO_GAME_START_PATH,
 	AUDIO_GAME_OVER_PATH,
 	AUDIO_EAT_PALLET_PATH,
 	AUDIO_EAT_GHOST_PATH,
 	AUDIO_POWER_UP_PATH,
 	AUDIO_DEATH_PATH,
-	AUDIO_FULL_PATH
+	AUDIO_FULL_PATH,
+	AUDIO_1000_SCORE_PATH
   };
 
   for (auto it = _paths.begin(); it != _paths.end(); it++) {
@@ -37,4 +39,13 @@ AudioManager::~AudioManager() {
 
 void AudioManager::play(int id) {
   _audios[id]->play();
+}
+
+void AudioManager::playLoop(int id) {
+  _audios[id]->setLoop(true);
+  _audios[id]->play();
+}
+
+void AudioManager::stop(int id) {
+  _audios[id]->stop();
 }

@@ -50,6 +50,8 @@ GameStatus Ghost::update() {
 		_lives--;
 	  }
 
+	  audio.play(AUDIO_EAT_GHOST);
+	  
 	  return GAME_ONGOING;
 	}
 
@@ -144,11 +146,11 @@ sf::Vector2f Ghost::computeTargetPursuit() {
 	break;
 
   case Blue:
-	return {_macPosition.x + 3.0f, _macPosition.y + 3.0f};
+	return {_macPosition.x + 1.0f, _macPosition.y + 6.0f};
 	break;
 
   case Pink:
-	return {_macPosition.x - 3.0f, _macPosition.y - 3.0f};
+	return {_macPosition.x - 1.0f, _macPosition.y - 6.0f};
 	break;
 
   case Orange:

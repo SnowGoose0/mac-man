@@ -21,6 +21,7 @@ public:
 
   void pushState(GameState* state);
   void popState();
+  void changeState(GameState* state);
   void update(float dt);
   void draw();
 

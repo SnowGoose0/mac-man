@@ -38,6 +38,10 @@ void Mac::update() {
 	  _score += 100;
 	  audio.play(AUDIO_EAT_PALLET);
 	}
+
+	if (!(_score % 1000)) {
+	  audio.play(AUDIO_1000_SCORE);
+	}
   }
 
   if (current - _previousCheckPoint >= 1) {

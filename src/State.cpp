@@ -14,9 +14,11 @@ void StateManager::popState() {
   GameState* obsoleteState = states.top();
   states.pop();
   delete obsoleteState;
+}
 
-  if (states.empty())
-    window.close();
+void StateManager::changeState(GameState* state) {
+  popState();
+  pushState(state);
 }
 
 void StateManager::update(float dt) {

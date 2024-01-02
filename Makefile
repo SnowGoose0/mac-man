@@ -1,15 +1,23 @@
 CXX = g++
 CXXFLAGS = -std=c++11
-SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+SFML_INCLUDE = -I/path/to/sfml/include
+SFML_LIBS = -L/path/to/sfml/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
+# Source files directory
+SRC_DIR = ./src
 
 # Source files
-SRC_FILES = MacMan.cpp Audio.cpp Algorithm.cpp Map.cpp Sprite.cpp Ghost.cpp Mac.cpp State.cpp Game.cpp
+SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
 
 # Output executable
-OUTPUT = pac
+OUTPUT = MacMan
 
-all:
-	$(CXX) -o $(OUTPUT) $(SRC_FILES) $(CXXFLAGS) $(SFML_LIBS)
+all: $(OUTPUT)
+
+$(OUTPUT): $(SRC_FILES)
+	$(CXX) $(CXXFLAGS) $(SFML_INCLUDE) -o $@ $^ $(SFML_LIBS)
+
+run: $(OUTPUT)
 	./$(OUTPUT)
 
 clean:
