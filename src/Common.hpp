@@ -7,10 +7,11 @@
 #define FONT_MASTER_PATH 			"./fonts/jb-mono.ttf"
 #define TEXTURE_MASTER_PATH			"./images/map.png"
 
-#define MENU_TITLE 					"Welcome to MacMan"
-#define MENU_SUBTITLE 				"Press SPACE to begin (ESC to quit)"
-#define GAMEOVER_MENU_TITLE 		"Game Over"
-#define GAMEOVER_MENU_SUBTITLE 		"ESC to quit"
+#define MENU_TITLE 					"WELCOME TO MAC-MAN"
+#define MENU_SUBTITLE 				"PRESS SPACE TO BEGIN (ESC TO EXIT)"
+#define GAMEOVER_MENU_TITLE 		"ITS JOEVER"
+#define GAMEOVER_MENU_SUBTITLE 		"ESC TO QUIT"
+#define SCORE_TITLE_LONG			"YOUR SCORE: "
 #define SCORE_TITLE					"SCORE:"
 #define SCORE_VALUE					"000000"
 

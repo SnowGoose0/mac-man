@@ -1,4 +1,4 @@
-# MacMan
+# Mac-Man
 A Pac-Man inspired game built with C++ and SFML. Feel
 
 Feel free to play it, modify it, break it, anything you like.

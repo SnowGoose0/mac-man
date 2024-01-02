@@ -32,7 +32,7 @@ private:
 
 class GameOverState : public GameState {
 public:
-  GameOverState(StateManager& state, AudioManager& audio, sf::RenderWindow& win);
+  GameOverState(StateManager& state, AudioManager& audio, sf::RenderWindow& win, int score);
   void enter() override;
   void exit() override;
   void update(float dt) override;
@@ -42,9 +42,11 @@ private:
   StateManager& state;
   AudioManager& audio;
   sf::RenderWindow& window;
+  int score;
   float deltaTime;
   sf::Text title;
   sf::Text subtitle;
+  sf::Text scoreBoard;
   sf::Font font;
 };
 

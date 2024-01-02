@@ -1,9 +1,9 @@
 #include "Game.hpp"
 
-GameOverState::GameOverState(StateManager& state, AudioManager& audio, sf::RenderWindow& win)
-  : state(state), audio(audio), window(win), deltaTime(0.0f) {
+GameOverState::GameOverState(StateManager& state, AudioManager& audio, sf::RenderWindow& win, int score)
+  : state(state), audio(audio), window(win), deltaTime(0.0f), score(score) {
 	
-  font.loadFromFile("./assets/fonts/jb-mono.ttf");
+  font.loadFromFile(FONT_MASTER_PATH);
 };
 
 void GameOverState::enter() {
@@ -15,16 +15,23 @@ void GameOverState::enter() {
 
   subtitle.setFont(font);
   subtitle.setString(GAMEOVER_MENU_SUBTITLE);
-  subtitle.setCharacterSize(12);
+  subtitle.setCharacterSize(18);
   subtitle.setFillColor(sf::Color::White);
+
+  scoreBoard.setFont(font);
+  scoreBoard.setString(std::string(SCORE_TITLE_LONG) + std::to_string(score));
+  scoreBoard.setCharacterSize(12);
+  scoreBoard.setFillColor(sf::Color::White);
 
   sf::FloatRect titleBounds = title.getLocalBounds();
   sf::FloatRect subtitleBounds = subtitle.getLocalBounds();
+  sf::FloatRect scoreBounds = scoreBoard.getLocalBounds();
 
   float winX = window.getSize().x;
   float winY = window.getSize().y;
 	
   title.setPosition((winX - titleBounds.width) / 2, winY * 0.25f);
+  scoreBoard.setPosition((winX - scoreBounds.width) / 2, winY * 0.35f);
   subtitle.setPosition((winX - subtitleBounds.width) / 2, winY * 0.75f);
 }
 
@@ -57,6 +64,7 @@ void GameOverState::update(float dt) {
 void GameOverState::draw() {
   window.draw(title);
   window.draw(subtitle);
+  window.draw(scoreBoard);
 }
 
 GameOnState::GameOnState(StateManager& state, AudioManager& audio, sf::RenderWindow& win)
@@ -108,7 +116,7 @@ void GameOnState::ghostStatusHandler(GameStatus status) {
 	break;
 
   case GAME_OVER:
-	state.pushState(new GameOverState(state, audio, window));
+	state.pushState(new GameOverState(state, audio, window, macMan.getScore()));
 	break;
   }
 }
