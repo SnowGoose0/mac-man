@@ -1,7 +1,9 @@
 # Mac-Man
-A Pac-Man inspired game built with C++ and SFML. Feel
+A Pac-Man inspired game built with C++ and SFML.
 
 Feel free to play it, modify it, break it, anything you like.
+
+Beware of *sound effects*
 
 ### Objectives
 A similar concept to most recognized versions of Pac-Man, except you are insanely hungry. The normal pellets have been reconceptualized into potato chips 🟡, power pellets became insanely addicting soda 🥤, and ghosts became vegetables 🥦 because who likes veggies??? If you consume the soda, you will begin to see ghosts as edible Big Macs 🍔.
