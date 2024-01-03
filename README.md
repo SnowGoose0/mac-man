@@ -23,5 +23,5 @@ $ ./MacMan
 
 ### Game Screenshot
 <div style="text-align:center">
-  <img src="./misc/game-screenshot.png" alt="Game Screenshot">
+  <img src="./pac.gif" alt="Game Screenshot">
 </div>
